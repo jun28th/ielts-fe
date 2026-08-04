@@ -2,13 +2,34 @@
 @plugin "daisyui";
 
 @theme inline {
-	--font-serif: var(--font-newsreader);
-	--font-sans: var(--font-manrope);
-  
-	--color-cream: #faf6ef;
-	--color-cream-dark: #f0e9dc;
-	--color-ink: #2b2620;
-	--color-terracotta: #c1652f;
-	--color-terracotta-dark: #a35020;
-	--color-muted: #8a8072;
+	--font-serif: var(--font-be-vietnam-pro);
+	--font-sans: var(--font-roboto);
+
+	/* Background — page canvas */
+	--color-bg: #ffffff;
+
+	/* Surface — cards and panels, slightly off-white */
+	--color-surface: #f7f8fa;
+
+	/* Foreground — body text and headings */
+	--color-fg: #111111;
+
+	/* Muted — secondary text and metadata */
+	--color-muted: #6b7280;
+
+	/* Border — rules and dividers */
+	--color-border: #d9dee7;
+
+	/* Accent — primary actions and emphasis (buttons, links) */
+	--color-accent: #1677ff;
+	--color-accent-bg: #e6f4ff;      /* light accent background, e.g. badges */
+	--color-accent-hover: #4096ff;   /* hover state */
+	--color-accent-active: #0958d9;  /* pressed/active state */
+
+	/* Status colors */
+	--color-error: #ff4d4f;
+	--color-error-bg: #fff1f0;
+	--color-warning: #faad14;
+	--color-warning-bg: #fffbe6;
+	--color-success: #52c41a;
 }
