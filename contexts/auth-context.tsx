@@ -10,8 +10,8 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<User | null>(null);
+export function AuthProvider({ children, initialUser }: { children: ReactNode; initialUser: User | null }) {
+    const [user, setUser] = useState<User | null>(initialUser);
 
     return (
         <AuthContext.Provider value={{ user, setUser }}>
