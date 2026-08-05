@@ -2,8 +2,6 @@ import { AuthResponse } from "@/types/auth-types";
 import { ErrorResponse } from "@/types/error-types";
 import { cookies } from "next/headers";
 
-const BACKEND_URL = process.env.BACKEND_API_URL ?? "http://localhost:8080";
-
 export async function POST(request: Request) {
     const body = await request.json();
 
@@ -11,7 +9,7 @@ export async function POST(request: Request) {
     let data: unknown;
 
     try {
-        res = await fetch(`${BACKEND_URL}/api/auth/sign-in`, {
+        res = await fetch(`${process.env.BACKEND_API_URL}/api/auth/sign-in`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
