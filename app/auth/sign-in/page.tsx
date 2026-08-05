@@ -58,9 +58,7 @@ export default function SignInPage() {
         try {
             const res = await fetch("/api/auth/sign-in", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
             });
 
@@ -129,6 +127,7 @@ export default function SignInPage() {
                     label={loading ? "Đang đăng nhập..." : "Đăng nhập"}
                     type="submit"
                     disabled={loading}
+                    fullWidth={true}
                 />
             </form>
 
@@ -142,6 +141,7 @@ export default function SignInPage() {
                 icon={<GoogleIcon width={18} height={18} />}
                 onClick={handleGoogleSignIn}
                 disabled={googleLoading}
+                fullWidth={true}
             />
 
             <p className="mt-5.5 text-center text-[13.5px] text-muted">

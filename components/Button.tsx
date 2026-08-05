@@ -5,6 +5,7 @@ type ButtonProps = {
     disabled?: boolean;
     type?: "button" | "submit" | "reset";
     variant?: "primary" | "secondary" | "danger";
+    fullWidth?: boolean;
 }
 
 const VARIANT_STYLES: Record<NonNullable<ButtonProps["variant"]>, string> = {
@@ -16,14 +17,14 @@ const VARIANT_STYLES: Record<NonNullable<ButtonProps["variant"]>, string> = {
         "bg-error text-white hover:bg-[#ff7875] active:bg-[#d9363e]",
 };
 
-export default function Button({ label, icon, onClick, disabled = false, type = "button", variant = "primary" }: ButtonProps) {
+export default function Button({ label, icon, onClick, disabled = false, type = "button", variant = "primary", fullWidth = false }: ButtonProps) {
 
     return (
         <button
             type={type}
             onClick={onClick}
             disabled={disabled}
-            className={`inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-lg px-5 text-sm font-bold transition-colors disabled:cursor-not-allowed ${VARIANT_STYLES[variant]}`}
+            className={`inline-flex h-11 items-center justify-center gap-2.5 rounded-lg px-5 text-sm font-bold transition-colors cursor-pointer disabled:cursor-not-allowed ${fullWidth ? "w-full" : "w-fit"} ${VARIANT_STYLES[variant]}`}
         >
             {icon}
             {label}

@@ -4,9 +4,37 @@ import { useAuth } from "@/contexts/auth-context"
 import { LandingPageRoute, SignInRoute } from "@/lib/routes";
 import Link from "next/link";
 import GraduationCapIcon from "./Icons/GraduationCapIcon";
+import { Avatar } from "antd";
+import Button from "./Button";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+function getInitial(fullName: string): string {
+    const parts = fullName.trim().split(/\s+/);
+    const lastName = parts[parts.length - 1];
+    return lastName.charAt(0).toUpperCase();
+}
 
 export default function Header() {
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
+    const router = useRouter();
+
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const handleLogout = async () => {
+        setLoading(true);
+
+        try {
+            await fetch("/api/auth/logout", { 
+                method: "POST", 
+                headers: { "Content-Type": "application/json" } 
+            });
+        } finally {
+            setUser(null);
+            router.push(LandingPageRoute);
+            setLoading(false);
+        }
+    }
 
     return (
         <header className="sticky top-0 z-10 bg-bg border-b border-border">
@@ -26,9 +54,26 @@ export default function Header() {
                         Đăng nhập
                     </Link>
                 ) : (
-                    <p className="text-sm text-muted">
-                        Welcome, <span className="font-medium text-fg">{user.fullName}</span>
-                    </p>
+                    <div className="flex flex-none items-center gap-3">
+                        <Avatar
+                            size={42}     
+                            shape="circle"
+                            style={{
+                                backgroundColor: "var(--color-accent-bg)",
+                                color: "var(--color-accent)",
+                                fontWeight: 700,
+                            }}
+                        >
+                            {getInitial(user.fullName)}
+                        </Avatar>
+
+                        <Button
+                            label="Đăng xuất"
+                            variant="secondary"
+                            onClick={handleLogout}
+                            disabled={loading}
+                        />
+                    </div>
                 )}
             </div>
         </header>
