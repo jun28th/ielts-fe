@@ -82,28 +82,7 @@ export default function SignInPage() {
 
     // Chưa implement Google sign-in, chỉ là ví dụ
     const handleGoogleSignIn = async () => {
-        setError(null);
-        setGoogleLoading(true);
-
-        try {
-            const res = await fetch("/api/auth/google-sign-in", {
-                method: "GET",
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.message ?? "Google sign in failed");
-            }
-
-            setUser(data);
-
-            redirectByRole(data);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : "Something went wrong");
-        } finally {
-            setGoogleLoading(false);
-        }
+        return;
     };
 
     const redirectByRole = (user: User) => {
