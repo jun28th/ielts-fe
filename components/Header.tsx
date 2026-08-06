@@ -4,7 +4,6 @@ import { useAuth } from "@/contexts/auth-context"
 import { LandingPageRoute, SignInRoute } from "@/lib/routes";
 import Link from "next/link";
 import GraduationCapIcon from "./Icons/GraduationCapIcon";
-import { Avatar } from "antd";
 import Button from "./Button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -25,9 +24,9 @@ export default function Header() {
         setLoading(true);
 
         try {
-            await fetch("/api/auth/logout", { 
-                method: "POST", 
-                headers: { "Content-Type": "application/json" } 
+            await fetch("/api/auth/logout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" }
             });
         } finally {
             setUser(null);
@@ -46,26 +45,13 @@ export default function Header() {
                     <span className="font-serif text-[17px] font-bold">IELTS by Phanh</span>
                 </Link>
 
-                {!user ? (
-                    <Link
-                        href={SignInRoute}
-                        className="inline-flex h-10 items-center justify-center rounded-lg bg-accent px-5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
-                    >
-                        Đăng nhập
-                    </Link>
-                ) : (
+                {user ? (
                     <div className="flex flex-none items-center gap-3">
-                        <Avatar
-                            size={42}     
-                            shape="circle"
-                            style={{
-                                backgroundColor: "var(--color-accent-bg)",
-                                color: "var(--color-accent)",
-                                fontWeight: 700,
-                            }}
-                        >
-                            {getInitial(user.fullName)}
-                        </Avatar>
+                        <div className="avatar avatar-placeholder">
+                            <div className="w-10 rounded-full bg-accent-bg">
+                                <p className="text-accent font-bold">{getInitial(user.fullName)}</p>
+                            </div>
+                        </div>
 
                         <Button
                             label="Đăng xuất"
@@ -74,6 +60,13 @@ export default function Header() {
                             disabled={loading}
                         />
                     </div>
+                ) : (
+                    <Link
+                        href={SignInRoute}
+                        className="inline-flex h-10 items-center justify-center rounded-lg bg-accent px-5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+                    >
+                        Đăng nhập
+                    </Link>
                 )}
             </div>
         </header>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { User } from "@/types/auth-types";
 import { useAuth } from "@/contexts/auth-context";
-import { AdminHomeRoute, StudentHomeRoute, TeacherHomeRoute } from "@/lib/routes";
+import { StudentDashboardRoute, TeacherDashboardRoute, AdminDashboardRoute } from "@/lib/routes";
 import TextInput from "@/components/FormInput/TextInput";
 import Button from "@/components/Button";
 import GoogleIcon from "@/components/Icons/GoogleIcon";
@@ -85,11 +85,11 @@ export default function SignInPage() {
 
     const redirectByRole = (user: User) => {
         if (user.roles.includes("ADMIN")) {
-            router.push(AdminHomeRoute);
+            router.push(AdminDashboardRoute);
         } else if (user.roles.includes("TEACHER")) {
-            router.push(TeacherHomeRoute);
+            router.push(TeacherDashboardRoute);
         } else {
-            router.push(StudentHomeRoute);
+            router.push(StudentDashboardRoute);
         }
     };
 

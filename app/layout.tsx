@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro, Roboto } from "next/font/google";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
 import "./globals.css";
 import Providers from "./providers";
 import Header from "@/components/Header";
@@ -28,17 +27,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 	return (
 		<html lang="en" className={`${beVietnamPro.variable} ${roboto.variable} h-full antialiased`}>
 			<body className="min-h-screen flex flex-col">
-				<AntdRegistry>
-					<Providers>
-						<Header/>
+				<Providers>
+					<Header/>
 
-						<div className="flex-1 flex flex-col">
-							{children}
-						</div>
+					<div className="flex-1 flex flex-col">
+						{children}
+					</div>
 
-						<Footer/>
-					</Providers>
-				</AntdRegistry>
+					<Footer/>
+				</Providers>
 			</body>
 		</html>
 	);

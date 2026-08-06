@@ -1,4 +1,4 @@
-export default function TeacherPage() {
+export default function TeacherDashboardPage() {
 
     return (
         <div>
