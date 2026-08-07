@@ -43,6 +43,7 @@ export default function TeacherNav() {
              <li>
                 <Link
                     href={TeacherDashboardRoute}
+                    replace
                     className={navLinkClass(isActive(TeacherDashboardRoute))}
                 >
                     Dashboard
@@ -52,6 +53,7 @@ export default function TeacherNav() {
             <li>
                 <Link
                     href={TeacherClassesRoute}
+                    replace
                     className={navLinkClass(isActive(TeacherClassesRoute))}
                 >
                     Lớp học
@@ -69,6 +71,7 @@ export default function TeacherNav() {
                             <li key={item.href}>
                                 <Link
                                     href={item.href}
+                                    replace
                                     className={navLinkClass(isActive(item.href))}
                                 >
                                     {item.label}
@@ -82,6 +85,7 @@ export default function TeacherNav() {
             <li>
                 <Link
                     href={TeacherStudentsRoute}
+                    replace
                     className={navLinkClass(isActive(TeacherStudentsRoute))}
                 >
                     Danh sách học viên
