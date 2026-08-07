@@ -1,12 +1,13 @@
 "use client";
 
 import { useAuth } from "@/contexts/auth-context"
-import { LandingPageRoute, SignInRoute } from "@/lib/routes";
+import { LandingPageRoute, SignInRoute, TeacherDashboardRoute } from "@/lib/routes";
 import Link from "next/link";
 import GraduationCapIcon from "./Icons/GraduationCapIcon";
 import Button from "./Button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import TeacherNav from "./Navbar/TeacherNav";
 
 function getInitial(fullName: string): string {
     const parts = fullName.trim().split(/\s+/);
@@ -37,37 +38,45 @@ export default function Header() {
 
     return (
         <header className="sticky top-0 z-10 bg-bg border-b border-border">
-            <div className="flex items-center justify-between h-20 p-6">
-                <Link replace href={LandingPageRoute} className="flex items-center gap-2">
-                    <span className="flex h-7.5 w-7.5 flex-none items-center justify-center rounded-lg bg-accent">
-                        <GraduationCapIcon className="text-white" width={17} height={17} />
-                    </span>
-                    <span className="font-serif text-[17px] font-bold">IELTS by Phanh</span>
-                </Link>
-
-                {user ? (
-                    <div className="flex flex-none items-center gap-3">
-                        <div className="avatar avatar-placeholder">
-                            <div className="w-10 rounded-full bg-accent-bg">
-                                <p className="text-accent font-bold">{getInitial(user.fullName)}</p>
-                            </div>
-                        </div>
-
-                        <Button
-                            label="Đăng xuất"
-                            variant="secondary"
-                            onClick={handleLogout}
-                            disabled={loading}
-                        />
-                    </div>
-                ) : (
-                    <Link
-                        href={SignInRoute}
-                        className="inline-flex h-10 items-center justify-center rounded-lg bg-accent px-5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
-                    >
-                        Đăng nhập
+            <div className="navbar min-h-20 px-6">
+                <div className="navbar-start">
+                    <Link replace href={LandingPageRoute} className="flex items-center gap-2">
+                        <span className="flex h-7.5 w-7.5 flex-none items-center justify-center rounded-lg bg-accent">
+                            <GraduationCapIcon className="text-white" width={17} height={17} />
+                        </span>
+                        <span className="font-serif text-[17px] font-bold">IELTS by Phanh</span>
                     </Link>
-                )}
+                </div>
+
+                <div className="navbar-center">
+                    <TeacherNav />
+                </div>
+
+                <div className="navbar-end gap-3">
+                    {user ? (
+                        <>
+                            <div className="avatar avatar-placeholder">
+                                <div className="w-10 rounded-full bg-accent-bg">
+                                    <p className="text-accent font-bold">{getInitial(user.fullName)}</p>
+                                </div>
+                            </div>
+
+                            <Button
+                                label="Đăng xuất"
+                                variant="secondary"
+                                onClick={handleLogout}
+                                disabled={loading}
+                            />
+                        </>
+                    ) : (
+                        <Link
+                            href={SignInRoute}
+                            className="inline-flex h-10 items-center justify-center rounded-lg bg-accent px-5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+                        >
+                            Đăng nhập
+                        </Link>
+                    )}
+                </div>
             </div>
         </header>
     )
