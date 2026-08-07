@@ -1,4 +1,4 @@
-export default function StudentPage() {
+export default function StudentDashboardPage() {
 
     return (
         <div>

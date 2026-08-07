@@ -7,7 +7,7 @@ import GraduationCapIcon from "./Icons/GraduationCapIcon";
 import Button from "./Button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import TeacherNav from "./Navbar/TeacherNav";
+import RoleNav from "./Navbar/RoleNav";
 
 function getInitial(fullName: string): string {
     const parts = fullName.trim().split(/\s+/);
@@ -49,7 +49,7 @@ export default function Header() {
                 </div>
 
                 <div className="navbar-center">
-                    <TeacherNav />
+                    <RoleNav />
                 </div>
 
                 <div className="navbar-end gap-3">
