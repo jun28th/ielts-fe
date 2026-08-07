@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/contexts/auth-context"
-import { LandingPageRoute, SignInRoute, TeacherDashboardRoute } from "@/lib/routes";
+import { LandingPageRoute, SignInRoute } from "@/lib/routes";
 import Link from "next/link";
 import GraduationCapIcon from "./Icons/GraduationCapIcon";
 import Button from "./Button";
