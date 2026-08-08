@@ -19,7 +19,7 @@ const FOOTER_COLUMNS = [
     {
         title: "Chương trình",
         links: [
-            { label: "Lớp học", href: "#" },
+            { label: "Khoá học", href: "#" },
             { label: "Kho đề", href: "#" },
             { label: "Danh sách học viên", href: "#" },
         ],

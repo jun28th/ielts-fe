@@ -12,7 +12,7 @@ export const StudentDashboardRoute = "/student/dashboard";
 // Teacher Routes
 export const TeacherRoute = "/teacher"
 export const TeacherDashboardRoute = "/teacher/dashboard";
-export const TeacherClassesRoute = "/teacher/classes";
+export const TeacherCoursesRoute = "/teacher/courses";
 export const TeacherStudentsRoute = "/teacher/students";
 export const TeacherQuestionBankRoute = "/teacher/question-bank";
 export const TeacherQuestionBankListeningRoute = "/teacher/question-bank/listening";

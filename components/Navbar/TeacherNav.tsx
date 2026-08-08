@@ -1,5 +1,5 @@
 import { 
-    TeacherClassesRoute,
+    TeacherCoursesRoute,
     TeacherDashboardRoute, 
     TeacherQuestionBankListeningRoute, 
     TeacherQuestionBankReadingRoute, 
@@ -52,11 +52,11 @@ export default function TeacherNav() {
 
             <li>
                 <Link
-                    href={TeacherClassesRoute}
+                    href={TeacherCoursesRoute}
                     replace
-                    className={navLinkClass(isActive(TeacherClassesRoute))}
+                    className={navLinkClass(isActive(TeacherCoursesRoute))}
                 >
-                    Lớp học
+                    Khoá học
                 </Link>
             </li>
 
