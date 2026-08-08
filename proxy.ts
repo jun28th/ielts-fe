@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import createMiddleware from "next-intl/middleware";
+import { routing } from "./i18n/routing";
 import { decrypt, SessionPayload } from "./lib/session";
 import { SignInRoute, StudentDashboardRoute, TeacherDashboardRoute, AdminDashboardRoute, StudentRoute, TeacherRoute, AdminRoute } from "./lib/routes";
 import { Role } from "./types/auth-types";
 
-// Cấu hình các route được bảo vệ và các role được phép truy cập
+const handleI18nRouting = createMiddleware(routing);
+
 const ROLE_CONFIG: Record<Role, { prefix: string; home: string }> = {
     STUDENT: { prefix: StudentRoute, home: StudentDashboardRoute },
     TEACHER: { prefix: TeacherRoute, home: TeacherDashboardRoute },
@@ -12,28 +15,26 @@ const ROLE_CONFIG: Record<Role, { prefix: string; home: string }> = {
 
 const ALL_ROLES = Object.keys(ROLE_CONFIG) as Role[];
 
-// URL này thuộc vùng của role nào?
-// Trả về null nếu là trang public (landing page, /auth/...)
+// Bỏ tiền tố /en hoặc /vi trước khi so khớp route
+function stripLocale(pathname: string): string {
+    const match = pathname.match(/^\/(en|vi)(\/.*)?$/);
+    if (!match) return pathname;
+    return match[2] ?? "/";
+}
+
 function getRequiredRole(pathname: string): Role | null {
     for (const role of ALL_ROLES) {
         const prefix = ROLE_CONFIG[role].prefix;
-
-        // Khớp đúng "/teacher" hoặc "/teacher/bất-cứ-gì"
         if (pathname === prefix || pathname.startsWith(prefix + "/")) {
             return role;
         }
     }
-
     return null;
 }
 
-// Lấy role của user từ payload của token.
-// Trả về null nếu token không có role nào hợp lệ.
 function getUserRole(payload: SessionPayload): Role | null {
     const roles: Role[] = payload?.roles ?? [];
-
     for (const role of roles) {
-        // Vì user chỉ có 1 role, gặp cái đầu tiên hợp lệ là xong
         if (ROLE_CONFIG[role]) return role;
     }
     return null;
@@ -58,20 +59,24 @@ async function tryRefresh(refreshToken: string) {
     } catch {
         return null;
     }
-} 
+}
 
 export default async function proxy(request: NextRequest) {
+    // Bước 0: cho next-intl xử lý locale trước (thêm /en, /vi nếu thiếu, redirect nếu cần)
+    const intlResponse = handleI18nRouting(request);
+
     const { pathname } = request.nextUrl;
+    const pathWithoutLocale = stripLocale(pathname);
+    const locale = pathname.match(/^\/(en|vi)/)?.[1] ?? routing.defaultLocale;
 
-    const isAuthRoute = pathname.startsWith("/auth");
-    const requiredRole = getRequiredRole(pathname);
+    const isAuthRoute = pathWithoutLocale.startsWith("/auth");
+    const requiredRole = getRequiredRole(pathWithoutLocale);
 
-    // --- Bước 1: trang public thì cho qua luôn ---
-    // Không cần biết user là ai -> khỏi giải mã token, khỏi gọi refresh
+    // --- Bước 1: trang public -> để nguyên response của next-intl ---
     if (!isAuthRoute && !requiredRole) {
-        return NextResponse.next();
+        return intlResponse;
     }
-    
+
     // --- Bước 2: đọc accessToken từ cookie ---
     const accessToken = request.cookies.get('accessToken')?.value;
     let payload = await decrypt(accessToken);
@@ -91,20 +96,16 @@ export default async function proxy(request: NextRequest) {
     }
 
     // --- Bước 4: xác định role của user ---
-    // null = chưa đăng nhập, HOẶC token hợp lệ nhưng roles rỗng/lạ.
-    // Hai trường hợp này xử lý giống hệt nhau nên gộp chung.
     const userRole = payload ? getUserRole(payload) : null;
 
-    // --- Bước 5: chưa đăng nhập được -> xoá cookie cũ (đã vô nghĩa) ---
+    // --- Bước 5: chưa đăng nhập được ---
     if (!userRole) {
         let response: NextResponse;
 
         if (isAuthRoute) {
-            // Đang tới trang sign-in để đăng nhập -> cho vào bình thường
-            response = NextResponse.next();
+            response = intlResponse;
         } else {
-            // Đá về trang đăng nhập
-            response = NextResponse.redirect(new URL(SignInRoute, request.url));
+            response = NextResponse.redirect(new URL(`/${locale}${SignInRoute}`, request.url));
         }
 
         response.cookies.delete("accessToken");
@@ -119,14 +120,11 @@ export default async function proxy(request: NextRequest) {
     let response: NextResponse;
 
     if (isAuthRoute) {
-        // Đã đăng nhập rồi mà còn vào trang sign-in -> về dashboard
-        response = NextResponse.redirect(new URL(home, request.url));
+        response = NextResponse.redirect(new URL(`/${locale}${home}`, request.url));
     } else if (requiredRole !== userRole) {
-        // Student mà đòi vào /teacher (hoặc ngược lại) -> về dashboard của mình
-        response = NextResponse.redirect(new URL(home, request.url));
+        response = NextResponse.redirect(new URL(`/${locale}${home}`, request.url));
     } else {
-        // Đúng vùng của mình -> cho qua
-        response = NextResponse.next();
+        response = intlResponse;
     }
 
     // --- Bước 7: nếu vừa refresh thành công thì lưu token mới ---
@@ -140,12 +138,12 @@ export default async function proxy(request: NextRequest) {
 
         response.cookies.set("accessToken", newTokens.accessToken, {
             ...cookieOptions,
-            maxAge: 60 * 60, // 1 giờ
+            maxAge: 60 * 60,
         });
 
         response.cookies.set("refreshToken", newTokens.refreshToken, {
             ...cookieOptions,
-            maxAge: 7 * 24 * 60 * 60, // 7 ngày
+            maxAge: 7 * 24 * 60 * 60,
         });
     }
 
@@ -154,4 +152,4 @@ export default async function proxy(request: NextRequest) {
 
 export const config = {
     matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
-  }
+}
