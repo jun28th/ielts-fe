@@ -1,6 +1,6 @@
 import { StudentDashboardRoute } from "@/lib/routes";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link } from "@/lib/navigation";
+import { usePathname } from "@/lib/navigation"; 
 
 const NO_BG = "bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent";
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { 
     TeacherCoursesRoute,
     TeacherDashboardRoute, 
@@ -8,15 +10,16 @@ import {
     TeacherQuestionBankWritingRoute, 
     TeacherStudentsRoute
 } from "@/lib/routes";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link } from "@/lib/navigation";
+import { usePathname } from "@/lib/navigation"; 
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 
 const QUESTION_BANK_ITEMS = [
-    { href: TeacherQuestionBankListeningRoute, label: "Kho đề Listening" },
-    { href: TeacherQuestionBankReadingRoute, label: "Kho đề Reading" },
-    { href: TeacherQuestionBankWritingRoute, label: "Kho đề Writing" },
-    { href: TeacherQuestionBankSpeakingRoute, label: "Kho đề Speaking" },
+    { href: TeacherQuestionBankListeningRoute, labelKey: "listening" },
+    { href: TeacherQuestionBankReadingRoute, labelKey: "reading" },
+    { href: TeacherQuestionBankWritingRoute, labelKey: "writing" },
+    { href: TeacherQuestionBankSpeakingRoute, labelKey: "speaking" },
 ];
 
 const NO_BG = "bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent";
@@ -28,6 +31,7 @@ function navLinkClass(active: boolean): string {
 export default function TeacherNav() {
     const pathname = usePathname();
     const detailsRef = useRef<HTMLDetailsElement>(null);
+    const t = useTranslations("TeacherNav");
 
     // Đổi trang thì đóng dropdown lại.
     // <details> không tự đóng khi click Link -> phải làm tay
@@ -46,7 +50,7 @@ export default function TeacherNav() {
                     replace
                     className={navLinkClass(isActive(TeacherDashboardRoute))}
                 >
-                    Dashboard
+                    {t("dashboard")}
                 </Link>
             </li>
 
@@ -56,14 +60,14 @@ export default function TeacherNav() {
                     replace
                     className={navLinkClass(isActive(TeacherCoursesRoute))}
                 >
-                    Khoá học
+                    {t("courses")}
                 </Link>
             </li>
 
             <li>
                 <details ref={detailsRef}>
                     <summary className={navLinkClass(isQuestionBankActive)}>
-                        Kho đề
+                        {t("questionBank")}
                     </summary>
 
                     <ul className="z-20 w-52 rounded-box bg-bg p-2 shadow border border-border">
@@ -74,7 +78,7 @@ export default function TeacherNav() {
                                     replace
                                     className={navLinkClass(isActive(item.href))}
                                 >
-                                    {item.label}
+                                    {t(`questionBankItems.${item.labelKey}`)}
                                 </Link>
                             </li>
                         ))}
@@ -88,7 +92,7 @@ export default function TeacherNav() {
                     replace
                     className={navLinkClass(isActive(TeacherStudentsRoute))}
                 >
-                    Danh sách học viên
+                    {t("students")}
                 </Link>
             </li>
         </ul>

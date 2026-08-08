@@ -1,1 +1,69 @@
-{}
+{
+    "AuthLayout": {
+        "badge": "IELTS BY PHANH",
+        "headingLine1": "Structured IELTS prep,",
+        "headingLine2": "progress you can measure, week by week.",
+        "description": "One account for both teachers and students — manage classes, assign homework, practice tests, and track progress in one place.",
+        "features": [
+            "A personalized roadmap based on your study goals",
+            "Detailed Writing & Speaking feedback from teachers",
+            "Weekly progress tracking for every skill"
+        ]
+    },
+    "Header": {
+        "logout": "Log out",
+        "signIn": "Sign in"
+    },    
+    "Footer": {
+        "tagline": "An IELTS learning platform — personalized roadmaps, dedicated teachers, and skill-by-skill progress tracking for students.",
+        "copyright": "© 2026 IELTS by Phanh. All rights reserved.",
+        "terms": "Terms",
+        "privacy": "Privacy",
+        "columns": {
+            "program": {
+                "title": "Program",
+                "links": { "courses": "Courses", "examBank": "Exam Bank", "studentList": "Student List" }
+            },
+            "resources": {
+                "title": "Resources",
+                "links": { "mockTests": "Mock Tests", "vocabulary": "Vocabulary by Topic", "blog": "Academic Blog" }
+            },
+            "about": {
+                "links": { "aboutUs": "About Us", "teachers": "Our Teachers", "careers": "Careers" }
+            }
+        }
+    },
+    "SignInPage": {
+        "title": "Sign In",
+        "subtitle": "Access your account to continue.",
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "emailRequired": "Please enter your email",
+        "passwordRequired": "Please enter your password",
+        "submit": "Sign In",
+        "submitLoading": "Signing in...",
+        "or": "Or",
+        "googleConnecting": "Connecting...",
+        "noAccount": "Don't have an account?",
+        "contactUs": "Contact IELTS by Phanh",
+        "signInFailed": "Sign in failed",
+        "genericError": "Something went wrong"
+    },
+    "TeacherNav": {
+        "dashboard": "Dashboard",
+        "courses": "Courses",
+        "questionBank": "Question bank",
+        "questionBankItems": {
+            "listening": "Listening bank",
+            "reading": "Reading bank",
+            "writing": "Writing bank",
+            "speaking": "Speaking bank"
+        },
+        "students": "Student list"
+    },
+    "TeacherCoursesPage": {
+        "title": "Courses",
+        "subtitle": "The list of courses you're teaching.",
+        "createButton": "New course"
+    }
+}

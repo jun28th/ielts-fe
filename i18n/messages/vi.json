@@ -1,1 +1,69 @@
-{}
+{
+    "AuthLayout": {
+        "badge": "IELTS BY PHANH",
+        "headingLine1": "Học IELTS có lộ trình,",
+        "headingLine2": "tiến bộ đo được từng tuần.",
+        "description": "Một tài khoản duy nhất cho cả giáo viên và học viên — quản lý lớp, giao bài, luyện đề và theo dõi tiến độ ở cùng một nơi.",
+        "features": [
+            "Lộ trình cá nhân hoá theo mục tiêu học tập",
+            "Chấm Writing & Speaking chi tiết từ giáo viên",
+            "Theo dõi tiến độ từng kỹ năng theo từng tuần"
+        ]
+    },
+    "Header": {
+        "logout": "Đăng xuất",
+        "signIn": "Đăng nhập"
+    },
+    "Footer": {
+        "tagline": "Nền tảng học IELTS — lộ trình cá nhân hoá, giáo viên đồng hành, theo dõi tiến độ từng kỹ năng cho học viên.",
+        "copyright": "© 2026 IELTS by Phanh. Bảo lưu mọi quyền.",
+        "terms": "Điều khoản",
+        "privacy": "Bảo mật",
+        "columns": {
+            "program": {
+                "title": "Chương trình",
+                "links": { "courses": "Khoá học", "examBank": "Kho đề", "studentList": "Danh sách học viên" }
+            },
+            "resources": {
+                "title": "Tài nguyên",
+                "links": { "mockTests": "Đề thi thử", "vocabulary": "Từ vựng theo chủ đề", "blog": "Blog học thuật" }
+            },
+            "about": {
+                "links": { "aboutUs": "Về chúng tôi", "teachers": "Đội ngũ giáo viên", "careers": "Tuyển dụng" }
+            }
+        }
+    },
+    "SignInPage": {
+        "title": "Đăng nhập",
+        "subtitle": "Truy cập vào tài khoản của bạn để tiếp tục.",
+        "emailLabel": "Email",
+        "passwordLabel": "Mật khẩu",
+        "emailRequired": "Vui lòng nhập email",
+        "passwordRequired": "Vui lòng nhập mật khẩu",
+        "submit": "Đăng nhập",
+        "submitLoading": "Đang đăng nhập...",
+        "or": "Hoặc",
+        "googleConnecting": "Đang kết nối...",
+        "noAccount": "Chưa có tài khoản?",
+        "contactUs": "Liên hệ IELTS by Phanh",
+        "signInFailed": "Đăng nhập thất bại",
+        "genericError": "Đã có lỗi xảy ra"
+    },
+    "TeacherNav": {
+        "dashboard": "Dashboard",
+        "courses": "Khoá học",
+        "questionBank": "Kho đề",
+        "questionBankItems": {
+            "listening": "Kho đề Listening",
+            "reading": "Kho đề Reading",
+            "writing": "Kho đề Writing",
+            "speaking": "Kho đề Speaking"
+        },
+        "students": "Danh sách học viên"
+    },
+    "TeacherCoursesPage": {
+        "title": "Khoá học",
+        "subtitle": "Danh sách khóa học bạn đang phụ trách.",
+        "createButton": "Tạo khoá học mới"
+    }
+}

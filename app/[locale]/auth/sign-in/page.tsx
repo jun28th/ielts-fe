@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/lib/navigation"; 
+import { useTranslations } from "next-intl";
 import { User } from "@/types/auth-types";
 import { useAuth } from "@/contexts/auth-context";
 import { StudentDashboardRoute, TeacherDashboardRoute, AdminDashboardRoute } from "@/lib/routes";
@@ -11,6 +12,7 @@ import GoogleIcon from "@/components/Icons/GoogleIcon";
 
 export default function SignInPage() {
     const router = useRouter();
+    const t = useTranslations("SignInPage");
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -28,14 +30,14 @@ export default function SignInPage() {
         let valid = true;
 
         if (!email.trim()) {
-            setEmailError("Vui lòng nhập email");
+            setEmailError(t("emailRequired"));
             valid = false;
         } else {
             setEmailError(null);
         }
 
         if (!password) {
-            setPasswordError("Vui lòng nhập mật khẩu");
+            setPasswordError(t("passwordRequired"));
             valid = false;
         } else {
             setPasswordError(null);
@@ -65,14 +67,14 @@ export default function SignInPage() {
             const data = await res.json();
 
             if (!res.ok) {
-                throw new Error(data.message ?? "Sign in failed");
+                throw new Error(data.message ?? t("signInFailed"));
             }
 
             setUser(data);
 
             redirectByRole(data);
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Something went wrong");
+            setError(err instanceof Error ? err.message : t("genericError"));
         } finally {
             setLoading(false);
         }
@@ -96,15 +98,15 @@ export default function SignInPage() {
     return (
         <>
             <p className="text-center font-serif text-2xl font-bold text-fg mb-1.5">
-                Đăng nhập
+                {t("title")}
             </p>
             <p className="text-center text-sm text-muted mb-7">
-                Truy cập vào tài khoản của bạn để tiếp tục.
+                {t("subtitle")}
             </p>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
                 <TextInput
-                    label="Email"
+                    label={t("emailLabel")}
                     value={email}
                     onChange={setEmail}
                     placeholder="abc@gmail.com"
@@ -113,7 +115,7 @@ export default function SignInPage() {
                 />
 
                 <TextInput
-                    label="Mật khẩu"
+                    label={t("passwordLabel")}
                     value={password}
                     onChange={setPassword}
                     placeholder="••••••"
@@ -124,7 +126,7 @@ export default function SignInPage() {
                 {error && <p className="text-sm text-error">{error}</p>}
 
                 <Button
-                    label={loading ? "Đang đăng nhập..." : "Đăng nhập"}
+                    label={loading ? t("submitLoading") : t("submit")}
                     type="submit"
                     disabled={loading}
                     fullWidth={true}
@@ -132,12 +134,12 @@ export default function SignInPage() {
             </form>
 
             <div className="my-5.5 flex items-center gap-3 text-[12.5px] text-muted before:h-px before:flex-1 before:bg-border before:content-[''] after:h-px after:flex-1 after:bg-border after:content-['']">
-                Hoặc
+                {t("or")}
             </div>
 
             <Button
                 variant="secondary"
-                label={googleLoading ? "Đang kết nối..." : "Google"}
+                label={googleLoading ? t("googleConnecting") : "Google"}
                 icon={<GoogleIcon width={18} height={18} />}
                 onClick={handleGoogleSignIn}
                 disabled={googleLoading}
@@ -145,9 +147,9 @@ export default function SignInPage() {
             />
 
             <p className="mt-5.5 text-center text-[13.5px] text-muted">
-                Chưa có tài khoản?{" "}
+                {t("noAccount")}{" "}
                 <span className="font-medium text-accent hover:underline">
-                    Liên hệ IELTS by Phanh
+                    {t("contactUs")}
                 </span>
             </p>
         </>

@@ -1,12 +1,9 @@
+import { getTranslations } from "next-intl/server";
 import CheckCircleIcon from "@/components/Icons/CheckCircleIcon";
 
-const PROMO_FEATURES = [
-    "Lộ trình cá nhân hoá theo mục tiêu học tập",
-    "Chấm Writing & Speaking chi tiết từ giáo viên",
-    "Theo dõi tiến độ từng kỹ năng theo từng tuần",
-]; 
-
-export default function AuthLayout({ children } : { children : React.ReactNode }) {
+export default async function AuthLayout({ children } : { children : React.ReactNode }) {
+    const t = await getTranslations("AuthLayout");
+    const features = t.raw("features") as string[];
 
     return (
         <div className="flex-1 flex items-center justify-center bg-surface">
@@ -15,16 +12,16 @@ export default function AuthLayout({ children } : { children : React.ReactNode }
                 {/* Cột trái — promo panel, chỉ hiện khi màn hình đủ rộng */}
                 <div className="flex-1 max-w-lg">
                     <p className="inline-flex items-center rounded-full bg-accent-bg px-3 py-1.25 text-xs font-bold text-accent-active mb-4.5">
-                        IELTS BY PHANH
+                        {t("badge")}
                     </p>
                     <h2 className="font-serif font-bold text-[clamp(28px,3.4vw,38px)] leading-[1.18] text-fg mb-4">
-                        Học IELTS có lộ trình,<br />tiến bộ đo được từng tuần.
+                        {t("headingLine1")}<br />{t("headingLine2")}
                     </h2>
                     <p className="text-muted leading-[1.6] max-w-[46ch] mb-6.5">
-                        Một tài khoản duy nhất cho cả giáo viên và học viên — quản lý lớp, giao bài, luyện đề và theo dõi tiến độ ở cùng một nơi.
+                        {t("description")}
                     </p>
                     <ul className="flex flex-col gap-3.5">
-                        {PROMO_FEATURES.map((item) => (
+                        {features.map((item) => (
                             <li key={item} className="flex items-start gap-2.5 text-[14px] text-fg">
                                 <CheckCircleIcon className="text-accent" width={18} height={18}/>
                                 <span>{item}</span>

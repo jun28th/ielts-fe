@@ -1,8 +1,9 @@
+import { getTranslations } from "next-intl/server";
 import { LandingPageRoute } from "@/lib/routes";
-import Link from "next/link";
 import GraduationCapIcon from "./Icons/GraduationCapIcon";
 import MailIcon from "./Icons/MailIcon";
 import PhoneIcon from "./Icons/PhoneIcon";
+import { Link } from "@/lib/navigation";
 
 const CONTACT_ITEMS = [
     {
@@ -15,34 +16,35 @@ const CONTACT_ITEMS = [
     }
 ];
 
-const FOOTER_COLUMNS = [
-    {
-        title: "Chương trình",
-        links: [
-            { label: "Khoá học", href: "#" },
-            { label: "Kho đề", href: "#" },
-            { label: "Danh sách học viên", href: "#" },
-        ],
-    },
-    {
-        title: "Tài nguyên",
-        links: [
-            { label: "Đề thi thử", href: "#" },
-            { label: "Từ vựng theo chủ đề", href: "#" },
-            { label: "Blog học thuật", href: "#" },
-        ],
-    },
-    {
-        title: "IELTS by Phanh",
-        links: [
-            { label: "Về chúng tôi", href: "#" },
-            { label: "Đội ngũ giáo viên", href: "#" },
-            { label: "Tuyển dụng", href: "#" },
-        ],
-    },
-];
+export default async function Footer() {
+    const t = await getTranslations("Footer");
 
-export default function Footer() {
+    const FOOTER_COLUMNS = [
+        {
+            title: t("columns.program.title"),
+            links: [
+                { label: t("columns.program.links.courses"), href: "#" },
+                { label: t("columns.program.links.examBank"), href: "#" },
+                { label: t("columns.program.links.studentList"), href: "#" },
+            ],
+        },
+        {
+            title: t("columns.resources.title"),
+            links: [
+                { label: t("columns.resources.links.mockTests"), href: "#" },
+                { label: t("columns.resources.links.vocabulary"), href: "#" },
+                { label: t("columns.resources.links.blog"), href: "#" },
+            ],
+        },
+        {
+            title: "IELTS by Phanh",
+            links: [
+                { label: t("columns.about.links.aboutUs"), href: "#" },
+                { label: t("columns.about.links.teachers"), href: "#" },
+                { label: t("columns.about.links.careers"), href: "#" },
+            ],
+        },
+    ];
 
     return (
         <footer className="border-t border-border bg-bg pt-10">
@@ -58,7 +60,7 @@ export default function Footer() {
                     </Link>
 
                     <p className="max-w-[34ch] text-[13.5px] leading-relaxed text-muted">
-                        Nền tảng học IELTS — lộ trình cá nhân hoá, giáo viên đồng hành, theo dõi tiến độ từng kỹ năng cho học viên.
+                        {t("tagline")}
                     </p>
 
                     <ul className="flex flex-col gap-2">
@@ -91,14 +93,14 @@ export default function Footer() {
             {/* Bottom bar */}
             <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 border-t border-border px-7 py-4">
                 <p className="text-[12.5px] text-muted">
-                    © 2026 IELTS by Phanh. Bảo lưu mọi quyền.
+                    {t("copyright")}
                 </p>
                 <div className="flex gap-4.5">
                     <Link href="#" className="text-[12.5px] text-muted hover:text-accent hover:underline">
-                        Điều khoản
+                        {t("terms")}
                     </Link>
                     <Link href="#" className="text-[12.5px] text-muted hover:text-accent hover:underline">
-                        Bảo mật
+                        {t("privacy")}
                     </Link>
                 </div>
             </div>

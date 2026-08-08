@@ -2,11 +2,12 @@
 
 import { useAuth } from "@/contexts/auth-context"
 import { LandingPageRoute, SignInRoute } from "@/lib/routes";
-import Link from "next/link";
+import { Link } from "@/lib/navigation";
+import { useTranslations } from "next-intl";
 import GraduationCapIcon from "./Icons/GraduationCapIcon";
 import Button from "./Button";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/lib/navigation";
 import RoleNav from "./Navbar/RoleNav";
 
 function getInitial(fullName: string): string {
@@ -18,6 +19,7 @@ function getInitial(fullName: string): string {
 export default function Header() {
     const { user, setUser } = useAuth();
     const router = useRouter();
+    const t = useTranslations("Header");
 
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -62,7 +64,7 @@ export default function Header() {
                             </div>
 
                             <Button
-                                label="Đăng xuất"
+                                label={t("logout")}
                                 variant="secondary"
                                 onClick={handleLogout}
                                 disabled={loading}
@@ -73,7 +75,7 @@ export default function Header() {
                             href={SignInRoute}
                             className="inline-flex h-10 items-center justify-center rounded-lg bg-accent px-5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
                         >
-                            Đăng nhập
+                            {t("signIn")}
                         </Link>
                     )}
                 </div>
