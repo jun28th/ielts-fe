@@ -65,5 +65,18 @@
         "title": "Khoá học",
         "subtitle": "Danh sách khóa học bạn đang phụ trách.",
         "createButton": "Tạo khoá học mới"
+    },
+    "CreateCourseModal": {
+        "title": "Tạo khoá học mới",
+        "subtitle": "Điền thông tin khoá học bên dưới.",
+        "nameLabel": "Tên khoá học",
+        "namePlaceholder": "VD: IELTS Foundation - Lớp A1",
+        "sessionLabel": "Tổng số buổi học",
+        "sessionPlaceholder": "VD: 24",
+        "rangeLabel": "Số lượng học viên (khoảng)",
+        "minPlaceholder": "Từ",
+        "maxPlaceholder": "Đến",
+        "rangeSuffix": "học viên",
+        "dateLabel": "Ngày khai giảng"
     }
 }

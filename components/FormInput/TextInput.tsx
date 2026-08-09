@@ -2,41 +2,61 @@ import { useState } from "react";
 import EyeOffIcon from "../Icons/EyeOffIcon";
 import EyeOnIcon from "../Icons/EyeOnIcon";
 
-type TextInputProps = {
-    label: string;
-    value: string;
-    onChange: (value: string) => void;
+type BaseProps = {
+    label?: string;
     placeholder?: string;
-    type?: "text" | "email" | "password" | "number";
     error?: string;
     rightSlot?: React.ReactNode;
-}
+};
 
-export default function TextInput({ label, value, onChange, placeholder, type = "text", error, rightSlot }: TextInputProps) {
+type StringTextInputProps = BaseProps & {
+    type?: "text" | "email" | "password";
+    value: string;
+    onChange: (value: string) => void;
+};
+
+type NumberTextInputProps = BaseProps & {
+    type: "number";
+    value: number | "";
+    onChange: (value: number | "") => void;
+};
+
+type TextInputProps = StringTextInputProps | NumberTextInputProps;
+
+export default function TextInput(props: TextInputProps) {
+    const { label, placeholder, error, rightSlot, type = "text" } = props;
     const isPassword = type === "password";
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
+    const handleChange = (raw: string) => {
+        if (props.type === "number") {
+            props.onChange(raw === "" ? "" : Number(raw));
+        } else {
+            props.onChange(raw);
+        }
+    };
+
     return (
         <div className="flex flex-col gap-1.5">
-            <div className="flex items-baseline justify-between">
-                <p className="text-sm font-medium text-fg">
-                    {label}
-                </p>
-                {rightSlot}
-            </div>
+            {(label || rightSlot) && (
+                <div className="flex items-baseline justify-between">
+                    {label && <p className="text-sm font-medium text-fg">{label}</p>}
+                    {rightSlot}
+                </div>
+            )}
 
             <div className="relative">
-                <input 
+                <input
                     type={isPassword && showPassword ? "text" : type}
-                    value={value}
-                    onChange={(e) => onChange(e.target.value)}
+                    value={props.value}
+                    onChange={(e) => handleChange(e.target.value)}
                     placeholder={placeholder}
-                    className={`w-full h-11 rounded-lg border border-border px-3.5 text-base text-fg outline-none transition-colors placeholder:text-muted focus:border-accent focus:ring-3 focus:ring-accent-bg 
-                        ${isPassword  ? "pr-11" : ""}
+                    className={`w-full h-11 rounded-lg border border-border px-3.5 text-base text-fg outline-none transition-colors placeholder:text-muted placeholder:text-sm focus:border-accent focus:ring-3 focus:ring-accent-bg 
+                        ${isPassword ? "pr-11" : ""}
                         ${error ? "border-error focus:ring-error-bg" : "border-border"}
                     `}
                 />
-                
+
                 {isPassword && (
                     <button
                         type="button"

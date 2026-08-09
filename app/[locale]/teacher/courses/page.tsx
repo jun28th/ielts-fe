@@ -1,9 +1,15 @@
-import { getTranslations } from "next-intl/server";
+"use client";
+
 import Button from "@/components/Button";
 import PlusIcon from "@/components/Icons/PlusIcon";
+import CreateCourseModal from "@/components/Modal/CreateCourseModal";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
-export default async function CoursesPage() {
-    const t = await getTranslations("TeacherCoursesPage");
+export default function CoursesPage() {
+    const t = useTranslations("TeacherCoursesPage");
+    
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     return (
         <>
@@ -16,12 +22,16 @@ export default async function CoursesPage() {
                         {t("subtitle")}
                     </p>
                 </div>
+
                 <Button
                     variant="primary"
                     label={t("createButton")}
                     icon={<PlusIcon className="text-white" width={20} height={20}/>}
+                    onClick={() => setIsOpen(true)}
                 />
             </div>
+
+            <CreateCourseModal isOpen={isOpen} onClose={() => setIsOpen(false)}/>
         </>
     )
 }

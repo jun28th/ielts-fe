@@ -65,5 +65,18 @@
         "title": "Courses",
         "subtitle": "The list of courses you're teaching.",
         "createButton": "New course"
+    },
+    "CreateCourseModal": {
+        "title": "Create a new course",
+        "subtitle": "Fill in the course details below.",
+        "nameLabel": "Course name",
+        "namePlaceholder": "e.g. IELTS Foundation - Course A1",
+        "sessionLabel": "Total sessions",
+        "sessionPlaceholder": "e.g. 24",
+        "rangeLabel": "Student count (range)",
+        "minPlaceholder": "Min",
+        "maxPlaceholder": "Max",
+        "rangeSuffix": "students",
+        "dateLabel": "Start date"
     }
 }

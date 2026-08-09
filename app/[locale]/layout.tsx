@@ -45,6 +45,8 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 						<Footer/>
 					</Providers>
 				</NextIntlClientProvider>
+
+				{/* Vercel Analytics and Speed Insights */}
 				<Analytics />
 				<SpeedInsights />
 			</body>
