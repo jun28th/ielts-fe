@@ -9,6 +9,7 @@ import Button from "./Button";
 import { useState } from "react";
 import { useRouter } from "@/lib/navigation";
 import RoleNav from "./Navbar/RoleNav";
+import { Avatar } from "antd";
 
 function getInitial(fullName: string): string {
     const parts = fullName.trim().split(/\s+/);
@@ -40,28 +41,22 @@ export default function Header() {
 
     return (
         <header className="sticky top-0 z-10 bg-bg border-b border-border">
-            <div className="navbar min-h-20 px-6">
-                <div className="navbar-start">
-                    <Link replace href={LandingPageRoute} className="flex items-center gap-2">
-                        <span className="flex h-7.5 w-7.5 flex-none items-center justify-center rounded-lg bg-accent">
-                            <GraduationCapIcon className="text-white" width={17} height={17} />
-                        </span>
-                        <span className="font-serif text-[17px] font-bold">IELTS by Phanh</span>
-                    </Link>
-                </div>
+            <div className="flex items-center justify-between min-h-20 px-6">
+                <Link replace href={LandingPageRoute} className="flex items-center gap-2">
+                    <span className="flex h-7.5 w-7.5 flex-none items-center justify-center rounded-lg bg-accent">
+                        <GraduationCapIcon className="text-white" width={17} height={17} />
+                    </span>
+                    <span className="font-serif text-[17px] font-bold">IELTS by Phanh</span>
+                </Link>
 
-                <div className="navbar-center">
-                    <RoleNav />
-                </div>
+                <RoleNav />
 
-                <div className="navbar-end gap-3">
+                <div className="flex items-center gap-3">
                     {user ? (
                         <>
-                            <div className="avatar avatar-placeholder">
-                                <div className="w-10 rounded-full bg-accent-bg">
-                                    <p className="text-accent font-bold">{getInitial(user.fullName)}</p>
-                                </div>
-                            </div>
+                            <Avatar size={42} style={{ backgroundColor: "#e6f4ff", color: "#1677ff", fontWeight: "bold" }}>
+                                {getInitial(user.fullName)}
+                            </Avatar>
 
                             <Button
                                 label={t("logout")}

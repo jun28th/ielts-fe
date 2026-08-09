@@ -8,6 +8,7 @@ import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 
 const beVietnamPro = Be_Vietnam_Pro({
 	subsets: ["latin", "vietnamese"],
@@ -34,17 +35,19 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 	return (
 		<html lang={locale} className={`${beVietnamPro.variable} ${roboto.variable} h-full antialiased`}>
 			<body className="min-h-screen flex flex-col">
-				<NextIntlClientProvider messages={messages}>
-					<Providers>
-						<Header/>
+				<AntdRegistry>
+					<NextIntlClientProvider messages={messages}>
+						<Providers>
+							<Header/>
 
-						<div className="flex-1 flex flex-col">
-							{children}
-						</div>
+							<div className="flex-1 flex flex-col">
+								{children}
+							</div>
 
-						<Footer/>
-					</Providers>
-				</NextIntlClientProvider>
+							<Footer/>
+						</Providers>
+					</NextIntlClientProvider>
+				</AntdRegistry>
 
 				{/* Vercel Analytics and Speed Insights */}
 				<Analytics />

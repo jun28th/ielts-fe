@@ -4,7 +4,8 @@ import { useTranslations } from "next-intl";
 import Modal from "./Modal";
 import TextInput from "../FormInput/TextInput";
 import { useState } from "react";
-import DatePicker from "../FormInput/DatePicker";
+import DateInput from "../FormInput/DateInput";
+import Button from "../Button";
 
 type CreateCourseModalProps = {
     isOpen: boolean;
@@ -31,7 +32,7 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
             title={t("title")}
             subtitle={t("subtitle")}
         >
-            <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                 <TextInput
                     label={t("nameLabel")}
                     placeholder={t("namePlaceholder")}
@@ -70,12 +71,18 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
                     </div>
                 </div>
 
-                <DatePicker
+                <DateInput
                     label={t("dateLabel")}
                     value={startDate}
                     onChange={setStartDate}
-                    placeholder={"dd/mm/yyyy"}
                 />
+
+                <div className="flex justify-end">
+                    <Button
+                        label={t("submit")}
+                        type="submit"
+                    />
+                </div>
             </form>
         </Modal>
     )

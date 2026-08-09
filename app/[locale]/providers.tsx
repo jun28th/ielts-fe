@@ -2,6 +2,7 @@ import { AuthProvider } from "@/contexts/auth-context";
 import { decrypt, SessionPayload } from "@/lib/session";
 import { User } from "@/types/auth-types";
 import { cookies } from "next/headers";
+import { ConfigProvider } from "antd";
 
 function payloadToUser(payload: SessionPayload): User {
     return {
@@ -27,8 +28,22 @@ export default async function Providers({ children } : { children : React.ReactN
     const initialUser = await getInitialUser();
 
     return (
-        <AuthProvider initialUser={initialUser}>
-            {children}
-        </AuthProvider>
+        <ConfigProvider
+            theme={{
+                token: {
+                    fontFamily: "var(--font-be-vietnam-pro)",
+                },
+                components: {
+                    Menu: {
+                        itemHoverBg: "var(--color-accent-bg)",
+                        itemSelectedBg: "var(--color-accent-bg)",
+                    }
+                }
+            }}
+        >
+            <AuthProvider initialUser={initialUser}>
+                {children}
+            </AuthProvider>
+        </ConfigProvider>
     );
 }

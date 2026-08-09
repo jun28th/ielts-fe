@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@plugin "daisyui";
 
 @theme inline {
 	--font-serif: var(--font-be-vietnam-pro);
