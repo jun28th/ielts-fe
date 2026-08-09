@@ -6,6 +6,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const beVietnamPro = Be_Vietnam_Pro({
 	subsets: ["latin", "vietnamese"],
@@ -43,6 +45,8 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 						<Footer/>
 					</Providers>
 				</NextIntlClientProvider>
+				<Analytics />
+				<SpeedInsights />
 			</body>
 		</html>
 	);
