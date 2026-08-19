@@ -61,6 +61,10 @@
         },
         "students": "Student list"
     },
+    "AdminNav": {
+        "dashboard": "Dashboard",
+        "accessControl": "Access control"
+    },
     "TeacherCoursesPage": {
         "title": "Courses",
         "subtitle": "The list of courses you're teaching.",

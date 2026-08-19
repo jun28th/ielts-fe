@@ -61,6 +61,10 @@
         },
         "students": "Danh sách học viên"
     },
+    "AdminNav": {
+        "dashboard": "Dashboard",
+        "accessControl": "Quản lý quyền truy cập"
+    },
     "TeacherCoursesPage": {
         "title": "Khoá học",
         "subtitle": "Danh sách khóa học bạn đang phụ trách.",

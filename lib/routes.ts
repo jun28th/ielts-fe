@@ -24,3 +24,4 @@ export const TeacherQuestionBankSpeakingRoute = "/teacher/question-bank/speaking
 // Admin Routes
 export const AdminRoute = "/admin";
 export const AdminDashboardRoute = "/admin/dashboard";
+export const AdminAccessControlRoute = "/admin/access-control";
