@@ -1,12 +1,13 @@
+import { RoleName } from "./role-type";
+
 export type Gender = "MALE" | "FEMALE" | "OTHER";
-export type Role = "STUDENT" | "TEACHER" | "ADMIN";
 
 export type User = {
     id: string;
     fullName: string;
     gender: Gender;
     email: string;
-    roles: Role[];
+    roles: RoleName[];
     createdAt: string;
 };
 
@@ -29,6 +30,6 @@ export type AuthResponse = {
     fullName: string;
     gender: Gender;
     email: string;
-    roles: Role[];
+    roles: RoleName[];
     createdAt: string;
 };

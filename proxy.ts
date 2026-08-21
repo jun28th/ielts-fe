@@ -3,17 +3,17 @@ import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 import { decrypt, SessionPayload } from "./lib/session";
 import { SignInRoute, StudentDashboardRoute, TeacherDashboardRoute, AdminDashboardRoute, StudentRoute, TeacherRoute, AdminRoute } from "./lib/routes";
-import { Role } from "./types/auth-types";
+import { RoleName } from "./types/role-type";
 
 const handleI18nRouting = createMiddleware(routing);
 
-const ROLE_CONFIG: Record<Role, { prefix: string; home: string }> = {
+const ROLE_CONFIG: Record<RoleName, { prefix: string; home: string }> = {
     STUDENT: { prefix: StudentRoute, home: StudentDashboardRoute },
     TEACHER: { prefix: TeacherRoute, home: TeacherDashboardRoute },
     ADMIN: { prefix: AdminRoute, home: AdminDashboardRoute }
 };
 
-const ALL_ROLES = Object.keys(ROLE_CONFIG) as Role[];
+const ALL_ROLES = Object.keys(ROLE_CONFIG) as RoleName[];
 
 // Bỏ tiền tố /en hoặc /vi trước khi so khớp route
 function stripLocale(pathname: string): string {
@@ -22,7 +22,7 @@ function stripLocale(pathname: string): string {
     return match[2] ?? "/";
 }
 
-function getRequiredRole(pathname: string): Role | null {
+function getRequiredRole(pathname: string): RoleName | null {
     for (const role of ALL_ROLES) {
         const prefix = ROLE_CONFIG[role].prefix;
         if (pathname === prefix || pathname.startsWith(prefix + "/")) {
@@ -32,8 +32,8 @@ function getRequiredRole(pathname: string): Role | null {
     return null;
 }
 
-function getUserRole(payload: SessionPayload): Role | null {
-    const roles: Role[] = payload?.roles ?? [];
+function getUserRole(payload: SessionPayload): RoleName | null {
+    const roles: RoleName[] = payload?.roles ?? [];
     for (const role of roles) {
         if (ROLE_CONFIG[role]) return role;
     }

@@ -1,10 +1,10 @@
 import { useAuth } from "@/contexts/auth-context";
-import { Role } from "@/types/auth-types";
+import { RoleName } from "@/types/role-type";
 import StudentNav from "./StudentNav";
 import TeacherNav from "./TeacherNav";
 import AdminNav from "./AdminNav";
 
-const NAV_BY_ROLE: Record<Role, React.ComponentType> = {
+const NAV_BY_ROLE: Record<RoleName, React.ComponentType> = {
     STUDENT: StudentNav,
     TEACHER: TeacherNav,
     ADMIN: AdminNav,

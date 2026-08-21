@@ -83,5 +83,9 @@
         "rangeSuffix": "students",
         "dateLabel": "Start date",
         "submit": "Create"
+    },
+    "AdminAccessControlPage": {
+        "title": "Access control",
+        "subtitle": "Manage user access permissions."
     }
 }

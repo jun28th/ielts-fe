@@ -83,5 +83,9 @@
         "rangeSuffix": "học viên",
         "dateLabel": "Ngày khai giảng",
         "submit": "Tạo mới"
+    },
+    "AdminAccessControlPage": {
+        "title": "Phân quyền",
+        "subtitle": "Quản lý quyền truy cập cho người dùng."
     }
 }

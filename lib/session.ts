@@ -1,4 +1,4 @@
-import { Role } from "@/types/auth-types";
+import { RoleName } from "@/types/role-type";
 import { jwtVerify, JWTPayload } from "jose";
 
 const secretKey = process.env.JWT_SECRET;
@@ -8,7 +8,7 @@ export interface SessionPayload extends JWTPayload {
     sub: string;
     fullName: string;
     email: string;
-    roles: Role[];
+    roles: RoleName[];
     createdAt: string;
 }
 
