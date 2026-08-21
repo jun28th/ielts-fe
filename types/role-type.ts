@@ -8,6 +8,6 @@ export type Permission = {
 
 export type Role = {
     id: string;
-    name: RoleName;
+    name: string;
     permissions: Permission[];
 }

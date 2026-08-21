@@ -2,13 +2,13 @@
 
 import { useAuth } from "@/contexts/auth-context"
 import { LandingPageRoute, SignInRoute } from "@/lib/routes";
-import { Link } from "@/lib/navigation";
+import { Link, useRouter } from "@/lib/navigation";
 import { useTranslations } from "next-intl";
 import GraduationCapIcon from "./Icons/GraduationCapIcon";
 import Button from "./Button";
 import RoleNav from "./Navbar/RoleNav";
 import { Avatar } from "antd";
-import { useLogout } from "@/hooks/auth/useLogout";
+import { useState } from "react";
 
 function getInitial(fullName: string): string {
     const parts = fullName.trim().split(/\s+/);
@@ -17,9 +17,26 @@ function getInitial(fullName: string): string {
 }
 
 export default function Header() {
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
+    const router = useRouter();
     const t = useTranslations("Header");
-    const { loading, handleLogout } = useLogout();
+
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const handleLogout = async () => {
+        setLoading(true);
+
+        try {
+            await fetch("/api/auth/logout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+            });
+        } finally {
+            setUser(null);
+            router.push(LandingPageRoute);
+            setLoading(false);
+        }
+    };
 
     return (
         <header className="sticky top-0 z-10 bg-bg border-b border-border">
