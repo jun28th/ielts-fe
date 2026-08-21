@@ -1,99 +1,28 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "@/lib/navigation"; 
 import { useTranslations } from "next-intl";
-import { User } from "@/types/auth-types";
-import { useAuth } from "@/contexts/auth-context";
-import { StudentDashboardRoute, TeacherDashboardRoute, AdminDashboardRoute } from "@/lib/routes";
 import TextInput from "@/components/FormInput/TextInput";
 import Button from "@/components/Button";
 import GoogleIcon from "@/components/Icons/GoogleIcon";
+import useEmailSignIn from "@/hooks/auth/useEmailSignIn";
+import useGoogleSignIn from "@/hooks/auth/useGoogleSignIn";
 
 export default function SignInPage() {
-    const router = useRouter();
     const t = useTranslations("SignInPage");
 
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
+    const {
+        email,
+        setEmail,
+        password,
+        setPassword,
+        emailError,
+        passwordError,
+        loading,
+        error,
+        handleSubmit,
+    } = useEmailSignIn();
 
-    const [emailError, setEmailError] = useState<string | null>(null);
-    const [passwordError, setPasswordError] = useState<string | null>(null);
-
-    const [loading, setLoading] = useState<boolean>(false);
-    const [googleLoading, setGoogleLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-
-    const { setUser } = useAuth();
-
-    const validate = () => {
-        let valid = true;
-
-        if (!email.trim()) {
-            setEmailError(t("emailRequired"));
-            valid = false;
-        } else {
-            setEmailError(null);
-        }
-
-        if (!password) {
-            setPasswordError(t("passwordRequired"));
-            valid = false;
-        } else {
-            setPasswordError(null);
-        }
-
-        return valid;
-    };
-
-    const handleSubmit = async (e: React.SubmitEvent) => {
-        e.preventDefault();
-
-        setError(null);
-
-        if (!validate()) {
-            return;
-        }
-
-        setLoading(true);
-
-        try {
-            const res = await fetch("/api/auth/sign-in", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.message ?? t("signInFailed"));
-            }
-
-            setUser(data);
-
-            redirectByRole(data);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : t("genericError"));
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Chưa implement Google sign-in, chỉ là ví dụ
-    const handleGoogleSignIn = async () => {
-        return;
-    };
-
-    const redirectByRole = (user: User) => {
-        if (user.roles.includes("ADMIN")) {
-            router.push(AdminDashboardRoute);
-        } else if (user.roles.includes("TEACHER")) {
-            router.push(TeacherDashboardRoute);
-        } else {
-            router.push(StudentDashboardRoute);
-        }
-    };
+    const { googleLoading, handleGoogleSignIn } = useGoogleSignIn();
 
     return (
         <>
