@@ -1,5 +1,6 @@
 import { authHeaders, errorResponse } from "@/lib/api/server";
 
+// POST /api/courses — create
 export async function POST(request: Request) {
     let body: unknown;
 
