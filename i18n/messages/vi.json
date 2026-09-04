@@ -86,6 +86,27 @@
     },
     "AdminAccessControlPage": {
         "title": "Phân quyền",
-        "subtitle": "Quản lý quyền truy cập cho người dùng."
+        "subtitle": "Quản lý quyền truy cập cho người dùng.",
+        "rolesHeading": "Vai trò",
+        "loading": "Đang tải...",
+        "rolesError": "Không tải được danh sách vai trò",
+        "noRoles": "Chưa có vai trò nào",
+        "permissionsFor": "Quyền của vai trò:",
+        "columns": {
+            "code": "Mã quyền",
+            "tag": "Nhóm",
+            "name": "Tên quyền",
+            "description": "Mô tả"
+        },
+        "transfer": {
+            "available": "Quyền chưa gán",
+            "assigned": "Quyền đã gán",
+            "searchPlaceholder": "Tìm theo mã hoặc tên",
+            "itemUnit": "quyền",
+            "itemsUnit": "quyền",
+            "notFound": "Không có quyền nào"
+        },
+        "save": "Lưu thay đổi",
+        "cancel": "Huỷ"
     }
 }

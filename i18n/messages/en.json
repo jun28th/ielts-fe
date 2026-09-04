@@ -86,6 +86,27 @@
     },
     "AdminAccessControlPage": {
         "title": "Access control",
-        "subtitle": "Manage user access permissions."
+        "subtitle": "Manage user access permissions.",
+        "rolesHeading": "Roles",
+        "loading": "Loading...",
+        "rolesError": "Could not load the role list",
+        "noRoles": "No roles yet",
+        "permissionsFor": "Permissions for role:",
+        "columns": {
+            "code": "Code",
+            "tag": "Group",
+            "name": "Permission",
+            "description": "Description"
+        },
+        "transfer": {
+            "available": "Available permissions",
+            "assigned": "Assigned permissions",
+            "searchPlaceholder": "Search by code or name",
+            "itemUnit": "permission",
+            "itemsUnit": "permissions",
+            "notFound": "No permissions"
+        },
+        "save": "Save changes",
+        "cancel": "Cancel"
     }
 }

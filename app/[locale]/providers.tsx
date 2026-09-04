@@ -3,6 +3,7 @@ import { decrypt, SessionPayload } from "@/lib/session";
 import { User } from "@/types/auth-types";
 import { cookies } from "next/headers";
 import { ConfigProvider } from "antd";
+import { QueryProvider } from "./query-provider";
 
 function payloadToUser(payload: SessionPayload): User {
     return {
@@ -37,13 +38,18 @@ export default async function Providers({ children } : { children : React.ReactN
                     Menu: {
                         itemHoverBg: "var(--color-accent-bg)",
                         itemSelectedBg: "var(--color-accent-bg)",
+                    },
+                    Spin: {
+                        colorPrimary: "var(--color-muted)",
                     }
                 }
             }}
         >
-            <AuthProvider initialUser={initialUser}>
-                {children}
-            </AuthProvider>
+            <QueryProvider>
+                <AuthProvider initialUser={initialUser}>
+                    {children}
+                </AuthProvider>
+            </QueryProvider>
         </ConfigProvider>
     );
 }

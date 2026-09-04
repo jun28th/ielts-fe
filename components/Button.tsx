@@ -1,8 +1,11 @@
+import { Spin } from "antd";
+
 type ButtonProps = {
     label: string;
     icon?: React.ReactNode;
     onClick?: () => void;
     disabled?: boolean;
+    loading?: boolean;
     type?: "button" | "submit" | "reset";
     variant?: "primary" | "secondary" | "danger";
     fullWidth?: boolean;
@@ -17,16 +20,17 @@ const VARIANT_STYLES: Record<NonNullable<ButtonProps["variant"]>, string> = {
         "bg-error text-white hover:bg-[#ff7875] active:bg-[#d9363e]",
 };
 
-export default function Button({ label, icon, onClick, disabled = false, type = "button", variant = "primary", fullWidth = false }: ButtonProps) {
+export default function Button({ label, icon, onClick, disabled = false, loading = false, type = "button", variant = "primary", fullWidth = false }: ButtonProps) {
+    const isDisabled = disabled || loading;
 
     return (
         <button
             type={type}
             onClick={onClick}
-            disabled={disabled}
+            disabled={isDisabled}
             className={`inline-flex h-11 items-center justify-center gap-2.5 rounded-lg px-5 text-sm font-bold transition-colors cursor-pointer disabled:cursor-not-allowed ${fullWidth ? "w-full" : "w-fit"} ${VARIANT_STYLES[variant]}`}
         >
-            {icon}
+            {loading ? <Spin size="small"/> : icon}
             {label}
         </button>
     );
