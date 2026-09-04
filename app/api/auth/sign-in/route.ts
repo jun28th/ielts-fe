@@ -1,12 +1,19 @@
+import { errorResponse } from "@/lib/api/server";
 import { AuthResponse } from "@/types/auth-types";
-import { ErrorResponse } from "@/types/error-types";
 import { cookies } from "next/headers";
 
+// POST /api/auth/sign-in — sign in
 export async function POST(request: Request) {
-    const body = await request.json();
+    let body: unknown;
+
+    try {
+        body = await request.json();
+    } catch {
+        return errorResponse(400, "Bad Request", "Invalid request body.");
+    }
 
     let res: Response;
-    let data: unknown;
+    let raw: string;
 
     try {
         res = await fetch(`${process.env.BACKEND_API_URL}/api/auth/sign-in`, {
@@ -17,19 +24,30 @@ export async function POST(request: Request) {
             body: JSON.stringify(body),
         });
 
-        data = await res.json();
+        raw = await res.text();
     } catch {
-        return Response.json(
-            { message: "Unable to reach the server. Please try again later." },
-            { status: 503 }
-        );
+        return errorResponse(503, "Service Unavailable", "Unable to reach the server. Please try again later.");
+    }
+
+    let data: unknown = null;
+
+    if (raw) {
+        try {
+            data = JSON.parse(raw);
+        } catch {
+            return errorResponse(res.status, "Unexpected Response", raw);
+        }
     }
 
     if (!res.ok) {
-        return Response.json(data as ErrorResponse, { status: res.status });
+        return data ? Response.json(data, { status: res.status }) : errorResponse(res.status, "Request Failed", "Sign in failed.");
     }
 
-    const { accessToken, refreshToken, ...safeData } = data as AuthResponse;
+    const { accessToken, refreshToken, ...safeData } = (data ?? {}) as AuthResponse;
+
+    if (!accessToken || !refreshToken) {
+        return errorResponse(502, "Unexpected Response", "Sign in response is missing tokens.");
+    }
 
     const cookieStore = await cookies();
 
@@ -49,5 +67,5 @@ export async function POST(request: Request) {
         maxAge: 60 * 60 * 24 * 7,
     });
 
-    return Response.json(safeData, { status: res.status });
+    return Response.json(safeData, { status: 200 });
 }

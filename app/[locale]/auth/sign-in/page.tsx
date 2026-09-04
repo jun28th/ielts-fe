@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useMutation } from "@tanstack/react-query";
 import TextInput from "@/components/FormInput/TextInput";
 import Button from "@/components/Button";
 import GoogleIcon from "@/components/Icons/GoogleIcon";
 import { useAuth } from "@/contexts/auth-context";
 import getRoleDashboardRoute from "@/lib/auth/get-role-dashboard-route";
 import { useRouter } from "@/lib/navigation";
+import { authApi } from "@/lib/api/auth-client";
 
 export default function SignInPage() {
     const t = useTranslations("SignInPage");
@@ -20,10 +22,15 @@ export default function SignInPage() {
     const [emailError, setEmailError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
 
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-
     const [googleLoading, setGoogleLoading] = useState<boolean>(false);
+
+    const { mutate, isPending, error, reset } = useMutation({
+        mutationFn: authApi.signIn,
+        onSuccess: (user) => {
+            setUser(user);
+            router.push(getRoleDashboardRoute(user));
+        },
+    });
 
     const validate = () => {
         let valid = true;
@@ -45,36 +52,15 @@ export default function SignInPage() {
         return valid;
     };
 
-    const handleSubmit = async (e: React.SubmitEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setError(null);
+        reset();
 
         if (!validate()) {
             return;
         }
 
-        setLoading(true);
-
-        try {
-            const res = await fetch("/api/auth/sign-in", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                throw new Error(data.message ?? t("signInFailed"));
-            }
-
-            setUser(data);
-            router.push(getRoleDashboardRoute(data));
-        } catch (err) {
-            setError(err instanceof Error ? err.message : t("genericError"));
-        } finally {
-            setLoading(false);
-        }
+        mutate({ email: email.trim(), password });
     };
 
     // Chưa implement Google sign-in
@@ -110,12 +96,16 @@ export default function SignInPage() {
                     error={passwordError ?? undefined}
                 />
 
-                {error && <p className="text-sm text-error">{error}</p>}
+                {error && (
+                    <p className="text-sm text-error">
+                        {error.message || t("signInFailed")}
+                    </p>
+                )}
 
                 <Button
-                    label={loading ? t("submitLoading") : t("submit")}
+                    label={isPending ? t("submitLoading") : t("submit")}
                     type="submit"
-                    disabled={loading}
+                    disabled={isPending}
                     fullWidth={true}
                 />
             </form>

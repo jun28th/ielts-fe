@@ -1,26 +1,22 @@
 import { RoleName } from "./role-type";
 
-export type Gender = "MALE" | "FEMALE" | "OTHER";
-
 export type User = {
     id: string;
     fullName: string;
-    gender: Gender;
     email: string;
     roles: RoleName[];
     createdAt: string;
 };
 
-export type SignInInput = {
+export type SignInRequest = {
     email: string;
     password: string;
 };
 
-export type SignUpInput = {
+export type SignUpRequest = {
     email: string;
     password: string;
     fullName: string;
-    gender: Gender;
 };
 
 export type AuthResponse = {
@@ -28,7 +24,6 @@ export type AuthResponse = {
     refreshToken: string;
     id: string;
     fullName: string;
-    gender: Gender;
     email: string;
     roles: RoleName[];
     createdAt: string;
