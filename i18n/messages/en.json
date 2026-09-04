@@ -82,7 +82,14 @@
         "maxPlaceholder": "Max",
         "rangeSuffix": "students",
         "dateLabel": "Start date",
-        "submit": "Create"
+        "submit": "Create",
+        "errors": {
+            "nameRequired": "Please enter a course name",
+            "sessionRequired": "Enter a number of sessions greater than 0",
+            "minStudentsRequired": "Enter a minimum of 0 or more",
+            "maxStudentsRequired": "Enter a maximum greater than 0",
+            "startDateRequired": "Please pick a start date"
+        }
     },
     "AdminAccessControlPage": {
         "title": "Access control",

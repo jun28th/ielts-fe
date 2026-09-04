@@ -82,7 +82,14 @@
         "maxPlaceholder": "Đến",
         "rangeSuffix": "học viên",
         "dateLabel": "Ngày khai giảng",
-        "submit": "Tạo mới"
+        "submit": "Tạo mới",
+        "errors": {
+            "nameRequired": "Vui lòng nhập tên khoá học",
+            "sessionRequired": "Nhập số buổi học lớn hơn 0",
+            "minStudentsRequired": "Nhập số tối thiểu từ 0 trở lên",
+            "maxStudentsRequired": "Nhập số tối đa lớn hơn 0",
+            "startDateRequired": "Vui lòng chọn ngày khai giảng"
+        }
     },
     "AdminAccessControlPage": {
         "title": "Phân quyền",
