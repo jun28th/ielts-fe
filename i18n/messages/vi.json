@@ -68,7 +68,16 @@
     "TeacherCoursesPage": {
         "title": "Khoá học",
         "subtitle": "Danh sách khóa học bạn đang phụ trách.",
-        "createButton": "Tạo khoá học mới"
+        "createButton": "Tạo khoá học mới",
+        "status": {
+            "UPCOMING": "Sắp bắt đầu",
+            "ACTIVE": "Đang hoạt động",
+            "ENDED": "Kết thúc"
+        },
+        "startDateLabel": "Khai giảng:",
+        "sessionsLabel": "Tổng số buổi:",
+        "capacityLabel": "Sĩ số:",
+        "capacityValue": "{min}–{max} học viên"
     },
     "CreateCourseModal": {
         "title": "Tạo khoá học mới",

@@ -68,7 +68,16 @@
     "TeacherCoursesPage": {
         "title": "Courses",
         "subtitle": "The list of courses you're teaching.",
-        "createButton": "New course"
+        "createButton": "New course",
+        "status": {
+            "UPCOMING": "Upcoming",
+            "ACTIVE": "Active",
+            "ENDED": "Ended"
+        },
+        "startDateLabel": "Starts:",
+        "sessionsLabel": "Total sessions:",
+        "capacityLabel": "Capacity:",
+        "capacityValue": "{min}–{max} students"
     },
     "CreateCourseModal": {
         "title": "Create a new course",

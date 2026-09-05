@@ -8,6 +8,7 @@ export type Course = {
 	minStudents: number;
 	maxStudents: number;
 	status: CourseStatus;
+	createdAt: string;
 };
 
-export type CreateCourseRequest = Omit<Course, "id" | "enrolled" | "status">;
+export type CreateCourseRequest = Omit<Course, "id" | "status" | "createdAt">;
