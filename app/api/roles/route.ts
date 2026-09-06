@@ -1,4 +1,4 @@
-import { authHeaders, errorResponse } from "@/lib/api/server";
+import { backendFetch, errorResponse } from "@/lib/api/server";
 
 // GET /api/roles — list
 export async function GET() {
@@ -6,9 +6,8 @@ export async function GET() {
     let raw: string;
 
     try {
-        res = await fetch(`${process.env.BACKEND_API_URL}/api/roles`, {
-            headers: await authHeaders(),
-            cache: "no-store",
+        res = await backendFetch("/api/roles", {
+            method: "GET",
         });
 
         raw = await res.text();

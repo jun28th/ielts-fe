@@ -1,4 +1,4 @@
-import { authHeaders, errorResponse } from "@/lib/api/server";
+import { backendFetch, errorResponse } from "@/lib/api/server";
 import { NextRequest } from "next/server";
 
 // PATCH /api/roles/[roleId] - update
@@ -17,9 +17,8 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     let raw: string;
 
     try {
-        res = await fetch(`${process.env.BACKEND_API_URL}/api/roles/${roleId}`, {
+        res = await backendFetch(`/api/roles/${roleId}`, {
             method: "PATCH",
-            headers: await authHeaders(),
             body: JSON.stringify(body),
         });
 

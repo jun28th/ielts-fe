@@ -69,6 +69,8 @@
         "title": "Courses",
         "subtitle": "The list of courses you're teaching.",
         "createButton": "New course",
+        "emptyTitle": "No courses yet",
+        "emptySubtitle": "Create your first course to start managing students and sessions.",
         "status": {
             "UPCOMING": "Upcoming",
             "ACTIVE": "Active",

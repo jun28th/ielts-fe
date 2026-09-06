@@ -69,6 +69,8 @@
         "title": "Khoá học",
         "subtitle": "Danh sách khóa học bạn đang phụ trách.",
         "createButton": "Tạo khoá học mới",
+        "emptyTitle": "Chưa có lớp học nào",
+        "emptySubtitle": "Tạo lớp học đầu tiên để bắt đầu quản lý học viên và buổi học.",
         "status": {
             "UPCOMING": "Sắp bắt đầu",
             "ACTIVE": "Đang hoạt động",

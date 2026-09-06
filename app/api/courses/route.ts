@@ -1,4 +1,4 @@
-import { authHeaders, errorResponse } from "@/lib/api/server";
+import { backendFetch, errorResponse } from "@/lib/api/server";
 
 // POST /api/courses — create
 export async function POST(request: Request) {
@@ -14,9 +14,8 @@ export async function POST(request: Request) {
     let raw: string;
 
     try {
-        res = await fetch(`${process.env.BACKEND_API_URL}/api/courses`, {
+        res = await backendFetch("/api/courses", {
             method: "POST",
-            headers: await authHeaders(),
             body: JSON.stringify(body),
         });
 
@@ -42,15 +41,14 @@ export async function POST(request: Request) {
     return data ? Response.json(data, { status: 201 }) : new Response(null, { status: 201 });
 }
 
-// GET /api/roles — list
+// GET /api/courses — list
 export async function GET() {
     let res: Response;
     let raw: string;
 
     try {
-        res = await fetch(`${process.env.BACKEND_API_URL}/api/courses`, {
-            headers: await authHeaders(),
-            cache: "no-store",
+        res = await backendFetch("/api/courses", {
+            method: "GET",
         });
 
         raw = await res.text();

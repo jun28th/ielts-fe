@@ -6,7 +6,7 @@ import TextInput from "../FormInput/TextInput";
 import { useState } from "react";
 import DateInput from "../FormInput/DateInput";
 import Button from "../Button";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { coursesApi } from "@/lib/api/courses-client";
 import { CreateCourseRequest } from "@/types/course-type";
 
@@ -34,6 +34,8 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
     
     const [errors, setErrors] = useState<Errors>({});
 
+    const queryClient = useQueryClient();
+
     const handleClose = () => {
         setName("");
         setSession("");
@@ -47,6 +49,7 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
     const { mutate, isPending } = useMutation({
         mutationFn: (data: CreateCourseRequest) => coursesApi.create(data),
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["courses"] });
             handleClose();
         }
     });

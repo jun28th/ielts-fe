@@ -54,6 +54,14 @@ export default function CoursesPage() {
                     </div>
                 )}
 
+                {courses && courses.length === 0 && (
+                    <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-border px-6 py-16 text-center">
+                        <p className="font-serif text-base font-bold">{t("emptyTitle")}</p>
+                        <p className="max-w-xs text-sm text-muted">{t("emptySubtitle")}</p>
+                    </div>
+                )}
+
+
                 {courses && (
                     <div className="grid grid-cols-1 gap-4.5 md:grid-cols-2 lg:grid-cols-3">
                         {courses.map((course) => (

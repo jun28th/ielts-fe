@@ -120,7 +120,7 @@ function RolePermissionTransfer({ role, permissions }: { role: Role; permissions
         [t, tagFilters],
     );
 
-    const { mutate, isPending } = useMutation({
+    const { mutate, isPending, error: saveError } = useMutation({
         mutationFn: (keys: string[]) => rolesApi.update(role.id, { permissionIds: keys }),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["roles"] }),
     });
@@ -157,6 +157,10 @@ function RolePermissionTransfer({ role, permissions }: { role: Role; permissions
                 }}
             />
 
+            {saveError && (
+                <p className="mt-3 text-sm text-error">{saveError.message}</p>
+            )}
+
             <div className="mt-4 flex gap-2 justify-end">
                 <Button
                     label={t("save")}
@@ -179,15 +183,17 @@ export default function AccessControlPage() {
     const t = useTranslations("AdminAccessControlPage");
     const [selectedRoleId, setSelectedRoleId] = useState<string | null>(null);
 
-    const { data: roles, isLoading: isRolesLoading, error } = useQuery({
+    const { data: roles, isLoading: isRolesLoading, error: rolesError } = useQuery({
         queryKey: ["roles"],
         queryFn: rolesApi.list,
     });
 
-    const { data: permissions, isLoading: isPermissionsLoading } = useQuery({
+    const { data: permissions, isLoading: isPermissionsLoading, error: permissionsError } = useQuery({
         queryKey: ["permissions"],
         queryFn: permissionsApi.list,
     });
+
+    const loadError = rolesError ?? permissionsError;
 
     const selectedRole = roles?.find((role) => role.id === selectedRoleId) ?? roles?.[0];
 
@@ -200,6 +206,12 @@ export default function AccessControlPage() {
                 </div>
             </div>
 
+            {loadError && (
+                <div className="mt-6 rounded-2xl border border-error/40 bg-error-bg px-6 py-4 text-sm text-error">
+                    {loadError.message}
+                </div>
+            )}
+
             <div className="mt-6 grid grid-cols-[200px_minmax(0,1fr)] gap-6">
                 <div className="h-fit rounded-xl border border-border bg-bg">
                     <div className="border-b border-border px-4 py-3">
@@ -207,8 +219,6 @@ export default function AccessControlPage() {
                     </div>
 
                     {isRolesLoading && <p className="px-4 py-3 text-sm text-muted">{t("loading")}</p>}
-
-                    {error && <p className="px-4 py-3 text-sm text-red-500">{t("rolesError")}</p>}
 
                     {roles?.length === 0 && (
                         <p className="px-4 py-3 text-sm text-muted">{t("noRoles")}</p>
