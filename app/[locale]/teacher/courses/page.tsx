@@ -5,14 +5,20 @@ import CourseCard from "@/components/Course/CourseCard";
 import PlusIcon from "@/components/Icons/PlusIcon";
 import CreateCourseModal from "@/components/Modal/CreateCourseModal";
 import { coursesApi } from "@/lib/api/courses-client";
+import { CourseStatus } from "@/types/course-type";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+
+type Filter = "ALL" | CourseStatus;
+
+const FILTERS: Filter[] = ["ALL", "UPCOMING", "ACTIVE", "ENDED"];
 
 export default function CoursesPage() {
     const t = useTranslations("TeacherCoursesPage");
     
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [filter, setFilter] = useState<Filter>("ALL");
 
     const { data: courses, isLoading, error } = useQuery({
         queryKey: ["courses"],
@@ -37,6 +43,28 @@ export default function CoursesPage() {
                     icon={<PlusIcon className="text-white" width={20} height={20}/>}
                     onClick={() => setIsOpen(true)}
                 />
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+                {FILTERS.map((key) => {
+                    const isActive = key === filter;
+
+                    return (
+                        <button
+                            key={key}
+                            type="button"
+                            onClick={() => setFilter(key)}
+                            className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-sm font-semibold transition-colors ${
+                                isActive
+                                    ? "border-accent bg-accent text-white"
+                                    : "border-border bg-bg text-muted hover:border-muted hover:text-fg"
+                            }`}
+                        >
+                            {t(`filters.${key}`)}
+                        </button>
+                    )
+                })}
+
             </div>
 
             <div className="mt-6">

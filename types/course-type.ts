@@ -1,5 +1,10 @@
 export type CourseStatus = "UPCOMING" | "ACTIVE" | "ENDED";
 
+export type CourseCreator = {
+	id: string;
+	fullName: string;
+}
+
 export type Course = {
     id: string;
 	name: string;
@@ -9,6 +14,7 @@ export type Course = {
 	maxStudents: number;
 	status: CourseStatus;
 	createdAt: string;
+	createdBy: CourseCreator;
 };
 
-export type CreateCourseRequest = Omit<Course, "id" | "status" | "createdAt">;
+export type CreateCourseRequest = Omit<Course, "id" | "status" | "createdAt" | "createdBy">;

@@ -71,6 +71,13 @@
         "createButton": "New course",
         "emptyTitle": "No courses yet",
         "emptySubtitle": "Create your first course to start managing students and sessions.",
+        "filters": {
+            "ALL": "All",
+            "UPCOMING": "Upcoming",
+            "ACTIVE": "Active",
+            "ENDED": "Ended"
+        },
+        "noMatch": "No courses with this status.",
         "status": {
             "UPCOMING": "Upcoming",
             "ACTIVE": "Active",

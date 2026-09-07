@@ -9,6 +9,7 @@ import Button from "./Button";
 import RoleNav from "./Navbar/RoleNav";
 import { Avatar } from "antd";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 function getInitial(fullName: string): string {
     const parts = fullName.trim().split(/\s+/);
@@ -20,6 +21,7 @@ export default function Header() {
     const { user, setUser } = useAuth();
     const router = useRouter();
     const t = useTranslations("Header");
+    const queryClient = useQueryClient();
 
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -32,6 +34,7 @@ export default function Header() {
                 headers: { "Content-Type": "application/json" },
             });
         } finally {
+            queryClient.clear();
             setUser(null);
             router.push(LandingPageRoute);
             setLoading(false);

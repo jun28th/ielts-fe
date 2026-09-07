@@ -35,7 +35,7 @@ export async function backendFetch(path: string, init: BackendInit = {}) : Promi
             }
         });
     
-    const res = await call(cookieStore.get("access_token")?.value);
+    const res = await call(cookieStore.get("accessToken")?.value);
 
     if (res.status !== 401) return res;
 

@@ -71,6 +71,13 @@
         "createButton": "Tạo khoá học mới",
         "emptyTitle": "Chưa có lớp học nào",
         "emptySubtitle": "Tạo lớp học đầu tiên để bắt đầu quản lý học viên và buổi học.",
+        "filters": {
+            "ALL": "Tất cả",
+            "UPCOMING": "Sắp bắt đầu",
+            "ACTIVE": "Đang hoạt động",
+            "ENDED": "Kết thúc"
+        },
+        "noMatch": "Không có lớp học nào ở trạng thái này.",
         "status": {
             "UPCOMING": "Sắp bắt đầu",
             "ACTIVE": "Đang hoạt động",
