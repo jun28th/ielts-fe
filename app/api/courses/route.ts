@@ -42,12 +42,14 @@ export async function POST(request: Request) {
 }
 
 // GET /api/courses — list
-export async function GET() {
+export async function GET(request: Request) {
+    const { search } = new URL(request.url);
+
     let res: Response;
     let raw: string;
 
     try {
-        res = await backendFetch("/api/courses", {
+        res = await backendFetch(`/api/courses${search}`, {
             method: "GET",
         });
 

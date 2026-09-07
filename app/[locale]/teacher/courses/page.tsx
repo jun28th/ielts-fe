@@ -6,24 +6,36 @@ import PlusIcon from "@/components/Icons/PlusIcon";
 import CreateCourseModal from "@/components/Modal/CreateCourseModal";
 import { coursesApi } from "@/lib/api/courses-client";
 import { CourseStatus } from "@/types/course-type";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { Pagination } from "antd";
 
 type Filter = "ALL" | CourseStatus;
 
 const FILTERS: Filter[] = ["ALL", "UPCOMING", "ACTIVE", "ENDED"];
+const PAGE_SIZE = 6;
 
 export default function CoursesPage() {
     const t = useTranslations("TeacherCoursesPage");
-    
+
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [filter, setFilter] = useState<Filter>("ALL");
+    const [page, setPage] = useState<number>(0);
 
-    const { data: courses, isLoading, error } = useQuery({
-        queryKey: ["courses"],
-        queryFn: coursesApi.list,
+    const { data, isLoading, isPlaceholderData, error } = useQuery({
+        queryKey: ["courses", page],
+        queryFn: () => coursesApi.list({ page, size: PAGE_SIZE }),
+        placeholderData: keepPreviousData,
     });
+
+    const courses = data?.content ?? [];
+    const totalElements = data?.totalElements ?? 0;
+
+    const handleFilterChange = (key: Filter) => {
+        setFilter(key);
+        setPage(0);
+    };
 
     return (
         <>
@@ -31,8 +43,8 @@ export default function CoursesPage() {
                 <div>
                     <h1 className="font-serif font-bold text-2xl mb-1">
                         {t("title")}
-					</h1>
-					<p className="text-muted text-sm">
+                    </h1>
+                    <p className="text-muted text-sm">
                         {t("subtitle")}
                     </p>
                 </div>
@@ -53,7 +65,7 @@ export default function CoursesPage() {
                         <button
                             key={key}
                             type="button"
-                            onClick={() => setFilter(key)}
+                            onClick={() => handleFilterChange(key)}
                             className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-sm font-semibold transition-colors ${
                                 isActive
                                     ? "border-accent bg-accent text-white"
@@ -64,7 +76,6 @@ export default function CoursesPage() {
                         </button>
                     )
                 })}
-
             </div>
 
             <div className="mt-6">
@@ -82,19 +93,30 @@ export default function CoursesPage() {
                     </div>
                 )}
 
-                {courses && courses.length === 0 && (
+                {!isLoading && courses.length === 0 && (
                     <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-border px-6 py-16 text-center">
                         <p className="font-serif text-base font-bold">{t("emptyTitle")}</p>
                         <p className="max-w-xs text-sm text-muted">{t("emptySubtitle")}</p>
                     </div>
                 )}
 
-
-                {courses && (
-                    <div className="grid grid-cols-1 gap-4.5 md:grid-cols-2 lg:grid-cols-3">
+                {courses.length > 0 && (
+                    <div className={`grid grid-cols-1 gap-4.5 md:grid-cols-2 lg:grid-cols-3 transition-opacity ${isPlaceholderData ? "opacity-60" : ""}`}>
                         {courses.map((course) => (
                             <CourseCard key={course.id} course={course} />
                         ))}
+                    </div>
+                )}
+
+                {totalElements > PAGE_SIZE && (
+                    <div className="mt-6 flex justify-center">
+                        <Pagination
+                            current={page + 1}
+                            pageSize={PAGE_SIZE}
+                            total={totalElements}
+                            onChange={(uiPage) => setPage(uiPage - 1)}
+                            showSizeChanger={false}
+                        />
                     </div>
                 )}
             </div>

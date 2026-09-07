@@ -18,3 +18,11 @@ export type Course = {
 };
 
 export type CreateCourseRequest = Omit<Course, "id" | "status" | "createdAt" | "createdBy">;
+
+export type CourseListResponse = {
+	content: Course[];
+	page: number;
+	size: number;
+	totalElements: number;
+	totalPages: number;
+};
