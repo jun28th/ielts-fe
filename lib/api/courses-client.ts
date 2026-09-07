@@ -1,9 +1,10 @@
-import { Course, CourseListResponse, CreateCourseRequest } from "@/types/course-type";
+import { Course, CourseListResponse, CourseStatus, CreateCourseRequest } from "@/types/course-type";
 import { http } from "./http";
 
 type ListCoursesParams = {
     page: number,
-    size: number
+    size: number,
+    status?: CourseStatus
 }
 
 function buildQuery(params: ListCoursesParams): string {
@@ -11,6 +12,10 @@ function buildQuery(params: ListCoursesParams): string {
         page: String(params.page),
         size: String(params.size),
     });
+
+    if (params.status) {
+        searchParams.set("status", params.status);
+    }
 
     return searchParams.toString();
 }

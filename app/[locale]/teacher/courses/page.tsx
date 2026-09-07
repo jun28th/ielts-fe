@@ -14,7 +14,7 @@ import { Pagination } from "antd";
 type Filter = "ALL" | CourseStatus;
 
 const FILTERS: Filter[] = ["ALL", "UPCOMING", "ACTIVE", "ENDED"];
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 9;
 
 export default function CoursesPage() {
     const t = useTranslations("TeacherCoursesPage");
@@ -24,8 +24,12 @@ export default function CoursesPage() {
     const [page, setPage] = useState<number>(0);
 
     const { data, isLoading, isPlaceholderData, error } = useQuery({
-        queryKey: ["courses", page],
-        queryFn: () => coursesApi.list({ page, size: PAGE_SIZE }),
+        queryKey: ["courses", page, filter],
+        queryFn: () => coursesApi.list({
+            page,
+            size: PAGE_SIZE,
+            status: filter === "ALL" ? undefined : filter,
+        }),
         placeholderData: keepPreviousData,
     });
 
