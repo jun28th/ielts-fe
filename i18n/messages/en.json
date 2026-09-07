@@ -109,6 +109,22 @@
             "startDateRequired": "Please pick a start date"
         }
     },
+    "TeacherCourseDetailPage": {
+        "breadcrumbs": {
+            "courses": "Courses"
+        },
+        "status": {
+            "UPCOMING": "Upcoming",
+            "ACTIVE": "Active",
+            "ENDED": "Ended"
+        },
+        "createdByLabel": "Created by {name}",
+        "startDateLabel": "Start date",
+        "sessionsLabel": "Sessions",
+        "scheduledWeeksLabel": "Weeks scheduled",
+        "capacityLabel": "Capacity",
+        "capacityValue": "{min}–{max} students"
+    },
     "AdminAccessControlPage": {
         "title": "Access control",
         "subtitle": "Manage user access permissions.",

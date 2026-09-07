@@ -109,6 +109,22 @@
             "startDateRequired": "Vui lòng chọn ngày khai giảng"
         }
     },
+    "TeacherCourseDetailPage": {
+        "breadcrumbs": {
+            "courses": "Khoá học"
+        },
+        "status": {
+            "UPCOMING": "Sắp bắt đầu",
+            "ACTIVE": "Đang hoạt động",
+            "ENDED": "Kết thúc"
+        },
+        "createdByLabel": "Tạo bởi {name}",
+        "startDateLabel": "Khai giảng",
+        "sessionsLabel": "Tổng số buổi",
+        "scheduledWeeksLabel": "Số tuần đã lên lịch",
+        "capacityLabel": "Sĩ số",
+        "capacityValue": "{min}–{max} học viên"
+    },
     "AdminAccessControlPage": {
         "title": "Phân quyền",
         "subtitle": "Quản lý quyền truy cập cho người dùng.",

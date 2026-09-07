@@ -13,6 +13,7 @@ export const StudentDashboardRoute = "/student/dashboard";
 export const TeacherRoute = "/teacher"
 export const TeacherDashboardRoute = "/teacher/dashboard";
 export const TeacherCoursesRoute = "/teacher/courses";
+export const TeacherCourseDetailRoute = (courseId: string) => `/teacher/courses/${courseId}`;
 export const TeacherStudentsRoute = "/teacher/students";
 export const TeacherQuestionBankRoute = "/teacher/question-bank";
 export const TeacherQuestionBankListeningRoute = "/teacher/question-bank/listening";

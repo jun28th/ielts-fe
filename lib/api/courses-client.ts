@@ -23,4 +23,5 @@ function buildQuery(params: ListCoursesParams): string {
 export const coursesApi = {
     create: (data: CreateCourseRequest) => http.post<Course>("/api/courses", data),
     list: (params: ListCoursesParams) => http.get<CourseListResponse>(`/api/courses?${buildQuery(params)}`),
+    get: (courseId: string) => http.get<Course>(`/api/courses/${courseId}`),
 }

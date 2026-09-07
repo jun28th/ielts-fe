@@ -41,6 +41,9 @@ export default async function Providers({ children } : { children : React.ReactN
                     },
                     Spin: {
                         colorPrimary: "var(--color-muted)",
+                    },
+                    Breadcrumb: {
+                        colorBgTextHover: "inherit"
                     }
                 }
             }}

@@ -3,6 +3,8 @@ import { useTranslations } from "next-intl";
 import CalendarIcon from "../Icons/CalendarIcon";
 import BookIcon from "../Icons/BookIcon";
 import { Progress } from "antd";
+import { Link } from "@/lib/navigation";
+import { TeacherCourseDetailRoute } from "@/lib/routes";
 
 const STATUS_STYLE: Record<CourseStatus, string> = {
     UPCOMING: "bg-accent-bg text-accent-active",
@@ -20,7 +22,10 @@ export default function CourseCard({ course } : CourseCardProps) {
     const percentFill = 1 / course.maxStudents * 100;
 
     return (
-        <div className="group flex cursor-pointer flex-col gap-2.5 rounded-2xl border border-border bg-bg p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-accent hover:shadow-lg hover:shadow-black/5">
+        <Link 
+            href={TeacherCourseDetailRoute(course.id)}
+            className="group flex cursor-pointer flex-col gap-2.5 rounded-2xl border border-border bg-bg p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-accent hover:shadow-lg hover:shadow-black/5"
+        >
             <div className="flex items-start justify-between gap-2.5">
                 <p className="font-serif text-base font-bold">{course.name}</p>
 
@@ -62,6 +67,6 @@ export default function CourseCard({ course } : CourseCardProps) {
                 </div>
                 <Progress percent={percentFill} showInfo={false}/>
             </div>
-        </div>
+        </Link>
     );
 }
