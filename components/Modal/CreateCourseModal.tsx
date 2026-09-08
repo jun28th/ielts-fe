@@ -21,6 +21,7 @@ type Errors = {
     minStudents?: string;
     maxStudents?: string;
     startDate?: string;
+    submit?: string;
 }
 
 export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModalProps) {
@@ -46,11 +47,14 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
         onClose();
     }
 
-    const { mutate, isPending, error } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationFn: (data: CreateCourseRequest) => coursesApi.create(data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["courses"] });
             handleClose();
+        },
+        onError: (error) => {
+            setErrors({ submit: error?.message });
         }
     });
 
@@ -134,8 +138,8 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
                     error={errors.startDate}
                 />
 
-                {error && (
-                    <p className="text-sm text-error">{error.message}</p>
+                {errors.submit && (
+                    <p className="text-sm text-error">{errors.submit}</p>
                 )}
 
                 <div className="flex justify-end">

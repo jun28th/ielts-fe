@@ -22,6 +22,7 @@ type Errors = {
     minStudents?: string;
     maxStudents?: string;
     startDate?: string;
+    submit?:string;
 }
 
 export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCourseModalProps) {
@@ -51,12 +52,15 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
         onClose();
     }
 
-    const { mutate, isPending, error } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationFn: (data: UpdateCourseRequest) => coursesApi.update(course.id, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["courses"] });
             queryClient.invalidateQueries({ queryKey: ["course", course.id] });
             handleClose();
+        },
+        onError: (error) => {
+            setErrors({ submit: error?.message });
         }
     });
 
@@ -145,8 +149,8 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
                     error={errors.startDate}
                 />
 
-                {error && (
-                    <p className="text-sm text-error">{error.message}</p>
+                {errors.submit && (
+                    <p className="text-sm text-error">{errors.submit}</p>
                 )}
 
                 <div className="flex justify-end">
