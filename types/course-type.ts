@@ -19,6 +19,8 @@ export type Course = {
 
 export type CreateCourseRequest = Omit<Course, "id" | "status" | "createdAt" | "createdBy">;
 
+export type UpdateCourseRequest = Omit<Course, "id" | "status" | "createdAt" | "createdBy">;
+
 export type CourseListResponse = {
 	content: Course[];
 	page: number;

@@ -3,6 +3,12 @@
 import { Course, CourseStatus } from "@/types/course-type";
 import { Progress } from "antd";
 import { useTranslations } from "next-intl";
+import PencilIcon from "../Icons/PencilIcon";
+import Button from "../Button";
+import TrashIcon from "../Icons/TrashIcon";
+import UpdateCourseModal from "../Modal/UpdateCourseModal";
+import { useState } from "react";
+import { formatDateDDMMYYYY } from "@/lib/utils";
 
 const STATUS_STYLE: Record<CourseStatus, string> = {
     UPCOMING: "bg-accent-bg text-accent-active",
@@ -17,6 +23,8 @@ type CourseHeaderProps = {
 export default function CourseHeader({ course }: CourseHeaderProps) {
     const t = useTranslations("TeacherCourseDetailPage");
 
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
+
     const percentFill = (1 / course.maxStudents) * 100;
 
     return (
@@ -24,15 +32,34 @@ export default function CourseHeader({ course }: CourseHeaderProps) {
             <div className="flex flex-wrap items-start justify-between gap-3">
                 <p className="font-serif text-2xl font-bold">{course.name}</p>
 
-                <p className={`inline-flex h-7 flex-none items-center whitespace-nowrap rounded-full px-3 text-xs font-medium ${STATUS_STYLE[course.status]}`}>
-                    {t(`status.${course.status}`)}
-                </p>
+                <div className="flex flex-none items-center gap-2">
+                    <p className={`inline-flex h-7 flex-none items-center whitespace-nowrap rounded-full px-3 text-xs font-medium ${STATUS_STYLE[course.status]}`}>
+                        {t(`status.${course.status}`)}
+                    </p>
+
+                    <Button
+                        label=""
+                        type="button"
+                        variant="secondary"
+                        icon={<PencilIcon width={18} height={18} />}
+                        iconOnly={true}
+                        onClick={() => setIsUpdateModalOpen(true)}
+                    />
+
+                    <Button
+                        label=""
+                        type="button"
+                        variant="danger"
+                        icon={<TrashIcon width={18} height={18} />}
+                        iconOnly={true}
+                    />  
+                </div>
             </div>
 
             <div className="mt-5 flex flex-wrap gap-x-8 gap-y-4 border-t border-border pt-5">
                 <div className="min-w-30">
                     <p className="text-xs text-muted">{t("startDateLabel")}</p>
-                    <p className="mt-0.5 text-sm font-semibold">{course.startDate}</p>
+                    <p className="mt-0.5 text-sm font-semibold">{formatDateDDMMYYYY(course.startDate)}</p>
                 </div>
                 <div className="min-w-30">
                     <p className="text-xs text-muted">{t("sessionsLabel")}</p>
@@ -55,6 +82,12 @@ export default function CourseHeader({ course }: CourseHeaderProps) {
                 </div>
                 <Progress percent={percentFill} showInfo={false} />
             </div>
+
+            <UpdateCourseModal
+                course={course}
+                isOpen={isUpdateModalOpen}
+                onClose={() => setIsUpdateModalOpen(false)}
+            />
         </div>
     );
 }

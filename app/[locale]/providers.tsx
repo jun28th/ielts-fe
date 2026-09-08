@@ -43,7 +43,8 @@ export default async function Providers({ children } : { children : React.ReactN
                         colorPrimary: "var(--color-muted)",
                     },
                     Breadcrumb: {
-                        colorBgTextHover: "inherit"
+                        colorBgTextHover: "inherit",
+                        linkHoverColor: "var(--color-accent)"
                     }
                 }
             }}

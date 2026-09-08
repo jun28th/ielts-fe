@@ -111,7 +111,8 @@
     },
     "TeacherCourseDetailPage": {
         "breadcrumbs": {
-            "courses": "Courses"
+            "courses": "Courses",
+            "detail": "Course Detail"
         },
         "status": {
             "UPCOMING": "Upcoming",
@@ -124,6 +125,27 @@
         "scheduledWeeksLabel": "Weeks scheduled",
         "capacityLabel": "Capacity",
         "capacityValue": "{min}–{max} students"
+    },
+    "UpdateCourseModal" : {
+        "title": "Update course",
+        "subtitle": "Edit in the course details below.",
+        "nameLabel": "Course name",
+        "namePlaceholder": "e.g. IELTS Foundation - Course A1",
+        "sessionLabel": "Total sessions",
+        "sessionPlaceholder": "e.g. 24",
+        "rangeLabel": "Student count (range)",
+        "minPlaceholder": "Min",
+        "maxPlaceholder": "Max",
+        "rangeSuffix": "students",
+        "dateLabel": "Start date",
+        "save": "Update",
+        "errors": {
+            "nameRequired": "Please enter a course name",
+            "sessionRequired": "Enter a number of sessions greater than 0",
+            "minStudentsRequired": "Enter a minimum of 0 or more",
+            "maxStudentsRequired": "Enter a maximum greater than 0",
+            "startDateRequired": "Please pick a start date"
+        }
     },
     "AdminAccessControlPage": {
         "title": "Access control",

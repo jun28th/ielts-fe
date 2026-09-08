@@ -5,6 +5,7 @@ import BookIcon from "../Icons/BookIcon";
 import { Progress } from "antd";
 import { Link } from "@/lib/navigation";
 import { TeacherCourseDetailRoute } from "@/lib/routes";
+import { formatDateDDMMYYYY } from "@/lib/utils";
 
 const STATUS_STYLE: Record<CourseStatus, string> = {
     UPCOMING: "bg-accent-bg text-accent-active",
@@ -41,7 +42,7 @@ export default function CourseCard({ course } : CourseCardProps) {
                         <p className="text-muted text-sm">
                             {t("startDateLabel")}
                         </p>
-                        <p className="text-sm">{course.startDate}</p>
+                        <p className="text-sm">{formatDateDDMMYYYY(course.startDate)}</p>
                     </>
                 </div>
 

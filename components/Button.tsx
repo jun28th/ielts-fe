@@ -9,6 +9,7 @@ type ButtonProps = {
     type?: "button" | "submit" | "reset";
     variant?: "primary" | "secondary" | "danger";
     fullWidth?: boolean;
+    iconOnly?: boolean;
 }
 
 const VARIANT_STYLES: Record<NonNullable<ButtonProps["variant"]>, string> = {
@@ -20,8 +21,30 @@ const VARIANT_STYLES: Record<NonNullable<ButtonProps["variant"]>, string> = {
         "bg-error text-white hover:bg-[#ff7875] active:bg-[#d9363e]",
 };
 
-export default function Button({ label, icon, onClick, disabled = false, loading = false, type = "button", variant = "primary", fullWidth = false }: ButtonProps) {
+const ICON_ONLY_VARIANT_STYLES: Record<NonNullable<ButtonProps["variant"]>, string> = {
+    primary:
+        "bg-accent text-white hover:bg-accent-hover active:bg-accent-active disabled:bg-[#b7c4d6]",
+    secondary:
+        "border border-border bg-bg text-muted hover:border-accent hover:bg-accent-bg hover:text-accent",
+    danger:
+        "border border-border bg-bg text-muted hover:border-error hover:bg-error-bg hover:text-error",
+};
+
+export default function Button({ label, icon, onClick, disabled = false, loading = false, type = "button", variant = "primary", fullWidth = false, iconOnly = false }: ButtonProps) {
     const isDisabled = disabled || loading;
+
+    if (iconOnly) {
+        return (
+            <button
+                type={type}
+                onClick={onClick}
+                disabled={isDisabled}
+                className={`inline-flex h-8 w-8 flex-none items-center justify-center rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${ICON_ONLY_VARIANT_STYLES[variant]}`}
+            >
+                {loading ? <Spin size="small" /> : icon}
+            </button>
+        );
+    }
 
     return (
         <button
