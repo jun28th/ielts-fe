@@ -68,7 +68,7 @@ export default function TextInput(props: TextInputProps) {
                 )}
             </div>
 
-            {error && <span className="text-[12.5px] text-error">{error}</span>}
+            {error && <span className="text-sm text-error">{error}</span>}
         </div>
     );
 }

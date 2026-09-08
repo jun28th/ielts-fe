@@ -46,7 +46,7 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
         onClose();
     }
 
-    const { mutate, isPending } = useMutation({
+    const { mutate, isPending, error } = useMutation({
         mutationFn: (data: CreateCourseRequest) => coursesApi.create(data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["courses"] });
@@ -54,7 +54,7 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
         }
     });
 
-    const handleSubmit = (e: React.SubmitEvent) => {
+    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const newErrors: Errors = {};
@@ -133,6 +133,10 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
                     onChange={setStartDate}
                     error={errors.startDate}
                 />
+
+                {error && (
+                    <p className="text-sm text-error">{error.message}</p>
+                )}
 
                 <div className="flex justify-end">
                     <Button

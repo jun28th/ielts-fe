@@ -47,25 +47,20 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
     }, [name, session, minStudents, maxStudents, startDate, course]);
 
     const handleClose = () => {
-        setName(course.name);
-        setSession(course.totalSessions);
-        setMinStudents(course.minStudents);
-        setMaxStudents(course.maxStudents);
-        setStartDate(course.startDate);
         setErrors({});
         onClose();
     }
 
-    const { mutate, isPending } = useMutation({
+    const { mutate, isPending, error } = useMutation({
         mutationFn: (data: UpdateCourseRequest) => coursesApi.update(course.id, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["courses"] });
-            queryClient.invalidateQueries({ queryKey: ["courses", course.id] });
+            queryClient.invalidateQueries({ queryKey: ["course", course.id] });
             handleClose();
         }
     });
 
-    const handleSubmit = (e: React.SubmitEvent) => {
+    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!isDirty) return;
@@ -82,13 +77,15 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
 
         if (Object.keys(newErrors).length > 0) return;
 
-        mutate({
-            name,
-            totalSessions: session as number,
-            minStudents: minStudents as number,
-            maxStudents: maxStudents as number,
-            startDate,
-        });
+        const payload: UpdateCourseRequest = {};
+
+        if (name !== course.name) payload.name = name;
+        if (session !== course.totalSessions) payload.totalSessions = session as number;
+        if (minStudents !== course.minStudents) payload.minStudents = minStudents as number;
+        if (maxStudents !== course.maxStudents) payload.maxStudents = maxStudents as number;
+        if (startDate !== course.startDate) payload.startDate = startDate;
+        
+        mutate(payload);
     }
 
     return (
@@ -147,6 +144,10 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
                     onChange={setStartDate}
                     error={errors.startDate}
                 />
+
+                {error && (
+                    <p className="text-sm text-error">{error.message}</p>
+                )}
 
                 <div className="flex justify-end">
                     <Button
