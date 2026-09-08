@@ -99,8 +99,12 @@ export default function CoursesPage() {
 
                 {!isLoading && courses.length === 0 && (
                     <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-border px-6 py-16 text-center">
-                        <p className="font-serif text-base font-bold">{t("emptyTitle")}</p>
-                        <p className="max-w-xs text-sm text-muted">{t("emptySubtitle")}</p>
+                        <p className="font-serif text-base font-bold">
+                            {filter === "ALL" ? t("emptyTitle") : t("noMatchTitle")}
+                        </p>
+                        <p className="max-w-xs text-sm text-muted">
+                            {filter === "ALL" ? t("emptySubtitle") : t("noMatchSubTitle")}
+                        </p>
                     </div>
                 )}
 

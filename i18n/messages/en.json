@@ -77,7 +77,8 @@
             "ACTIVE": "Active",
             "ENDED": "Ended"
         },
-        "noMatch": "No courses with this status.",
+        "noMatchTitle": "No courses found",
+        "noMatchSubTitle": "There are no courses in this status.",
         "status": {
             "UPCOMING": "Upcoming",
             "ACTIVE": "Active",

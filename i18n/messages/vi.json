@@ -77,7 +77,8 @@
             "ACTIVE": "Đang hoạt động",
             "ENDED": "Kết thúc"
         },
-        "noMatch": "Không có lớp học nào ở trạng thái này.",
+        "noMatchTitle": "Không có khóa học nào",
+        "noMatchSubTitle": "Không có khóa học nào phù hợp với trạng thái bạn đã chọn.",
         "status": {
             "UPCOMING": "Sắp bắt đầu",
             "ACTIVE": "Đang hoạt động",
