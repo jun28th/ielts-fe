@@ -67,7 +67,7 @@
     },
     "TeacherCoursesPage": {
         "title": "Khoá học",
-        "subtitle": "Danh sách khóa học bạn đang phụ trách.",
+        "subtitle": "Danh sách khoá học bạn đang phụ trách.",
         "createButton": "Tạo khoá học mới",
         "emptyTitle": "Chưa có lớp học nào",
         "emptySubtitle": "Tạo lớp học đầu tiên để bắt đầu quản lý học viên và buổi học.",
@@ -77,8 +77,8 @@
             "ACTIVE": "Đang hoạt động",
             "ENDED": "Kết thúc"
         },
-        "noMatchTitle": "Không có khóa học nào",
-        "noMatchSubTitle": "Không có khóa học nào phù hợp với trạng thái bạn đã chọn.",
+        "noMatchTitle": "Không có khoá học nào",
+        "noMatchSubTitle": "Không có khoá học nào phù hợp với trạng thái bạn đã chọn.",
         "status": {
             "UPCOMING": "Sắp bắt đầu",
             "ACTIVE": "Đang hoạt động",
@@ -92,6 +92,7 @@
     "CreateCourseModal": {
         "title": "Tạo khoá học mới",
         "subtitle": "Điền thông tin khoá học bên dưới.",
+        "createSuccess": "Tạo khoá học thành công",
         "nameLabel": "Tên khoá học",
         "namePlaceholder": "VD: IELTS Foundation - Lớp A1",
         "sessionLabel": "Tổng số buổi học",
@@ -107,7 +108,8 @@
             "sessionRequired": "Nhập số buổi học lớn hơn 0",
             "minStudentsRequired": "Nhập số tối thiểu từ 0 trở lên",
             "maxStudentsRequired": "Nhập số tối đa lớn hơn 0",
-            "startDateRequired": "Vui lòng chọn ngày khai giảng"
+            "startDateRequired": "Vui lòng chọn ngày khai giảng",
+            "rangeInvalid": "Số tối thiểu không được lớn hơn số tối đa"
         }
     },
     "TeacherCourseDetailPage": {
@@ -120,6 +122,13 @@
             "ACTIVE": "Đang hoạt động",
             "ENDED": "Kết thúc"
         },
+        "deletePopconfirm": {
+            "title": "Xoá khoá học",
+            "subtitle": "Bạn có chắc chắn muốn xoá khoá học này?",
+            "okText": "Xoá",
+            "cancelText": "Hủy"
+        },
+        "deleteSuccess": "Xoá khoá học thành công",
         "createdByLabel": "Tạo bởi {name}",
         "startDateLabel": "Khai giảng",
         "sessionsLabel": "Tổng số buổi",
@@ -130,6 +139,7 @@
     "UpdateCourseModal" : {
         "title": "Cập nhật khoá học",
         "subtitle": "Điều chỉnh thông tin khoá học bên dưới.",
+        "updateSuccess": "Cập nhật khoá học thành công",
         "nameLabel": "Tên khoá học",
         "namePlaceholder": "VD: IELTS Foundation - Lớp A1",
         "sessionLabel": "Tổng số buổi học",
@@ -145,13 +155,15 @@
             "sessionRequired": "Nhập số buổi học lớn hơn 0",
             "minStudentsRequired": "Nhập số tối thiểu từ 0 trở lên",
             "maxStudentsRequired": "Nhập số tối đa lớn hơn 0",
-            "startDateRequired": "Vui lòng chọn ngày khai giảng"
+            "startDateRequired": "Vui lòng chọn ngày khai giảng",
+            "rangeInvalid": "Số tối thiểu không được lớn hơn số tối đa"
         }
     },
     "AdminAccessControlPage": {
         "title": "Phân quyền",
         "subtitle": "Quản lý quyền truy cập cho người dùng.",
         "rolesHeading": "Vai trò",
+        "assignSuccess": "Gán quyền thành công",
         "loading": "Đang tải...",
         "rolesError": "Không tải được danh sách vai trò",
         "noRoles": "Chưa có vai trò nào",

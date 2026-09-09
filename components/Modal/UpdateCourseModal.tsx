@@ -9,6 +9,7 @@ import DateInput from "../FormInput/DateInput";
 import Button from "../Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { coursesApi } from "@/lib/api/courses-client";
+import { useAppMessage } from "@/contexts/message-context";
 
 type UpdateCourseModalProps = {
     course: Course;
@@ -21,12 +22,13 @@ type Errors = {
     session?: string;
     minStudents?: string;
     maxStudents?: string;
+    range?: string;
     startDate?: string;
-    submit?:string;
 }
 
 export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCourseModalProps) {
     const t = useTranslations("UpdateCourseModal");
+    const message = useAppMessage();
     const queryClient = useQueryClient();
 
     const [name, setName] = useState<string>(course.name);
@@ -48,6 +50,11 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
     }, [name, session, minStudents, maxStudents, startDate, course]);
 
     const handleClose = () => {
+        setName(course.name);
+        setSession(course.totalSessions);
+        setMinStudents(course.minStudents);
+        setMaxStudents(course.maxStudents);
+        setStartDate(course.startDate);
         setErrors({});
         onClose();
     }
@@ -55,12 +62,14 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
     const { mutate, isPending } = useMutation({
         mutationFn: (data: UpdateCourseRequest) => coursesApi.update(course.id, data),
         onSuccess: () => {
+            message.success(t("updateSuccess"));
             queryClient.invalidateQueries({ queryKey: ["courses"] });
             queryClient.invalidateQueries({ queryKey: ["course", course.id] });
-            handleClose();
+            setErrors({});
+            onClose();
         },
         onError: (error) => {
-            setErrors({ submit: error?.message });
+            message.error(error.message);
         }
     });
 
@@ -75,6 +84,13 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
         if (session === "" || session <= 0) newErrors.session = t("errors.sessionRequired");
         if (minStudents === "" || minStudents < 0) newErrors.minStudents = t("errors.minStudentsRequired");
         if (maxStudents === "" || maxStudents <= 0) newErrors.maxStudents = t("errors.maxStudentsRequired");
+        if (
+            minStudents !== "" && maxStudents !== "" &&
+            !newErrors.minStudents && !newErrors.maxStudents &&
+            minStudents > maxStudents
+        ) {
+            newErrors.range = t("errors.rangeInvalid");
+        }
         if (!startDate) newErrors.startDate = t("errors.startDateRequired");
 
         setErrors(newErrors);
@@ -88,7 +104,7 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
         if (minStudents !== course.minStudents) payload.minStudents = minStudents as number;
         if (maxStudents !== course.maxStudents) payload.maxStudents = maxStudents as number;
         if (startDate !== course.startDate) payload.startDate = startDate;
-        
+
         mutate(payload);
     }
 
@@ -140,6 +156,7 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
 
                         <p className="text-muted text-sm whitespace-nowrap">{t("rangeSuffix")}</p>
                     </div>
+                    {errors.range && <p className="text-sm text-error">{errors.range}</p>}
                 </div>
 
                 <DateInput
@@ -148,10 +165,6 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
                     onChange={setStartDate}
                     error={errors.startDate}
                 />
-
-                {errors.submit && (
-                    <p className="text-sm text-error">{errors.submit}</p>
-                )}
 
                 <div className="flex justify-end">
                     <Button

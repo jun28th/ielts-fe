@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/Button";
+import { useAppMessage } from "@/contexts/message-context";
 import { permissionsApi } from "@/lib/api/permissions-client";
 import { rolesApi } from "@/lib/api/roles-client";
 import { Permission, Role } from "@/types/role-type";
@@ -76,6 +77,8 @@ function RolePermissionTransfer({ role, permissions }: { role: Role; permissions
     const t = useTranslations("AdminAccessControlPage");
     const queryClient = useQueryClient();
 
+    const message = useAppMessage();
+
     const originalKeys = useMemo(() => (role.permissions ?? []).map((p) => p.id), [role]);
     const [targetKeys, setTargetKeys] = useState<string[]>(originalKeys);
 
@@ -120,9 +123,15 @@ function RolePermissionTransfer({ role, permissions }: { role: Role; permissions
         [t, tagFilters],
     );
 
-    const { mutate, isPending, error: saveError } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationFn: (keys: string[]) => rolesApi.update(role.id, { permissionIds: keys }),
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["roles"] }),
+        onSuccess: () => {
+            message.success(t("assignSuccess"))
+            queryClient.invalidateQueries({ queryKey: ["roles"] });
+        },
+        onError: (error) => {
+            message.error(error.message);
+        }
     });
 
     const isDirty =
@@ -156,10 +165,6 @@ function RolePermissionTransfer({ role, permissions }: { role: Role; permissions
                     notFoundContent: t("transfer.notFound"),
                 }}
             />
-
-            {saveError && (
-                <p className="mt-3 text-sm text-error">{saveError.message}</p>
-            )}
 
             <div className="mt-4 flex gap-2 justify-end">
                 <Button

@@ -92,6 +92,7 @@
     "CreateCourseModal": {
         "title": "Create a new course",
         "subtitle": "Fill in the course details below.",
+        "createSuccess": "Course created successfully",
         "nameLabel": "Course name",
         "namePlaceholder": "e.g. IELTS Foundation - Course A1",
         "sessionLabel": "Total sessions",
@@ -107,7 +108,8 @@
             "sessionRequired": "Enter a number of sessions greater than 0",
             "minStudentsRequired": "Enter a minimum of 0 or more",
             "maxStudentsRequired": "Enter a maximum greater than 0",
-            "startDateRequired": "Please pick a start date"
+            "startDateRequired": "Please pick a start date",
+            "rangeInvalid": "Minimum cannot be greater than maximum"
         }
     },
     "TeacherCourseDetailPage": {
@@ -120,6 +122,13 @@
             "ACTIVE": "Active",
             "ENDED": "Ended"
         },
+        "deletePopconfirm": {
+            "title": "Delete course",
+            "subtitle": "Are you sure you want to delete this course?",
+            "okText": "Delete",
+            "cancelText": "Cancel"
+        },
+        "deleteSuccess": "Course deleted successfully",
         "createdByLabel": "Created by {name}",
         "startDateLabel": "Start date",
         "sessionsLabel": "Sessions",
@@ -130,6 +139,7 @@
     "UpdateCourseModal" : {
         "title": "Update course",
         "subtitle": "Edit in the course details below.",
+        "updateSuccess": "Course updated successfully",
         "nameLabel": "Course name",
         "namePlaceholder": "e.g. IELTS Foundation - Course A1",
         "sessionLabel": "Total sessions",
@@ -145,13 +155,15 @@
             "sessionRequired": "Enter a number of sessions greater than 0",
             "minStudentsRequired": "Enter a minimum of 0 or more",
             "maxStudentsRequired": "Enter a maximum greater than 0",
-            "startDateRequired": "Please pick a start date"
+            "startDateRequired": "Please pick a start date",
+            "rangeInvalid": "Minimum cannot be greater than maximum"
         }
     },
     "AdminAccessControlPage": {
         "title": "Access control",
         "subtitle": "Manage user access permissions.",
         "rolesHeading": "Roles",
+        "assignSuccess": "Permission assigned successfully",
         "loading": "Loading...",
         "rolesError": "Could not load the role list",
         "noRoles": "No roles yet",

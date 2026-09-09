@@ -9,6 +9,7 @@ import Button from "../Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { coursesApi } from "@/lib/api/courses-client";
 import { CreateCourseRequest } from "@/types/course-type";
+import { useAppMessage } from "@/contexts/message-context";
 
 type CreateCourseModalProps = {
     isOpen: boolean;
@@ -20,19 +21,20 @@ type Errors = {
     session?: string;
     minStudents?: string;
     maxStudents?: string;
+    range?: string;
     startDate?: string;
-    submit?: string;
 }
 
 export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModalProps) {
     const t = useTranslations("CreateCourseModal");
+    const message = useAppMessage();
 
     const [name, setName] = useState<string>("");
     const [session, setSession] = useState<number | "">("");
     const [minStudents, setMinStudents] = useState<number | "">("");
     const [maxStudents, setMaxStudents] = useState<number | "">("");
     const [startDate, setStartDate] = useState<string>("");
-    
+
     const [errors, setErrors] = useState<Errors>({});
 
     const queryClient = useQueryClient();
@@ -50,11 +52,12 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
     const { mutate, isPending } = useMutation({
         mutationFn: (data: CreateCourseRequest) => coursesApi.create(data),
         onSuccess: () => {
+            message.success(t("createSuccess"))
             queryClient.invalidateQueries({ queryKey: ["courses"] });
             handleClose();
         },
         onError: (error) => {
-            setErrors({ submit: error?.message });
+            message.error(error.message);
         }
     });
 
@@ -67,6 +70,13 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
         if (session === "" || session <= 0) newErrors.session = t("errors.sessionRequired");
         if (minStudents === "" || minStudents < 0) newErrors.minStudents = t("errors.minStudentsRequired");
         if (maxStudents === "" || maxStudents <= 0) newErrors.maxStudents = t("errors.maxStudentsRequired");
+        if (
+            minStudents !== "" && maxStudents !== "" &&
+            !newErrors.minStudents && !newErrors.maxStudents &&
+            minStudents > maxStudents
+        ) {
+            newErrors.range = t("errors.rangeInvalid");
+        }
         if (!startDate) newErrors.startDate = t("errors.startDateRequired");
 
         setErrors(newErrors);
@@ -129,6 +139,7 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
 
                         <p className="text-muted text-sm whitespace-nowrap">{t("rangeSuffix")}</p>
                     </div>
+                    {errors.range && <p className="text-sm text-error">{errors.range}</p>}
                 </div>
 
                 <DateInput
@@ -137,10 +148,6 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
                     onChange={setStartDate}
                     error={errors.startDate}
                 />
-
-                {errors.submit && (
-                    <p className="text-sm text-error">{errors.submit}</p>
-                )}
 
                 <div className="flex justify-end">
                     <Button

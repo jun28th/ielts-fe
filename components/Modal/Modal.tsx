@@ -16,10 +16,11 @@ type ModalProps = {
     title: string;
     subtitle?: string;
     size?: ModalSize;
+    centerTitle?: boolean;
     children: React.ReactNode;
 };
 
-export default function Modal({ isOpen, onClose, title, subtitle, size = "lg", children } : ModalProps) {
+export default function Modal({ isOpen, onClose, title, subtitle, size = "lg", centerTitle = false, children } : ModalProps) {
     useEffect(() => {
         if (!isOpen) return;
 
@@ -36,17 +37,17 @@ export default function Modal({ isOpen, onClose, title, subtitle, size = "lg", c
     return (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/45 p-6">
             <div className={`w-full ${SIZE_CLASS[size]} max-h-[90vh] overflow-y-auto rounded-2xl bg-bg p-7`}>
-                <div className="flex items-center justify-between gap-3 mb-1">
-                    <p className="font-serif font-bold text-xl text-fg">{title}</p>
+                <div className={`relative flex items-center mb-1 ${centerTitle ? "justify-center" : "justify-between gap-3"}`}>
+                    <p className={`font-serif font-bold text-xl text-fg ${centerTitle ? "text-center px-8" : ""}`}>{title}</p>
                     <button
                         type="button"
                         onClick={onClose}
-                        className="rounded-md p-1.5 text-muted hover:bg-surface hover:text-fg"
+                        className={`rounded-md p-1.5 text-muted hover:bg-surface hover:text-fg ${centerTitle ? "absolute right-0 top-1/2 -translate-y-1/2" : ""}`}
                     >
                         <CloseIcon width={20} height={20}/>
                     </button>
                 </div>
-                {subtitle && <p className="text-muted text-sm mb-5">{subtitle}</p>}
+                {subtitle && <p className={`text-muted text-sm mb-5 ${centerTitle ? "text-center" : ""}`}>{subtitle}</p>}
                 {children}
             </div>
         </div>

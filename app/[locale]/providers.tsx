@@ -4,6 +4,7 @@ import { User } from "@/types/auth-types";
 import { cookies } from "next/headers";
 import { ConfigProvider } from "antd";
 import { QueryProvider } from "./query-provider";
+import { MessageProvider } from "@/contexts/message-context";
 
 function payloadToUser(payload: SessionPayload): User {
     return {
@@ -49,11 +50,13 @@ export default async function Providers({ children } : { children : React.ReactN
                 }
             }}
         >
-            <QueryProvider>
-                <AuthProvider initialUser={initialUser}>
-                    {children}
-                </AuthProvider>
-            </QueryProvider>
+            <MessageProvider>
+                <QueryProvider>
+                    <AuthProvider initialUser={initialUser}>
+                        {children}
+                    </AuthProvider>
+                </QueryProvider>
+            </MessageProvider>
         </ConfigProvider>
     );
 }
