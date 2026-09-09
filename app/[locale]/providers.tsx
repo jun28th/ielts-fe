@@ -46,6 +46,9 @@ export default async function Providers({ children } : { children : React.ReactN
                     Breadcrumb: {
                         colorBgTextHover: "inherit",
                         linkHoverColor: "var(--color-accent)"
+                    },
+                    Table: {
+                        borderColor: "var(--color-border)"
                     }
                 }
             }}

@@ -159,6 +159,32 @@
             "rangeInvalid": "Minimum cannot be greater than maximum"
         }
     },
+    "TeacherStudentsPage": {
+        "title": "Student List",
+        "subtitle": "Manage student accounts in the system.",
+        "createButton": "Add New Student"
+    },
+    "CreateStudentModal": {
+        "title": "Add New Student",
+        "subtitle": "Fill in the information to create a new student account.",
+        "fullNameLabel": "Full Name",
+        "fullNamePlaceholder": "e.g. John Smith",
+        "emailLabel": "Email",
+        "emailPlaceholder": "student@gmail.com",
+        "phoneLabel": "Phone Number (Optional)",
+        "phonePlaceholder": "09xxxxxxxx",
+        "courseLabel": "Courses (Optional — you can select multiple courses)",
+        "columns": {
+            "name": "Course Name",
+            "status": "Status"
+        },
+        "status": {
+            "UPCOMING": "Upcoming",
+            "ACTIVE": "Active",
+            "ENDED": "Ended"
+        },
+        "submit": "Create"
+    },
     "AdminAccessControlPage": {
         "title": "Access control",
         "subtitle": "Manage user access permissions.",

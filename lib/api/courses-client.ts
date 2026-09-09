@@ -1,10 +1,12 @@
 import { Course, CourseListResponse, CourseStatus, CreateCourseRequest, UpdateCourseRequest } from "@/types/course-type";
 import { http } from "./http";
 
+type CourseStatusFilter = CourseStatus | "NOT_ENDED";
+
 type ListCoursesParams = {
     page: number,
     size: number,
-    status?: CourseStatus
+    status?: CourseStatusFilter
 }
 
 function buildQuery(params: ListCoursesParams): string {
@@ -25,5 +27,6 @@ export const coursesApi = {
     list: (params: ListCoursesParams) => http.get<CourseListResponse>(`/api/courses?${buildQuery(params)}`),
     get: (courseId: string) => http.get<Course>(`/api/courses/${courseId}`),
     update: (courseId: string, data: UpdateCourseRequest) => http.patch<Course>(`/api/courses/${courseId}`, data),
-    delete: (courseId: string) => http.delete<void>(`/api/courses/${courseId}`)
+    delete: (courseId: string) => http.delete<void>(`/api/courses/${courseId}`),
+    listEnrollable: (params: Omit<ListCoursesParams, "status">) => coursesApi.list({ ...params, status: "NOT_ENDED" }),
 }
