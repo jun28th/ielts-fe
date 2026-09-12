@@ -6,7 +6,7 @@ import { useAppMessage } from "@/contexts/message-context";
 import TextInput from "../FormInput/TextInput";
 import { useState } from "react";
 import { Table, TableColumnsType } from "antd";
-import { Course, CourseStatus } from "@/types/course-type";
+import { Course, CourseStatus } from "@/types/course-types";
 import Button from "../Button";
 import { useQuery } from "@tanstack/react-query";
 import { coursesApi } from "@/lib/api/courses-client";

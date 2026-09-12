@@ -1,6 +1,6 @@
 "use client";
 
-import { Course, CourseStatus } from "@/types/course-type";
+import { Course, CourseStatus } from "@/types/course-types";
 import { Popconfirm, Progress } from "antd";
 import { useTranslations } from "next-intl";
 import PencilIcon from "../Icons/PencilIcon";

@@ -8,7 +8,7 @@ import DateInput from "../FormInput/DateInput";
 import Button from "../Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { coursesApi } from "@/lib/api/courses-client";
-import { CreateCourseRequest } from "@/types/course-type";
+import { CreateCourseRequest } from "@/types/course-types";
 import { useAppMessage } from "@/contexts/message-context";
 
 type CreateCourseModalProps = {

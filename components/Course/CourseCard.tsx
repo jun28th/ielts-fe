@@ -1,4 +1,4 @@
-import { Course, CourseStatus } from "@/types/course-type"
+import { Course, CourseStatus } from "@/types/course-types"
 import { useTranslations } from "next-intl";
 import CalendarIcon from "../Icons/CalendarIcon";
 import BookIcon from "../Icons/BookIcon";

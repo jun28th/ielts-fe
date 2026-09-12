@@ -5,7 +5,7 @@ import CourseCard from "@/components/Course/CourseCard";
 import PlusIcon from "@/components/Icons/PlusIcon";
 import CreateCourseModal from "@/components/Modal/CreateCourseModal";
 import { coursesApi } from "@/lib/api/courses-client";
-import { CourseStatus } from "@/types/course-type";
+import { CourseStatus } from "@/types/course-types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useState } from "react";

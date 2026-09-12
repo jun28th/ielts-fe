@@ -1,5 +1,5 @@
 import { useAuth } from "@/contexts/auth-context";
-import { RoleName } from "@/types/role-type";
+import { RoleName } from "@/types/role-types";
 import StudentNav from "./StudentNav";
 import TeacherNav from "./TeacherNav";
 import AdminNav from "./AdminNav";

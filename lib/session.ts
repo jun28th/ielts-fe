@@ -1,4 +1,4 @@
-import { RoleName } from "@/types/role-type";
+import { RoleName } from "@/types/role-types";
 import { jwtVerify, JWTPayload } from "jose";
 
 const secretKey = process.env.JWT_SECRET;

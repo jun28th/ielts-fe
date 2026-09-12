@@ -1,4 +1,4 @@
-import { Course, CourseListResponse, CourseStatus, CreateCourseRequest, UpdateCourseRequest } from "@/types/course-type";
+import { Course, CourseListResponse, CourseStatus, CreateCourseRequest, UpdateCourseRequest } from "@/types/course-types";
 import { http } from "./http";
 
 type CourseStatusFilter = CourseStatus | "NOT_ENDED";

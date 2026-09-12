@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import Modal from "./Modal";
-import { Course, UpdateCourseRequest } from "@/types/course-type";
+import { Course, UpdateCourseRequest } from "@/types/course-types";
 import { useMemo, useState } from "react";
 import TextInput from "../FormInput/TextInput";
 import DateInput from "../FormInput/DateInput";

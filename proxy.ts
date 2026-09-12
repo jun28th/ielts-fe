@@ -3,7 +3,7 @@ import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 import { decrypt, SessionPayload } from "./lib/session";
 import { SignInRoute, StudentDashboardRoute, TeacherDashboardRoute, AdminDashboardRoute, StudentRoute, TeacherRoute, AdminRoute } from "./lib/routes";
-import { RoleName } from "./types/role-type";
+import { RoleName } from "./types/role-types";
 
 const handleI18nRouting = createMiddleware(routing);
 

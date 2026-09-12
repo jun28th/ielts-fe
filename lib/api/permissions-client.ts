@@ -1,4 +1,4 @@
-import { Permission } from "@/types/role-type";
+import { Permission } from "@/types/role-types";
 import { http } from "./http";
 
 export const permissionsApi = {

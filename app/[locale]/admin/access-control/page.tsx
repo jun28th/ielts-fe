@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import { useAppMessage } from "@/contexts/message-context";
 import { permissionsApi } from "@/lib/api/permissions-client";
 import { rolesApi } from "@/lib/api/roles-client";
-import { Permission, Role } from "@/types/role-type";
+import { Permission, Role } from "@/types/role-types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Table, TableColumnsType, TableProps, Tag, Transfer, TransferProps } from "antd";
 import { useTranslations } from "next-intl";
