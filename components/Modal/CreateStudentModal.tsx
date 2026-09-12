@@ -8,8 +8,10 @@ import { useState } from "react";
 import { Table, TableColumnsType } from "antd";
 import { Course, CourseStatus } from "@/types/course-types";
 import Button from "../Button";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { coursesApi } from "@/lib/api/courses-client";
+import { userApi } from "@/lib/api/user-client";
+import { CreateStudentRequest } from "@/types/user-types";
 
 const STATUS_STYLE: Record<CourseStatus, string> = {
     UPCOMING: "text-accent-active",
@@ -92,12 +94,51 @@ export default function CreateStudentModal({ isOpen, onClose } : CreateStudentMo
 
     const [errors, setErrors] = useState<Errors>({});
 
+    const handleClose = () => {
+        setFullName("");
+        setEmail("");
+        setPhoneNumber("");
+        setSelectedCourseIds([]);
+        setErrors({});
+        onClose();
+    }
+
+    const { mutate, isPending } = useMutation({
+        mutationFn: (data: CreateStudentRequest) => userApi.createStudentAccount(data),
+        onSuccess: () => {
+            message.success(t("createSuccess"));
+            handleClose();
+        },
+        onError: (error) => {
+            message.error(error.message);
+        }
+    })
+
     const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const newErrors: Errors = {};
 
+        if (!fullName.trim()) {
+            newErrors.fullName = t("errors.fullNameRequired");
+        }
 
+        if (!email.trim()) {
+            newErrors.email = t("errors.emailRequired");
+        }
+
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length > 0) {
+            return;
+        }
+
+        mutate({
+            fullName,
+            email,
+            phoneNumber,
+            courseIds: selectedCourseIds
+        });
     }
 
     return (
@@ -148,6 +189,7 @@ export default function CreateStudentModal({ isOpen, onClose } : CreateStudentMo
                     <Button
                         label={t("submit")}
                         type="submit"
+                        loading={isPending}
                     />
                 </div>
             </form>

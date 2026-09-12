@@ -173,6 +173,7 @@
         "emailPlaceholder": "student@gmail.com",
         "phoneLabel": "Phone Number (Optional)",
         "phonePlaceholder": "09xxxxxxxx",
+        "courseLoadError": "Failed to load courses",
         "courseLabel": "Courses (Optional — you can select multiple courses)",
         "columns": {
             "name": "Course Name",
@@ -183,6 +184,11 @@
             "ACTIVE": "Active",
             "ENDED": "Ended"
         },
+        "errors": {
+            "fullNameRequired": "Please enter a full name",
+            "emailRequired": "Please enter an email"
+        },
+        "createSuccess": "Student account created successfully",
         "submit": "Create"
     },
     "AdminAccessControlPage": {

@@ -173,6 +173,7 @@
         "emailPlaceholder": "hocvien@gmail.com",
         "phoneLabel": "Số điện thoại (Tuỳ chọn)",
         "phonePlaceholder": "09xxxxxxxx",
+        "courseLoadError": "Không thể tải danh sách khoá học",
         "courseLabel": "Khoá học (Tuỳ chọn — có thể chọn nhiều khoá học)",
         "columns": {
             "name": "Tên khoá học",
@@ -183,6 +184,11 @@
             "ACTIVE": "Đang hoạt động",
             "ENDED": "Kết thúc"
         },
+        "errors": {
+            "fullNameRequired": "Vui lòng nhập tên",
+            "emailRequired": "Vui lòng nhập email"
+        },
+        "createSuccess": "Tạo tài khoản thành công",
         "submit": "Tạo mới"
     },
     "AdminAccessControlPage": {
