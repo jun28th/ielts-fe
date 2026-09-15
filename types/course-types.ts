@@ -18,9 +18,9 @@ export type Course = {
 	enrolledCount: number;
 };
 
-export type CreateCourseRequest = Omit<Course, "id" | "status" | "createdAt" | "createdBy">;
+export type CreateCourseRequest = Omit<Course, "id" | "status" | "createdAt" | "createdBy" | "enrolledCount">;
 
-export type UpdateCourseRequest = Partial<Omit<Course, "id" | "status" | "createdAt" | "createdBy">>;
+export type UpdateCourseRequest = Partial<Omit<Course, "id" | "status" | "createdAt" | "createdBy" | "enrolledCount">>;
 
 export type CourseListResponse = {
 	content: Course[];
