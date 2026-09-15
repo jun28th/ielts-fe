@@ -15,6 +15,7 @@ export type Course = {
 	status: CourseStatus;
 	createdAt: string;
 	createdBy: CourseCreator;
+	enrolledCount: number;
 };
 
 export type CreateCourseRequest = Omit<Course, "id" | "status" | "createdAt" | "createdBy">;

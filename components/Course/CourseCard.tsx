@@ -20,7 +20,7 @@ type CourseCardProps = {
 export default function CourseCard({ course } : CourseCardProps) {
     const t = useTranslations("TeacherCoursesPage");
 
-    const percentFill = 1 / course.maxStudents * 100;
+    const percentFill = (course.enrolledCount / course.maxStudents) * 100;
 
     return (
         <Link 
@@ -61,7 +61,7 @@ export default function CourseCard({ course } : CourseCardProps) {
                 <div className="flex justify-between">
                     <p className="text-muted text-sm">{t("capacityLabel")}</p>
                     <div className="flex items-center gap-1 text-sm font-bold">
-                        <p>1</p>
+                        <p>{course.enrolledCount}</p>
                         <p> / </p>
                         <p>{t("capacityValue", { min: course.minStudents, max: course.maxStudents })}</p>
                     </div>

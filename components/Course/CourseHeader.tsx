@@ -33,7 +33,7 @@ export default function CourseHeader({ course }: CourseHeaderProps) {
 
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
 
-    const percentFill = (1 / course.maxStudents) * 100;
+    const percentFill = (course.enrolledCount / course.maxStudents) * 100;
 
     const { mutate } = useMutation({
         mutationFn: () => coursesApi.delete(course.id),
@@ -103,7 +103,7 @@ export default function CourseHeader({ course }: CourseHeaderProps) {
                 <div className="flex justify-between">
                     <p className="text-muted text-sm">{t("capacityLabel")}</p>
                     <div className="flex items-center gap-1 text-sm font-bold">
-                        <p>1</p>
+                        <p>{course.enrolledCount}</p>
                         <p> / </p>
                         <p>{t("capacityValue", { min: course.minStudents, max: course.maxStudents })}</p>
                     </div>
