@@ -69,7 +69,7 @@ export async function GET(request: Request) {
     }
 
     if (!res.ok) {
-        return data ? Response.json(data, { status: res.status }) : errorResponse(res.status, "Request Failed", "Failed to load roles.");
+        return data ? Response.json(data, { status: res.status }) : errorResponse(res.status, "Request Failed", "Failed to load courses.");
     }
 
     return data ? Response.json(data, { status: 200 }) : new Response(null, { status: 204 });

@@ -162,7 +162,24 @@
     "TeacherStudentsPage": {
         "title": "Danh sách học viên",
         "subtitle": "Quản lý tài khoản học viên trong hệ thống.",
-        "createButton": "Thêm học viên mới"
+        "createButton": "Thêm học viên mới",
+        "searchPlaceholder": "Tìm theo tên hoặc email",
+        "columns": {
+            "fullName": "Họ tên",
+            "email": "Email",
+            "phoneNumber": "Số điện thoại",
+            "courses": "Khóa học",
+            "createdAt": "Ngày tạo",
+            "action": "Thao tác"
+        },
+        "noCourses": "Chưa có khóa học",
+        "loadError": "Không tải được danh sách học viên",
+        "deletePopconfirm": {
+            "title": "Xóa học viên",
+            "subtitle": "Bạn có chắc chắn muốn xóa học viên này?",
+            "okText": "Xóa",
+            "cancelText": "Hủy"
+        }
     },
     "CreateStudentModal": {
         "title": "Thêm học viên mới",

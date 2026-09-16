@@ -162,7 +162,24 @@
     "TeacherStudentsPage": {
         "title": "Student List",
         "subtitle": "Manage student accounts in the system.",
-        "createButton": "Add New Student"
+        "createButton": "Add New Student",
+        "searchPlaceholder": "Search by name or email",
+        "columns": {
+            "fullName": "Full name",
+            "email": "Email",
+            "phoneNumber": "Phone number",
+            "courses": "Courses",
+            "createdAt": "Created Date",
+            "action": "Action"
+        },
+        "noCourses": "No courses yet",
+        "loadError": "Failed to load students",
+        "deletePopconfirm": {
+            "title": "Delete Student",
+            "subtitle": "Are you sure you want to delete this student?",
+            "okText": "Delete",
+            "cancelText": "Cancel"
+        }
     },
     "CreateStudentModal": {
         "title": "Add New Student",

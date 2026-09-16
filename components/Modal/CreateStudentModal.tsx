@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Table, TableColumnsType } from "antd";
 import { Course, CourseStatus } from "@/types/course-types";
 import Button from "../Button";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { coursesApi } from "@/lib/api/courses-client";
 import { userApi } from "@/lib/api/user-client";
 import { CreateStudentRequest } from "@/types/user-types";
@@ -86,6 +86,7 @@ function CourseTable({ selectedIds, onSelectionChange }: CourseTableProps) {
 export default function CreateStudentModal({ isOpen, onClose } : CreateStudentModalProps) {
     const t = useTranslations("CreateStudentModal");
     const message = useAppMessage();
+    const queryClient = useQueryClient();
 
     const [fullName, setFullName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
@@ -106,6 +107,7 @@ export default function CreateStudentModal({ isOpen, onClose } : CreateStudentMo
     const { mutate, isPending } = useMutation({
         mutationFn: (data: CreateStudentRequest) => userApi.createStudentAccount(data),
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["students"]})
             message.success(t("createSuccess"));
             handleClose();
         },

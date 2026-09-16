@@ -1,6 +1,26 @@
-import { CreateStudentRequest } from "@/types/user-types";
+import { CreateStudentRequest, StudentListResponse } from "@/types/user-types";
 import { http } from "./http";
 
+type ListStudentsParams = {
+    page: number,
+    size: number,
+    search?: string
+}
+
+function buildQuery(params: ListStudentsParams): string {
+    const searchParams = new URLSearchParams({
+        page: String(params.page),
+        size: String(params.size),
+    });
+
+    if (params.search) {
+        searchParams.set("search", params.search);
+    }
+
+    return searchParams.toString();
+}
+
 export const userApi = {
-    createStudentAccount: (data: CreateStudentRequest) => http.post<void>("/api/users/students", data)
+    createStudentAccount: (data: CreateStudentRequest) => http.post<void>("/api/users/students", data),
+    getAllStudentAccounts: (params: ListStudentsParams) => http.get<StudentListResponse>(`/api/users/students?${buildQuery(params)}`)
 };
