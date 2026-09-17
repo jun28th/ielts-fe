@@ -43,16 +43,35 @@ function CourseTable({ selectedIds, onSelectionChange }: CourseTableProps) {
         queryFn: () => coursesApi.listEnrollable({ page: 0, size: 100 }),
     });
 
+    const isFull = (course: Course) => course.enrolledCount >= course.maxStudents;
+
     const columns: TableColumnsType<Course> = [
         {
             title: t("columns.name"),
             dataIndex: "name",
-            width: "70%",
+            width: "50%",
+        },
+        {
+            title: t("columns.enrollment"),
+            key: "enrollment",
+            width: "25%",
+            render: (_, record) => (
+                <div className="flex items-center gap-2">
+                    <span className="text-xs">
+                        {record.enrolledCount}/{record.maxStudents}
+                    </span>
+                    {isFull(record) && (
+                        <span className="text-xs px-2 py-1 rounded bg-error/10 text-error">
+                            {t("full")}
+                        </span>
+                    )}
+                </div>
+            )
         },
         {
             title: t("columns.status"),
             dataIndex: "status",
-            width: "30%",
+            width: "25%",
             render: (status: CourseStatus) => (
                 <span className={`text-xs ${STATUS_STYLE[status]}`}>
                     {t(`status.${status}`)}
@@ -72,13 +91,14 @@ function CourseTable({ selectedIds, onSelectionChange }: CourseTableProps) {
             rowSelection={{
                 selectedRowKeys: selectedIds,
                 onChange: (keys) => onSelectionChange(keys as string[]),
+                getCheckboxProps: (record) => ({ disabled: isFull(record) }),
             }}
             columns={columns}
             dataSource={data?.content ?? []}
             pagination={false}
-            scroll={{ y: 150 }}
-            size="small"
+            scroll={{ y: 200 }}
             bordered={true}
+            size="small"
         />
     );
 }

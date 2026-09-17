@@ -194,6 +194,7 @@
         "courseLabel": "Khoá học (Tuỳ chọn — có thể chọn nhiều khoá học)",
         "columns": {
             "name": "Tên khoá học",
+            "enrollment": "Sĩ số",
             "status": "Trạng thái"
         },
         "status": {
@@ -201,6 +202,7 @@
             "ACTIVE": "Đang hoạt động",
             "ENDED": "Kết thúc"
         },
+        "full": "Đã đầy",
         "errors": {
             "fullNameRequired": "Vui lòng nhập tên",
             "emailRequired": "Vui lòng nhập email"

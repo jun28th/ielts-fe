@@ -194,6 +194,7 @@
         "courseLabel": "Courses (Optional — you can select multiple courses)",
         "columns": {
             "name": "Course Name",
+            "enrollment": "Enrollment",
             "status": "Status"
         },
         "status": {
@@ -201,6 +202,7 @@
             "ACTIVE": "Active",
             "ENDED": "Ended"
         },
+        "full": "Full",
         "errors": {
             "fullNameRequired": "Please enter a full name",
             "emailRequired": "Please enter an email"
