@@ -156,6 +156,7 @@
             "minStudentsRequired": "Enter a minimum of 0 or more",
             "maxStudentsRequired": "Enter a maximum greater than 0",
             "startDateRequired": "Please pick a start date",
+            "maxStudentsBelowEnrolled": "Maximum students cannot be less than the current enrolled count ({count})",
             "rangeInvalid": "Minimum cannot be greater than maximum"
         }
     },

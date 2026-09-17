@@ -84,13 +84,21 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
         if (session === "" || session <= 0) newErrors.session = t("errors.sessionRequired");
         if (minStudents === "" || minStudents < 0) newErrors.minStudents = t("errors.minStudentsRequired");
         if (maxStudents === "" || maxStudents <= 0) newErrors.maxStudents = t("errors.maxStudentsRequired");
+
         if (
+            maxStudents !== "" &&
+            !newErrors.maxStudents &&
+            maxStudents < course.enrolledCount
+        ) {
+            newErrors.range = t("errors.maxStudentsBelowEnrolled", { count: course.enrolledCount });
+        } else if (
             minStudents !== "" && maxStudents !== "" &&
             !newErrors.minStudents && !newErrors.maxStudents &&
             minStudents > maxStudents
         ) {
             newErrors.range = t("errors.rangeInvalid");
         }
+        
         if (!startDate) newErrors.startDate = t("errors.startDateRequired");
 
         setErrors(newErrors);
@@ -135,6 +143,7 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
 
                 <div className="flex flex-col gap-1.5">
                     <p className="text-sm font-medium text-fg">{t("rangeLabel")}</p>
+
                     <div className="flex items-center gap-2.5">
                         <TextInput
                             placeholder={t("minPlaceholder")}
@@ -156,6 +165,7 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
 
                         <p className="text-muted text-sm whitespace-nowrap">{t("rangeSuffix")}</p>
                     </div>
+
                     {errors.range && <p className="text-sm text-error">{errors.range}</p>}
                 </div>
 

@@ -168,7 +168,7 @@ export default function CreateStudentModal({ isOpen, onClose } : CreateStudentMo
             title={t("title")}
             subtitle={t("subtitle")}
             isOpen={isOpen}
-            onClose={onClose}
+            onClose={handleClose}
             size="xl"
         >
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">

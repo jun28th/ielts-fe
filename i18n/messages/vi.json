@@ -156,6 +156,7 @@
             "minStudentsRequired": "Nhập số tối thiểu từ 0 trở lên",
             "maxStudentsRequired": "Nhập số tối đa lớn hơn 0",
             "startDateRequired": "Vui lòng chọn ngày khai giảng",
+            "maxStudentsBelowEnrolled": "Sĩ số tối đa không được nhỏ hơn số học viên đã đăng ký ({count})",
             "rangeInvalid": "Số tối thiểu không được lớn hơn số tối đa"
         }
     },
