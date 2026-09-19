@@ -23,5 +23,6 @@ function buildQuery(params: ListStudentsParams): string {
 export const userApi = {
     createStudentAccount: (data: CreateStudentRequest) => http.post<void>("/api/users/students", data),
     getAllStudentAccounts: (params: ListStudentsParams) => http.get<StudentListResponse>(`/api/users/students?${buildQuery(params)}`),
-    updateStudentAccount: (userId: string, data: UpdateStudentRequest) => http.patch<void>(`/api/users/students/${userId}`, data)
+    updateStudentAccount: (userId: string, data: UpdateStudentRequest) => http.patch<void>(`/api/users/students/${userId}`, data),
+    deleteStudentAccount: (userId: string) => http.delete<void>(`/api/users/students/${userId}`)
 };

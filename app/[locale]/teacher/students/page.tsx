@@ -7,12 +7,13 @@ import PlusIcon from "@/components/Icons/PlusIcon";
 import TrashIcon from "@/components/Icons/TrashIcon";
 import CreateStudentModal from "@/components/Modal/CreateStudentModal";
 import UpdateStudentModal from "@/components/Modal/UpdateStudentModal";
+import { useAppMessage } from "@/contexts/message-context";
 import { useDebounce } from "@/hooks/useDebounce";
 import { userApi } from "@/lib/api/user-client";
 import { formatInstant } from "@/lib/utils";
 import { CourseStatus } from "@/types/course-types";
 import { CourseSummary, Student } from "@/types/user-types";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Popconfirm, Table, TableColumnsType } from "antd";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -27,6 +28,8 @@ const DEFAULT_PAGE_SIZE = 10;
 
 export default function StudentsPage() {
     const t = useTranslations("TeacherStudentsPage");
+    const message = useAppMessage();
+    const queryClient = useQueryClient();
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
@@ -65,6 +68,20 @@ export default function StudentsPage() {
         setIsUpdateModalOpen(false);
         setSelectedStudent(null);
     };
+
+    const { mutate } = useMutation({
+        mutationFn: (userId: string) => userApi.deleteStudentAccount(userId),
+        onSuccess: () => {
+            if (page > 0 && data?.content.length === 1) {
+                setPage(page - 1);
+            }
+            queryClient.invalidateQueries({ queryKey: ["students"]});
+            message.success(t("deleteSuccess"));
+        },
+        onError: (error) => {
+            message.error(error.message);
+        }
+    });
 
     const columns: TableColumnsType<Student> = [
         {
@@ -140,7 +157,7 @@ export default function StudentsPage() {
                         placement="bottomRight"
                         okText={t("deletePopconfirm.okText")}
                         cancelText={t("deletePopconfirm.cancelText")}
-                        onConfirm={() => {}}
+                        onConfirm={() => mutate(record.id)}
                     >
                         <button
                             type="button"

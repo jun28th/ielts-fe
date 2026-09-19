@@ -179,7 +179,8 @@
             "subtitle": "Are you sure you want to delete this student?",
             "okText": "Delete",
             "cancelText": "Cancel"
-        }
+        },
+        "deleteSuccess": "Account deleted successfully"
     },
     "CreateStudentModal": {
         "title": "Add New Student",

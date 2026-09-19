@@ -179,7 +179,8 @@
             "subtitle": "Bạn có chắc chắn muốn xóa học viên này?",
             "okText": "Xóa",
             "cancelText": "Hủy"
-        }
+        },
+        "deleteSuccess": "Xoá tài khoản thành công"
     },
     "CreateStudentModal": {
         "title": "Thêm học viên mới",
