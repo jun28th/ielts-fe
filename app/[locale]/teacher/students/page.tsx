@@ -6,6 +6,7 @@ import PencilIcon from "@/components/Icons/PencilIcon";
 import PlusIcon from "@/components/Icons/PlusIcon";
 import TrashIcon from "@/components/Icons/TrashIcon";
 import CreateStudentModal from "@/components/Modal/CreateStudentModal";
+import UpdateStudentModal from "@/components/Modal/UpdateStudentModal";
 import { useDebounce } from "@/hooks/useDebounce";
 import { userApi } from "@/lib/api/user-client";
 import { formatInstant } from "@/lib/utils";
@@ -27,7 +28,9 @@ const DEFAULT_PAGE_SIZE = 10;
 export default function StudentsPage() {
     const t = useTranslations("TeacherStudentsPage");
 
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
+    const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
 
     const [page, setPage] = useState<number>(0);
     const [search, setSearch] = useState<string>("");
@@ -51,6 +54,16 @@ export default function StudentsPage() {
 
     const handlePageChange = (newPage: number) => {
         setPage(newPage - 1);
+    };
+
+    const handleEditClick = (student: Student) => {
+        setSelectedStudent(student);
+        setIsUpdateModalOpen(true);
+    };
+
+    const handleUpdateModalClose = () => {
+        setIsUpdateModalOpen(false);
+        setSelectedStudent(null);
     };
 
     const columns: TableColumnsType<Student> = [
@@ -110,7 +123,7 @@ export default function StudentsPage() {
             title: t("columns.action"),
             key: "action",
             width: "10%",
-            render: () => (
+            render: (_, record) => (
                 <div className="flex items-center justify-center gap-2">
                     <Button
                         label=""
@@ -118,7 +131,7 @@ export default function StudentsPage() {
                         variant="secondary"
                         icon={<PencilIcon width={16} height={16} />}
                         iconOnly={true}
-                        onClick={() => {}}
+                        onClick={() => handleEditClick(record)}
                     />
 
                     <Popconfirm
@@ -157,7 +170,7 @@ export default function StudentsPage() {
                     variant="primary"
                     label={t("createButton")}
                     icon={<PlusIcon className="text-white" width={20} height={20}/>}
-                    onClick={() => setIsOpen(true)}
+                    onClick={() => setIsCreateModalOpen(true)}
                 />
             </div>
 
@@ -188,7 +201,18 @@ export default function StudentsPage() {
                 />
             )}
 
-            <CreateStudentModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+            <CreateStudentModal 
+                isOpen={isCreateModalOpen} 
+                onClose={() => setIsCreateModalOpen(false)} 
+            />
+
+            {selectedStudent && (
+                <UpdateStudentModal
+                    student={selectedStudent}
+                    isOpen={isUpdateModalOpen}
+                    onClose={handleUpdateModalClose}
+                />
+            )}
         </>
     )
 }

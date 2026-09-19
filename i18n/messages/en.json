@@ -211,6 +211,35 @@
         "createSuccess": "Student account created successfully",
         "submit": "Create"
     },
+    "UpdateStudentModal": {
+        "title": "Update Student",
+        "subtitle": "Edit the student's information.",
+        "fullNameLabel": "Full Name",
+        "fullNamePlaceholder": "e.g. John Smith",
+        "emailLabel": "Email",
+        "emailPlaceholder": "student@gmail.com",
+        "phoneLabel": "Phone Number (Optional)",
+        "phonePlaceholder": "09xxxxxxxx",
+        "courseLoadError": "Failed to load courses",
+        "courseLabel": "Courses (Optional — you can select multiple courses)",
+        "columns": {
+            "name": "Course Name",
+            "enrollment": "Enrollment",
+            "status": "Status"
+        },
+        "status": {
+            "UPCOMING": "Upcoming",
+            "ACTIVE": "Active",
+            "ENDED": "Ended"
+        },
+        "full": "Full",
+        "errors": {
+            "fullNameRequired": "Please enter a full name",
+            "emailRequired": "Please enter an email"
+        },
+        "createSuccess": "Student account updated successfully",
+        "submit": "Update"
+    }, 
     "AdminAccessControlPage": {
         "title": "Access control",
         "subtitle": "Manage user access permissions.",

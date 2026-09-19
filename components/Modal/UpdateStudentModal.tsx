@@ -2,16 +2,16 @@
 
 import { useTranslations } from "next-intl";
 import Modal from "./Modal";
-import { useAppMessage } from "@/contexts/message-context";
+import { Student, UpdateStudentRequest } from "@/types/user-types";
+import { useMemo, useState } from "react";
 import TextInput from "../FormInput/TextInput";
-import { useState } from "react";
-import { Table, TableColumnsType } from "antd";
-import { Course, CourseStatus } from "@/types/course-types";
-import Button from "../Button";
+import { useAppMessage } from "@/contexts/message-context";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { coursesApi } from "@/lib/api/courses-client";
+import { Course, CourseStatus } from "@/types/course-types";
+import { Table, TableColumnsType } from "antd";
+import Button from "../Button";
 import { userApi } from "@/lib/api/user-client";
-import { CreateStudentRequest } from "@/types/user-types";
 
 const STATUS_STYLE: Record<CourseStatus, string> = {
     UPCOMING: "text-accent-active",
@@ -19,10 +19,11 @@ const STATUS_STYLE: Record<CourseStatus, string> = {
     ENDED: "text-muted",
 };
 
-type CreateStudentModalProps = {
+type UpdateStudentModalProps = {
+    student: Student;
     isOpen: boolean;
     onClose: () => void;
-}
+};
 
 type Errors = {
     fullName?: string;
@@ -33,9 +34,10 @@ type Errors = {
 type CourseTableProps = {
     selectedIds: string[];
     onSelectionChange: (ids: string[]) => void;
+    enrolledIds?: string[];
 };
 
-function CourseTable({ selectedIds, onSelectionChange }: CourseTableProps) {
+function CourseTable({ selectedIds, onSelectionChange, enrolledIds = [] }: CourseTableProps) {
     const t = useTranslations("CreateStudentModal");
 
     const { data, isPending, isError } = useQuery({
@@ -91,7 +93,9 @@ function CourseTable({ selectedIds, onSelectionChange }: CourseTableProps) {
             rowSelection={{
                 selectedRowKeys: selectedIds,
                 onChange: (keys) => onSelectionChange(keys as string[]),
-                getCheckboxProps: (record) => ({ disabled: isFull(record) }),
+                getCheckboxProps: (record) => ({
+                    disabled: isFull(record) && !enrolledIds.includes(record.id),
+                }),
             }}
             columns={columns}
             dataSource={data?.content ?? []}
@@ -103,44 +107,64 @@ function CourseTable({ selectedIds, onSelectionChange }: CourseTableProps) {
     );
 }
 
-export default function CreateStudentModal({ isOpen, onClose } : CreateStudentModalProps) {
-    const t = useTranslations("CreateStudentModal");
+export default function UpdateStudentModal({ student, isOpen, onClose } : UpdateStudentModalProps) {
+    const t = useTranslations("UpdateStudentModal");
     const message = useAppMessage();
     const queryClient = useQueryClient();
 
-    const [fullName, setFullName] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [phoneNumber, setPhoneNumber] = useState<string>("");
-    const [selectedCourseIds, setSelectedCourseIds] = useState<string[]>([]);
+    const [fullName, setFullName] = useState<string>(student.fullName);
+    const [email, setEmail] = useState<string>(student.email);
+    const [phoneNumber, setPhoneNumber] = useState<string>(student.phoneNumber);
+    const [selectedCourseIds, setSelectedCourseIds] = useState<string[]>(student.courses.map((course) => course.id));
 
     const [errors, setErrors] = useState<Errors>({});
 
+    const originalCourseIds = useMemo(() => student.courses.map((course) => course.id), [student]);
+
+    const coursesChanged = useMemo(() => {
+        return (
+            selectedCourseIds.length !== originalCourseIds.length ||
+            !selectedCourseIds.every((id) => originalCourseIds.includes(id))
+        );
+    }, [selectedCourseIds, originalCourseIds]);
+
+    const isDirty = useMemo(() => {
+        return (
+            fullName !== student.fullName ||
+            email !== student.email ||
+            phoneNumber !== student.phoneNumber ||
+            coursesChanged
+        );
+    }, [fullName, email, phoneNumber, student, coursesChanged]);
+
     const handleClose = () => {
-        setFullName("");
-        setEmail("");
-        setPhoneNumber("");
-        setSelectedCourseIds([]);
+        setFullName(student.fullName);
+        setEmail(student.email);
+        setPhoneNumber(student.phoneNumber);
+        setSelectedCourseIds(student.courses.map((course) => course.id));
         setErrors({});
         onClose();
-    }
+    };
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (data: CreateStudentRequest) => userApi.createStudentAccount(data),
+        mutationFn: (data: UpdateStudentRequest) => userApi.updateStudentAccount(student.id, data),
         onSuccess: async () => {
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ["students"]}),
                 queryClient.invalidateQueries({ queryKey: ["courses", "enrollable"]})
             ]);
-            message.success(t("createSuccess"));
+            message.success(t("updateSuccess"));
             handleClose();
         },
         onError: (error) => {
             message.error(error.message);
         }
-    })
+    });
 
     const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!isDirty) return;
 
         const newErrors: Errors = {};
 
@@ -158,13 +182,15 @@ export default function CreateStudentModal({ isOpen, onClose } : CreateStudentMo
             return;
         }
 
-        mutate({
-            fullName,
-            email,
-            phoneNumber,
-            courseIds: selectedCourseIds
-        });
-    }
+        const payload: UpdateStudentRequest = {};
+        
+        if (fullName !== student.fullName) payload.fullName = fullName;
+        if (email !== student.email) payload.email = email;
+        if (phoneNumber !== student.phoneNumber) payload.phoneNumber = phoneNumber;
+        if (coursesChanged) payload.courseIds = selectedCourseIds;
+
+        mutate(payload);
+    };
 
     return (
         <Modal
@@ -207,6 +233,7 @@ export default function CreateStudentModal({ isOpen, onClose } : CreateStudentMo
                     <CourseTable
                         selectedIds={selectedCourseIds}
                         onSelectionChange={setSelectedCourseIds}
+                        enrolledIds={originalCourseIds}
                     />
                 </div>
 
@@ -215,6 +242,7 @@ export default function CreateStudentModal({ isOpen, onClose } : CreateStudentMo
                         label={t("submit")}
                         type="submit"
                         loading={isPending}
+                        disabled={!isDirty}
                     />
                 </div>
             </form>

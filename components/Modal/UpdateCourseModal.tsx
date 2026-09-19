@@ -61,10 +61,12 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
 
     const { mutate, isPending } = useMutation({
         mutationFn: (data: UpdateCourseRequest) => coursesApi.update(course.id, data),
-        onSuccess: () => {
+        onSuccess: async () => {
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: ["courses"] }),
+                queryClient.invalidateQueries({ queryKey: ["course", course.id] })
+            ]);
             message.success(t("updateSuccess"));
-            queryClient.invalidateQueries({ queryKey: ["courses"] });
-            queryClient.invalidateQueries({ queryKey: ["course", course.id] });
             setErrors({});
             onClose();
         },

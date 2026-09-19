@@ -1,4 +1,4 @@
-import { CreateStudentRequest, StudentListResponse } from "@/types/user-types";
+import { CreateStudentRequest, StudentListResponse, UpdateStudentRequest } from "@/types/user-types";
 import { http } from "./http";
 
 type ListStudentsParams = {
@@ -22,5 +22,6 @@ function buildQuery(params: ListStudentsParams): string {
 
 export const userApi = {
     createStudentAccount: (data: CreateStudentRequest) => http.post<void>("/api/users/students", data),
-    getAllStudentAccounts: (params: ListStudentsParams) => http.get<StudentListResponse>(`/api/users/students?${buildQuery(params)}`)
+    getAllStudentAccounts: (params: ListStudentsParams) => http.get<StudentListResponse>(`/api/users/students?${buildQuery(params)}`),
+    updateStudentAccount: (userId: string, data: UpdateStudentRequest) => http.patch<void>(`/api/users/students/${userId}`, data)
 };

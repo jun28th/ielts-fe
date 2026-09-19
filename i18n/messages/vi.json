@@ -211,6 +211,35 @@
         "createSuccess": "Tạo tài khoản thành công",
         "submit": "Tạo mới"
     },
+    "UpdateStudentModal": {
+        "title": "Cập nhật học viên",
+        "subtitle": "Chỉnh sửa thông tin học viên.",
+        "fullNameLabel": "Họ và tên",
+        "fullNamePlaceholder": "Ví dụ: Nguyễn Văn A",
+        "emailLabel": "Email",
+        "emailPlaceholder": "hocvien@gmail.com",
+        "phoneLabel": "Số điện thoại (Tuỳ chọn)",
+        "phonePlaceholder": "09xxxxxxxx",
+        "courseLoadError": "Không thể tải danh sách khoá học",
+        "courseLabel": "Khoá học (Tuỳ chọn — có thể chọn nhiều khoá học)",
+        "columns": {
+            "name": "Tên khoá học",
+            "enrollment": "Sĩ số",
+            "status": "Trạng thái"
+        },
+        "status": {
+            "UPCOMING": "Sắp bắt đầu",
+            "ACTIVE": "Đang hoạt động",
+            "ENDED": "Kết thúc"
+        },
+        "full": "Đã đầy",
+        "errors": {
+            "fullNameRequired": "Vui lòng nhập tên",
+            "emailRequired": "Vui lòng nhập email"
+        },
+        "updateSuccess": "Cập nhật tài khoản thành công",
+        "submit": "Cập nhật"
+    },
     "AdminAccessControlPage": {
         "title": "Phân quyền",
         "subtitle": "Quản lý quyền truy cập cho người dùng.",

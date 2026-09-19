@@ -7,6 +7,8 @@ export type CreateStudentRequest = {
     courseIds: string[];
 }
 
+export type UpdateStudentRequest = Partial<CreateStudentRequest>;
+
 export type CourseSummary = {
     id: string;
     name: string;
