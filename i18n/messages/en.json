@@ -129,7 +129,6 @@
             "cancelText": "Cancel"
         },
         "deleteSuccess": "Course deleted successfully",
-        "createdByLabel": "Created by {name}",
         "startDateLabel": "Start date",
         "sessionsLabel": "Sessions",
         "scheduledWeeksLabel": "Weeks scheduled",

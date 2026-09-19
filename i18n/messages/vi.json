@@ -129,7 +129,6 @@
             "cancelText": "Hủy"
         },
         "deleteSuccess": "Xoá khoá học thành công",
-        "createdByLabel": "Tạo bởi {name}",
         "startDateLabel": "Khai giảng",
         "sessionsLabel": "Tổng số buổi",
         "scheduledWeeksLabel": "Số tuần đã lên lịch",
