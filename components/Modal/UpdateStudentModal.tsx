@@ -38,7 +38,7 @@ type CourseTableProps = {
 };
 
 function CourseTable({ selectedIds, onSelectionChange, enrolledIds = [] }: CourseTableProps) {
-    const t = useTranslations("CreateStudentModal");
+    const t = useTranslations("TeacherStudentsPage.CreateStudentModal");
 
     const { data, isPending, isError } = useQuery({
         queryKey: ["courses", "enrollable"],
@@ -108,7 +108,7 @@ function CourseTable({ selectedIds, onSelectionChange, enrolledIds = [] }: Cours
 }
 
 export default function UpdateStudentModal({ student, isOpen, onClose } : UpdateStudentModalProps) {
-    const t = useTranslations("UpdateStudentModal");
+    const t = useTranslations("TeacherStudentsPage.UpdateStudentModal");
     const message = useAppMessage();
     const queryClient = useQueryClient();
 

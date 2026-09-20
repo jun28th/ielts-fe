@@ -27,7 +27,7 @@ type Errors = {
 }
 
 export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCourseModalProps) {
-    const t = useTranslations("UpdateCourseModal");
+    const t = useTranslations("TeacherCourseDetailPage.UpdateCourseModal");
     const message = useAppMessage();
     const queryClient = useQueryClient();
 

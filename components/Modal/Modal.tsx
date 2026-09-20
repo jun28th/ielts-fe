@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import CloseIcon from "../Icons/CloseIcon";
 
-type ModalSize = "sm" | "md" | "lg" | "xl";
+type ModalSize = "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
 
 const SIZE_CLASS: Record<ModalSize, string> = {
     sm: "max-w-sm",
     md: "max-w-md",
     lg: "max-w-lg",
     xl: "max-w-xl",
+    "2xl": "max-w-2xl",
+    "3xl": "max-w-3xl"
 }
 
 type ModalProps = {

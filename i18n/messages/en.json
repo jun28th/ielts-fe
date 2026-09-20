@@ -87,29 +87,29 @@
         "startDateLabel": "Starts:",
         "sessionsLabel": "Total sessions:",
         "capacityLabel": "Capacity:",
-        "capacityValue": "{min}–{max} students"
-    },
-    "CreateCourseModal": {
-        "title": "Create a new course",
-        "subtitle": "Fill in the course details below.",
-        "createSuccess": "Course created successfully",
-        "nameLabel": "Course name",
-        "namePlaceholder": "e.g. IELTS Foundation - Course A1",
-        "sessionLabel": "Total sessions",
-        "sessionPlaceholder": "e.g. 24",
-        "rangeLabel": "Student count (range)",
-        "minPlaceholder": "Min",
-        "maxPlaceholder": "Max",
-        "rangeSuffix": "students",
-        "dateLabel": "Start date",
-        "submit": "Create",
-        "errors": {
-            "nameRequired": "Please enter a course name",
-            "sessionRequired": "Enter a number of sessions greater than 0",
-            "minStudentsRequired": "Enter a minimum of 0 or more",
-            "maxStudentsRequired": "Enter a maximum greater than 0",
-            "startDateRequired": "Please pick a start date",
-            "rangeInvalid": "Minimum cannot be greater than maximum"
+        "capacityValue": "{min}–{max} students",
+        "CreateCourseModal": {
+            "title": "Create a new course",
+            "subtitle": "Fill in the course details below.",
+            "createSuccess": "Course created successfully",
+            "nameLabel": "Course name",
+            "namePlaceholder": "e.g. IELTS Foundation - Course A1",
+            "sessionLabel": "Total sessions",
+            "sessionPlaceholder": "e.g. 24",
+            "rangeLabel": "Student count (range)",
+            "minPlaceholder": "Min",
+            "maxPlaceholder": "Max",
+            "rangeSuffix": "students",
+            "dateLabel": "Start date",
+            "submit": "Create",
+            "errors": {
+                "nameRequired": "Please enter a course name",
+                "sessionRequired": "Enter a number of sessions greater than 0",
+                "minStudentsRequired": "Enter a minimum of 0 or more",
+                "maxStudentsRequired": "Enter a maximum greater than 0",
+                "startDateRequired": "Please pick a start date",
+                "rangeInvalid": "Minimum cannot be greater than maximum"
+            }
         }
     },
     "TeacherCourseDetailPage": {
@@ -133,30 +133,30 @@
         "sessionsLabel": "Sessions",
         "scheduledWeeksLabel": "Weeks scheduled",
         "capacityLabel": "Capacity",
-        "capacityValue": "{min}–{max} students"
-    },
-    "UpdateCourseModal" : {
-        "title": "Update course",
-        "subtitle": "Edit in the course details below.",
-        "updateSuccess": "Course updated successfully",
-        "nameLabel": "Course name",
-        "namePlaceholder": "e.g. IELTS Foundation - Course A1",
-        "sessionLabel": "Total sessions",
-        "sessionPlaceholder": "e.g. 24",
-        "rangeLabel": "Student count (range)",
-        "minPlaceholder": "Min",
-        "maxPlaceholder": "Max",
-        "rangeSuffix": "students",
-        "dateLabel": "Start date",
-        "save": "Update",
-        "errors": {
-            "nameRequired": "Please enter a course name",
-            "sessionRequired": "Enter a number of sessions greater than 0",
-            "minStudentsRequired": "Enter a minimum of 0 or more",
-            "maxStudentsRequired": "Enter a maximum greater than 0",
-            "startDateRequired": "Please pick a start date",
-            "maxStudentsBelowEnrolled": "Maximum students cannot be less than the current enrolled count ({count})",
-            "rangeInvalid": "Minimum cannot be greater than maximum"
+        "capacityValue": "{min}–{max} students",
+        "UpdateCourseModal" : {
+            "title": "Update course",
+            "subtitle": "Edit in the course details below.",
+            "updateSuccess": "Course updated successfully",
+            "nameLabel": "Course name",
+            "namePlaceholder": "e.g. IELTS Foundation - Course A1",
+            "sessionLabel": "Total sessions",
+            "sessionPlaceholder": "e.g. 24",
+            "rangeLabel": "Student count (range)",
+            "minPlaceholder": "Min",
+            "maxPlaceholder": "Max",
+            "rangeSuffix": "students",
+            "dateLabel": "Start date",
+            "save": "Update",
+            "errors": {
+                "nameRequired": "Please enter a course name",
+                "sessionRequired": "Enter a number of sessions greater than 0",
+                "minStudentsRequired": "Enter a minimum of 0 or more",
+                "maxStudentsRequired": "Enter a maximum greater than 0",
+                "startDateRequired": "Please pick a start date",
+                "maxStudentsBelowEnrolled": "Maximum students cannot be less than the current enrolled count ({count})",
+                "rangeInvalid": "Minimum cannot be greater than maximum"
+            }
         }
     },
     "TeacherStudentsPage": {
@@ -180,66 +180,75 @@
             "okText": "Delete",
             "cancelText": "Cancel"
         },
-        "deleteSuccess": "Account deleted successfully"
+        "deleteSuccess": "Account deleted successfully",
+        "CreateStudentModal": {
+            "title": "Add New Student",
+            "subtitle": "Fill in the information to create a new student account.",
+            "fullNameLabel": "Full Name",
+            "fullNamePlaceholder": "e.g. John Smith",
+            "emailLabel": "Email",
+            "emailPlaceholder": "student@gmail.com",
+            "phoneLabel": "Phone Number (Optional)",
+            "phonePlaceholder": "09xxxxxxxx",
+            "courseLoadError": "Failed to load courses",
+            "courseLabel": "Courses (Optional — you can select multiple courses)",
+            "columns": {
+                "name": "Course Name",
+                "enrollment": "Enrollment",
+                "status": "Status"
+            },
+            "status": {
+                "UPCOMING": "Upcoming",
+                "ACTIVE": "Active",
+                "ENDED": "Ended"
+            },
+            "full": "Full",
+            "errors": {
+                "fullNameRequired": "Please enter a full name",
+                "emailRequired": "Please enter an email"
+            },
+            "createSuccess": "Student account created successfully",
+            "submit": "Create"
+        },
+        "UpdateStudentModal": {
+            "title": "Update Student",
+            "subtitle": "Edit the student's information.",
+            "fullNameLabel": "Full Name",
+            "fullNamePlaceholder": "e.g. John Smith",
+            "emailLabel": "Email",
+            "emailPlaceholder": "student@gmail.com",
+            "phoneLabel": "Phone Number (Optional)",
+            "phonePlaceholder": "09xxxxxxxx",
+            "courseLoadError": "Failed to load courses",
+            "courseLabel": "Courses (Optional — you can select multiple courses)",
+            "columns": {
+                "name": "Course Name",
+                "enrollment": "Enrollment",
+                "status": "Status"
+            },
+            "status": {
+                "UPCOMING": "Upcoming",
+                "ACTIVE": "Active",
+                "ENDED": "Ended"
+            },
+            "full": "Full",
+            "errors": {
+                "fullNameRequired": "Please enter a full name",
+                "emailRequired": "Please enter an email"
+            },
+            "createSuccess": "Student account updated successfully",
+            "submit": "Update"
+        }
     },
-    "CreateStudentModal": {
-        "title": "Add New Student",
-        "subtitle": "Fill in the information to create a new student account.",
-        "fullNameLabel": "Full Name",
-        "fullNamePlaceholder": "e.g. John Smith",
-        "emailLabel": "Email",
-        "emailPlaceholder": "student@gmail.com",
-        "phoneLabel": "Phone Number (Optional)",
-        "phonePlaceholder": "09xxxxxxxx",
-        "courseLoadError": "Failed to load courses",
-        "courseLabel": "Courses (Optional — you can select multiple courses)",
-        "columns": {
-            "name": "Course Name",
-            "enrollment": "Enrollment",
-            "status": "Status"
-        },
-        "status": {
-            "UPCOMING": "Upcoming",
-            "ACTIVE": "Active",
-            "ENDED": "Ended"
-        },
-        "full": "Full",
-        "errors": {
-            "fullNameRequired": "Please enter a full name",
-            "emailRequired": "Please enter an email"
-        },
-        "createSuccess": "Student account created successfully",
-        "submit": "Create"
+    "QuestionBankWritingPage": {
+        "title": "Writing Question Bank",
+        "subtitle": "List of Writing test questions used for classes.",
+        "createButton": "Create Writing Question",
+        "CreateWritingQuestionModal": {
+            "title": "Create Writing Question",
+            "subtitle": "Fill in the Writing question details."
+        }
     },
-    "UpdateStudentModal": {
-        "title": "Update Student",
-        "subtitle": "Edit the student's information.",
-        "fullNameLabel": "Full Name",
-        "fullNamePlaceholder": "e.g. John Smith",
-        "emailLabel": "Email",
-        "emailPlaceholder": "student@gmail.com",
-        "phoneLabel": "Phone Number (Optional)",
-        "phonePlaceholder": "09xxxxxxxx",
-        "courseLoadError": "Failed to load courses",
-        "courseLabel": "Courses (Optional — you can select multiple courses)",
-        "columns": {
-            "name": "Course Name",
-            "enrollment": "Enrollment",
-            "status": "Status"
-        },
-        "status": {
-            "UPCOMING": "Upcoming",
-            "ACTIVE": "Active",
-            "ENDED": "Ended"
-        },
-        "full": "Full",
-        "errors": {
-            "fullNameRequired": "Please enter a full name",
-            "emailRequired": "Please enter an email"
-        },
-        "createSuccess": "Student account updated successfully",
-        "submit": "Update"
-    }, 
     "AdminAccessControlPage": {
         "title": "Access control",
         "subtitle": "Manage user access permissions.",

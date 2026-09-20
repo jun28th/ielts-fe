@@ -26,7 +26,7 @@ type Errors = {
 }
 
 export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModalProps) {
-    const t = useTranslations("CreateCourseModal");
+    const t = useTranslations("TeacherCoursesPage.CreateCourseModal");
     const message = useAppMessage();
 
     const [name, setName] = useState<string>("");
