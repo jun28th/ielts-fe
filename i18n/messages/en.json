@@ -246,7 +246,33 @@
         "createButton": "Create Writing Question",
         "CreateWritingQuestionModal": {
             "title": "Create Writing Question",
-            "subtitle": "Fill in the Writing question details."
+            "subtitle": "Fill in the Writing question details.",
+            "titleLabel": "Title",
+            "titlePlaceholder": "e.g. Urban and rural population chart",
+            "promptLabel": "Prompt",
+            "promptPlaceholder": "Enter the writing prompt...",
+            "typeLabel": "Task type",
+            "difficultyLabel": "Difficulty",
+            "difficultyEasy": "Easy",
+            "difficultyMedium": "Medium",
+            "difficultyHard": "Hard",
+            "uploadLabel": "Attached image",
+            "uploadText": "Click or drag an image to this area",
+            "uploadHint": "PNG, JPG or WEBP, up to {size}MB",
+            "crops": {
+                "title": "Crop image",
+                "ok": "Confirm",
+                "cancel": "Cancel",
+                "reset": "Reset"
+            },
+            "errorImageType": "Only PNG, JPG or WEBP images are allowed",
+            "errorImageSize": "Image must be smaller than {size}MB",
+            "submit": "Create",
+            "errors": {
+                "titleRequired": "Please enter a title",
+                "promptRequired": "Please enter a prompt"
+            },
+            "createSuccess": "Question created successfully"
         }
     },
     "AdminAccessControlPage": {
@@ -259,10 +285,8 @@
         "noRoles": "No roles yet",
         "permissionsFor": "Permissions for role:",
         "columns": {
-            "code": "Code",
-            "tag": "Group",
             "name": "Permission",
-            "description": "Description"
+            "tag": "Group"
         },
         "transfer": {
             "available": "Available permissions",

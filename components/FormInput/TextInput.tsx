@@ -7,10 +7,12 @@ type BaseProps = {
     placeholder?: string;
     error?: string;
     rightSlot?: React.ReactNode;
+    maxLength?: number;
+    rows?: number;
 };
 
 type StringTextInputProps = BaseProps & {
-    type?: "text" | "email" | "password";
+    type?: "text" | "email" | "password" | "textarea";
     value: string;
     onChange: (value: string) => void;
 };
@@ -24,8 +26,9 @@ type NumberTextInputProps = BaseProps & {
 type TextInputProps = StringTextInputProps | NumberTextInputProps;
 
 export default function TextInput(props: TextInputProps) {
-    const { label, placeholder, error, rightSlot, type = "text" } = props;
+    const { label, placeholder, error, rightSlot, maxLength, rows = 6, type = "text" } = props;
     const isPassword = type === "password";
+    const isTextarea = type === "textarea";
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const handleChange = (raw: string) => {
@@ -35,6 +38,10 @@ export default function TextInput(props: TextInputProps) {
             props.onChange(raw);
         }
     };
+
+    const baseClass = `w-full rounded-lg border border-border px-3.5 text-base text-fg outline-none transition-colors placeholder:text-muted placeholder:text-sm focus:border-accent focus:ring-3 focus:ring-accent-bg
+        ${error ? "border-error focus:ring-error-bg" : "border-border"}
+    `;
 
     return (
         <div className="flex flex-col gap-1.5">
@@ -46,16 +53,25 @@ export default function TextInput(props: TextInputProps) {
             )}
 
             <div className="relative">
-                <input
-                    type={isPassword && showPassword ? "text" : type}
-                    value={props.value}
-                    onChange={(e) => handleChange(e.target.value)}
-                    placeholder={placeholder}
-                    className={`w-full h-11 rounded-lg border border-border px-3.5 text-base text-fg outline-none transition-colors placeholder:text-muted placeholder:text-sm focus:border-accent focus:ring-3 focus:ring-accent-bg 
-                        ${isPassword ? "pr-11" : ""}
-                        ${error ? "border-error focus:ring-error-bg" : "border-border"}
-                    `}
-                />
+                {isTextarea ? (
+                    <textarea
+                        value={props.value}
+                        onChange={(e) => handleChange(e.target.value)}
+                        placeholder={placeholder}
+                        maxLength={maxLength}
+                        rows={rows}
+                        className={`${baseClass} py-3 resize-y`}
+                    />
+                ) : (
+                    <input
+                        type={isPassword && showPassword ? "text" : type}
+                        value={props.value}
+                        onChange={(e) => handleChange(e.target.value)}
+                        placeholder={placeholder}
+                        maxLength={maxLength}
+                        className={`${baseClass} h-11 ${isPassword ? "pr-11" : ""}`}
+                    />
+                )}
 
                 {isPassword && (
                     <button

@@ -49,6 +49,9 @@ export default async function Providers({ children } : { children : React.ReactN
                     },
                     Table: {
                         borderColor: "var(--color-border)"
+                    },
+                    Select: {
+                        colorPrimary: "var(--color-accent)"
                     }
                 }
             }}

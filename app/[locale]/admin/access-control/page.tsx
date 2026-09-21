@@ -6,7 +6,7 @@ import { permissionsApi } from "@/lib/api/permissions-client";
 import { rolesApi } from "@/lib/api/roles-client";
 import { Permission, Role } from "@/types/role-types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Table, TableColumnsType, TableProps, Tag, Transfer, TransferProps } from "antd";
+import { Table, TableColumnsType, TableProps, Tag, Tooltip, Transfer, TransferProps } from "antd";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
@@ -25,6 +25,10 @@ const TAG_COLORS = [
 function getTag(code: string): string {
     const [, ...rest] = code.split("_");
     return rest.length > 0 ? rest.join("_") : code;
+}
+
+function formatTag(tag: string): string {
+    return tag.replaceAll("_", " ");
 }
 
 function getTagColor(tag: string): string {
@@ -98,27 +102,38 @@ function RolePermissionTransfer({ role, permissions }: { role: Role; permissions
         () =>
             Array.from(new Set(dataSource.map((item) => item.tag)))
                 .sort()
-                .map((tag) => ({ text: tag, value: tag })),
+                .map((tag) => ({ text: formatTag(tag), value: tag })),
         [dataSource],
     );
 
     const columns = useMemo<TableColumnsType<PermissionItem>>(
         () => [
-            { title: t("columns.code"), dataIndex: "code" },
+            {
+                title: t("columns.name"),
+                dataIndex: "name",
+                width: "60%",
+                ellipsis: { showTitle: false },
+                render: (_: string, record) => (
+                    <Tooltip placement="topLeft" title={record.description}>
+                        <div className="min-w-0">
+                            <p className="truncate text-sm font-medium text-fg">{record.name}</p>
+                            <p className="truncate font-mono text-xs text-muted">{record.code}</p>
+                        </div>
+                    </Tooltip>
+                ),
+            },
             {
                 title: t("columns.tag"),
                 dataIndex: "tag",
-                width: 140,
+                width: "40%",
                 filters: tagFilters,
                 onFilter: (value, record) => record.tag === value,
                 render: (tag: string) => (
                     <Tag color={getTagColor(tag)} style={{ marginInlineEnd: 0 }}>
-                        {tag}
+                        {formatTag(tag)}
                     </Tag>
                 ),
             },
-            { title: t("columns.name"), dataIndex: "name" },
-            { title: t("columns.description"), dataIndex: "description" },
         ],
         [t, tagFilters],
     );

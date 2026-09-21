@@ -4,13 +4,18 @@ class ApiError extends Error {
     }
 }
 
+function toBody(data: unknown): BodyInit {
+    if (data instanceof FormData) return data;
+    return JSON.stringify(data);
+}
+
 async function request<T>(input: string, init?: RequestInit): Promise<T> {
-    const isFormData = init?.body instanceof FormData;
+    const isJson = typeof init?.body === "string";
 
     const res = await fetch(input, {
         ...init,
         headers: {
-            ...(isFormData ? {} : { "Content-Type": "application/json" }),
+            ...(isJson ? { "Content-Type": "application/json" } : {}),
             ...init?.headers,
         },
     });
@@ -27,8 +32,8 @@ async function request<T>(input: string, init?: RequestInit): Promise<T> {
 
 export const http = {
     get: <T>(url: string) => request<T>(url, { method: "GET" }),
-    post: <T>(url: string, data: unknown) => request<T>(url, { method: "POST", body: JSON.stringify(data) }),
-    patch: <T>(url: string, data: unknown) => request<T>(url, { method: "PATCH", body: JSON.stringify(data) }),
+    post: <T>(url: string, data: unknown) => request<T>(url, { method: "POST", body: toBody(data) }),
+    patch: <T>(url: string, data: unknown) => request<T>(url, { method: "PATCH", body: toBody(data) }),
     delete: <T>(url: string) => request<T>(url, { method: "DELETE" })
 };
 
