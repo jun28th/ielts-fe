@@ -1,19 +1,150 @@
 "use client";
 
 import Button from "@/components/Button";
+import PencilIcon from "@/components/Icons/PencilIcon";
 import PlusIcon from "@/components/Icons/PlusIcon";
+import TrashIcon from "@/components/Icons/TrashIcon";
 import CreateWritingQuestionModal from "@/components/Modal/CreateWritingQuestionModal";
+import UpdateWritingQuestionModal from "@/components/Modal/UpdateWritingQuestionModal";
+import { WritingQuestionApi } from "@/lib/api/writing-question-client";
+import { WritingDifficulty, WritingQuestion, WritingTaskType } from "@/types/writing-question-types";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { Image, Popconfirm, Table, TableColumnsType, Tag, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+
+const DEFAULT_PAGE_SIZE = 10;
+
+const TASK_TYPE_COLORS: Record<WritingTaskType, string> = {
+    TASK_1: "blue",
+    TASK_2: "purple",
+};
+
+const DIFFICULTY_COLORS: Record<WritingDifficulty, string> = {
+    EASY: "green",
+    MEDIUM: "gold",
+    HARD: "red",
+};
 
 export default function QuestionBankWritingPage() {
     const t = useTranslations("QuestionBankWritingPage");
 
     const [isCreateModalOpen, setCreateModalOpen] = useState<boolean>(false);
-    
+    const [isUpdateModalOpen, setUpdateModalOpen] = useState<boolean>(false);
+    const [selectedQuestion, setSelectedQuestion] = useState<WritingQuestion | null>(null);
+
+    const [page, setPage] = useState<number>(0);
+
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["writingQuestions", page],
+        queryFn: () => WritingQuestionApi.list({
+            page,
+            size: DEFAULT_PAGE_SIZE
+        }),
+        placeholderData: keepPreviousData
+    });
+
+    const handleEditClick = (question: WritingQuestion) => {
+        setSelectedQuestion(question);
+        setUpdateModalOpen(true);
+    };
+
+    const columns: TableColumnsType<WritingQuestion> = [
+        {
+            title: t("columns.question"),
+            dataIndex: "title",
+            ellipsis: { showTitle: false },
+            render: (_: string, record) => (
+                <Tooltip
+                    placement="topLeft"
+                    title={<span className="whitespace-pre-line">{record.prompt}</span>}
+                >
+                    <div className="min-w-0">
+                        <p className="truncate text-sm font-medium text-fg">{record.title}</p>
+                        <p className="truncate text-xs text-muted">{record.prompt}</p>
+                    </div>
+                </Tooltip>
+            ),
+        },
+        {
+            title: t("columns.taskType"),
+            dataIndex: "taskType",
+            align: "center",
+            width: "10%",
+            render: (taskType: WritingTaskType) => (
+                <Tag color={TASK_TYPE_COLORS[taskType]} style={{ marginInlineEnd: 0 }}>
+                    {t(`taskType.${taskType}`)}
+                </Tag>
+            ),
+        },
+        {
+            title: t("columns.difficulty"),
+            dataIndex: "difficulty",
+            align: "center",
+            width: "10%",
+            render: (difficulty: WritingDifficulty) => (
+                <Tag color={DIFFICULTY_COLORS[difficulty]} style={{ marginInlineEnd: 0 }}>
+                    {t(`difficulty.${difficulty}`)}
+                </Tag>
+            ),
+        },
+        {
+            title: t("columns.image"),
+            dataIndex: "imageUrl",
+            align: "center",
+            width: "15%",
+            render: (imageUrl: string | null) =>
+                imageUrl ? (
+                    <Image
+                        src={imageUrl}
+                        alt=""
+                        width={48}
+                        height={48}
+                        style={{ objectFit: "cover", borderRadius: 6 }}
+                    />
+                ) : (
+                    <span className="text-muted">—</span>
+                ),
+        },
+        {
+            title: t("columns.action"),
+            key: "action",
+            align: "center",
+            width: "10%",
+            render: (_, record) => (
+                <div className="flex items-center justify-center gap-2">
+                    <Button
+                        label=""
+                        type="button"
+                        variant="secondary"
+                        icon={<PencilIcon width={16} height={16} />}
+                        iconOnly={true}
+                        onClick={() => handleEditClick(record)}
+                    />
+
+                    <Popconfirm
+                        title={t("deletePopconfirm.title")}
+                        description={t("deletePopconfirm.subtitle")}
+                        placement="bottomRight"
+                        okText={t("deletePopconfirm.okText")}
+                        cancelText={t("deletePopconfirm.cancelText")}
+                        onConfirm={() => {}}
+                    >
+                        <button
+                            type="button"
+                            className="inline-flex h-8 w-8 flex-none items-center justify-center rounded-lg border border-border bg-bg text-muted transition-colors cursor-pointer hover:border-error hover:bg-error-bg hover:text-error"
+                        >
+                            <TrashIcon width={16} height={16} />
+                        </button>
+                    </Popconfirm>
+                </div>
+            )
+        }
+    ];
+
     return (
         <>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-4">
                 <div>
                     <h1 className="font-serif font-bold text-2xl mb-1">
                         {t("title")}
@@ -31,10 +162,38 @@ export default function QuestionBankWritingPage() {
                 />
             </div>
 
+            {isError ? (
+                <p className="text-sm text-red-500">{t("loadError")}</p>
+            ) : (
+                <Table<WritingQuestion>
+                    rowKey="id"
+                    bordered={true}
+                    columns={columns}
+                    dataSource={data?.content ?? []}
+                    loading={isLoading}
+                    tableLayout="fixed"
+                    pagination={{
+                        current: page + 1,
+                        pageSize: DEFAULT_PAGE_SIZE,
+                        total: data?.totalElements ?? 0,
+                        showSizeChanger: false,
+                        onChange: (p) => setPage(p - 1),
+                    }}
+                />
+            )}
+
             <CreateWritingQuestionModal
                 isOpen={isCreateModalOpen}
                 onClose={() => setCreateModalOpen(false)}
             />
+
+            {selectedQuestion && (
+                <UpdateWritingQuestionModal
+                    question={selectedQuestion}
+                    isOpen={isUpdateModalOpen}
+                    onClose={() => setUpdateModalOpen(false)}
+                />
+            )}
         </>
     );
 }

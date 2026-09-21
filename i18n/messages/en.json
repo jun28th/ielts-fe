@@ -242,8 +242,31 @@
     },
     "QuestionBankWritingPage": {
         "title": "Writing Question Bank",
-        "subtitle": "List of Writing test questions used for classes.",
+        "subtitle": "List of Writing test questions used for courses.",
         "createButton": "Create Writing Question",
+        "columns": {
+            "question": "Question",
+            "taskType": "Task type",
+            "difficulty": "Difficulty",
+            "image": "Image",
+            "action": "Action"
+        },
+        "taskType": {
+            "TASK_1": "Task 1",
+            "TASK_2": "Task 2"
+        },
+        "difficulty": {
+            "EASY": "Easy",
+            "MEDIUM": "Medium",
+            "HARD": "Hard"
+        },
+        "loadError": "Failed to load writing questions.",
+        "deletePopconfirm": {
+            "title": "Delete question",
+            "subtitle": "Are you sure you want to delete this question?",
+            "okText": "Delete",
+            "cancelText": "Cancel"
+        },
         "CreateWritingQuestionModal": {
             "title": "Create Writing Question",
             "subtitle": "Fill in the Writing question details.",
@@ -273,6 +296,10 @@
                 "promptRequired": "Please enter a prompt"
             },
             "createSuccess": "Question created successfully"
+        },
+        "UpdateWritingQuestionModal": {
+            "title": "Update writing question",
+            "subtitle": "Edit the writing question details."
         }
     },
     "AdminAccessControlPage": {

@@ -242,8 +242,31 @@
     },
     "QuestionBankWritingPage": {
         "title": "Kho đề Writing",
-        "subtitle": "Danh sách đề thi Writing dùng cho các lớp học.",
+        "subtitle": "Danh sách đề thi Writing dùng cho các khoá học.",
         "createButton": "Tạo đề writing",
+        "columns": {
+            "question": "Đề bài",
+            "taskType": "Dạng bài",
+            "difficulty": "Độ khó",
+            "image": "Hình ảnh",
+            "action": "Thao tác"
+        },
+        "taskType": {
+            "TASK_1": "Task 1",
+            "TASK_2": "Task 2"
+        },
+        "difficulty": {
+            "EASY": "Dễ",
+            "MEDIUM": "Trung bình",
+            "HARD": "Khó"
+        },
+        "loadError": "Không tải được danh sách đề bài.",
+        "deletePopconfirm": {
+            "title": "Xóa đề",
+            "subtitle": "Bạn có chắc chắn muốn xóa đề này?",
+            "okText": "Xóa",
+            "cancelText": "Hủy"
+        },
         "CreateWritingQuestionModal": {
             "title": "Tạo đề writing",
             "subtitle": "Điền thông tin đề writing.",
@@ -273,6 +296,10 @@
                 "promptRequired": "Vui lòng nhập đề bài"
             },
             "createSuccess": "Tạo đề thành công"
+        },
+        "UpdateWritingQuestionModal": {
+            "title": "Cập nhật đề writing",
+            "subtitle": "Chỉnh sửa thông tin đề writing."
         }
     },
     "AdminAccessControlPage": {

@@ -17,3 +17,11 @@ export type WritingQuestion = {
 export type CreateWritingQuestionRequest = Omit<WritingQuestion, "id" | "imageUrl" | "createdAt"> & {
     image?: File;
 };
+
+export type WritingQuestionListResponse = {
+    content: WritingQuestion[];
+    page: number;
+    size: number;
+    totalElements: number;
+    totalPages: number;
+};
