@@ -267,6 +267,7 @@
             "okText": "Xóa",
             "cancelText": "Hủy"
         },
+        "deleteSuccess": "Xoá đề thành công",
         "CreateWritingQuestionModal": {
             "title": "Tạo đề writing",
             "subtitle": "Điền thông tin đề writing.",
@@ -299,7 +300,33 @@
         },
         "UpdateWritingQuestionModal": {
             "title": "Cập nhật đề writing",
-            "subtitle": "Chỉnh sửa thông tin đề writing."
+            "subtitle": "Chỉnh sửa thông tin đề writing.",
+            "titleLabel": "Tiêu đề",
+            "titlePlaceholder": "Ví dụ: Biểu đồ dân số thành thị và nông thôn",
+            "promptLabel": "Đề bài",
+            "promptPlaceholder": "Nhập nội dung đề bài writing...",
+            "typeLabel": "Dạng bài",
+            "difficultyLabel": "Độ khó",
+            "difficultyEasy": "Dễ",
+            "difficultyMedium": "Trung bình",
+            "difficultyHard": "Khó",
+            "uploadLabel": "Hình ảnh đính kèm",
+            "uploadText": "Nhấp hoặc kéo thả hình ảnh vào khu vực này",
+            "uploadHint": "PNG, JPG hoặc WEBP, tối đa {size}MB",
+            "crops": {
+                "title": "Cắt ảnh",
+                "ok": "Xác nhận",
+                "cancel": "Hủy",
+                "reset": "Đặt lại"
+            },
+            "errorImageType": "Chỉ chấp nhận ảnh PNG, JPG hoặc WEBP",
+            "errorImageSize": "Ảnh phải nhỏ hơn {size}MB",
+            "submit": "Cập nhật",
+            "errors": {
+                "titleRequired": "Vui lòng nhập tiêu đề",
+                "promptRequired": "Vui lòng nhập đề bài"
+            },
+            "updateSuccess":"Cập nhật đề thành công"
         }
     },
     "AdminAccessControlPage": {

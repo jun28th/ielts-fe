@@ -6,9 +6,10 @@ import PlusIcon from "@/components/Icons/PlusIcon";
 import TrashIcon from "@/components/Icons/TrashIcon";
 import CreateWritingQuestionModal from "@/components/Modal/CreateWritingQuestionModal";
 import UpdateWritingQuestionModal from "@/components/Modal/UpdateWritingQuestionModal";
+import { useAppMessage } from "@/contexts/message-context";
 import { WritingQuestionApi } from "@/lib/api/writing-question-client";
 import { WritingDifficulty, WritingQuestion, WritingTaskType } from "@/types/writing-question-types";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Image, Popconfirm, Table, TableColumnsType, Tag, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -28,6 +29,8 @@ const DIFFICULTY_COLORS: Record<WritingDifficulty, string> = {
 
 export default function QuestionBankWritingPage() {
     const t = useTranslations("QuestionBankWritingPage");
+    const message = useAppMessage();
+    const queryClient = useQueryClient();
 
     const [isCreateModalOpen, setCreateModalOpen] = useState<boolean>(false);
     const [isUpdateModalOpen, setUpdateModalOpen] = useState<boolean>(false);
@@ -36,7 +39,7 @@ export default function QuestionBankWritingPage() {
     const [page, setPage] = useState<number>(0);
 
     const { data, isLoading, isError } = useQuery({
-        queryKey: ["writingQuestions", page],
+        queryKey: ["writing-questions", page],
         queryFn: () => WritingQuestionApi.list({
             page,
             size: DEFAULT_PAGE_SIZE
@@ -44,9 +47,28 @@ export default function QuestionBankWritingPage() {
         placeholderData: keepPreviousData
     });
 
+    const { mutate } = useMutation({
+        mutationFn: (id: string) => WritingQuestionApi.delete(id),
+        onSuccess: () => {
+            if (page > 0 && data?.content.length === 1) {
+                setPage(page - 1);
+            }
+            queryClient.invalidateQueries({ queryKey: ["writing-questions"] });
+            message.success(t("deleteSuccess"));
+        },
+        onError: (error) => {
+            message.error(error.message);
+        }
+    });
+
     const handleEditClick = (question: WritingQuestion) => {
         setSelectedQuestion(question);
         setUpdateModalOpen(true);
+    };
+
+    const handleUpdateModalClose = () => {
+        setUpdateModalOpen(false);
+        setSelectedQuestion(null);
     };
 
     const columns: TableColumnsType<WritingQuestion> = [
@@ -128,7 +150,7 @@ export default function QuestionBankWritingPage() {
                         placement="bottomRight"
                         okText={t("deletePopconfirm.okText")}
                         cancelText={t("deletePopconfirm.cancelText")}
-                        onConfirm={() => {}}
+                        onConfirm={() => mutate(record.id)}
                     >
                         <button
                             type="button"
@@ -191,7 +213,7 @@ export default function QuestionBankWritingPage() {
                 <UpdateWritingQuestionModal
                     question={selectedQuestion}
                     isOpen={isUpdateModalOpen}
-                    onClose={() => setUpdateModalOpen(false)}
+                    onClose={handleUpdateModalClose}
                 />
             )}
         </>

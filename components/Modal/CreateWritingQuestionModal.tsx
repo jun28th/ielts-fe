@@ -7,18 +7,16 @@ import TextInput from "../FormInput/TextInput";
 import SelectInput, { SelectOption } from "../FormInput/SelectInput";
 import { CreateWritingQuestionRequest, DIFFICULTIES, TASK_TYPES, WritingDifficulty, WritingTaskType } from "@/types/writing-question-types";
 import { Upload, UploadFile, UploadProps } from "antd";
-import ImgCrop from "antd-img-crop";
 import { useAppMessage } from "@/contexts/message-context";
 import Dragger from "antd/es/upload/Dragger";
 import FileUploadIcon from "../Icons/FileUploadIcon";
 import Button from "../Button";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { WritingQuestionApi } from "@/lib/api/writing-question-client";
 
 const PROMPT_MAX_LENGTH = 1500;
 const MAX_IMAGE_SIZE_MB = 5;
 const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp"];
-const CROP_ASPECT = 1 / 1;
 
 type CreateWritingQuestionModalProps = {
     isOpen: boolean;
@@ -34,6 +32,7 @@ type Errors = {
 export default function CreateWritingQuestionModal({ isOpen, onClose } : CreateWritingQuestionModalProps) {
     const t = useTranslations("QuestionBankWritingPage.CreateWritingQuestionModal");
     const message = useAppMessage();
+    const queryClient = useQueryClient();
 
     const [title, setTitle] = useState<string>("");
     const [prompt, setPrompt] = useState<string>("");
@@ -64,14 +63,6 @@ export default function CreateWritingQuestionModal({ isOpen, onClose } : CreateW
         label: difficultyLabels[value],
     }));
 
-    const beforeCrop = (file: File) => {
-        if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
-            setErrors((prev) => ({ ...prev, image: t("errorImageType") }));
-            return false;
-        }
-        return true;
-    }
-
     const uploadProps: UploadProps = {
         name: "image",
         accept: ACCEPTED_IMAGE_TYPES.join(","),
@@ -79,6 +70,10 @@ export default function CreateWritingQuestionModal({ isOpen, onClose } : CreateW
         maxCount: 1,
         fileList,
         beforeUpload: (file) => {
+            if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+                setErrors((prev) => ({ ...prev, image: t("errorImageType") }));
+                return Upload.LIST_IGNORE;
+            }
             if (file.size / 1024 / 1024 > MAX_IMAGE_SIZE_MB) {
                 setErrors((prev) => ({ ...prev, image: t("errorImageSize", { size: MAX_IMAGE_SIZE_MB }) }));
                 return Upload.LIST_IGNORE;
@@ -106,7 +101,8 @@ export default function CreateWritingQuestionModal({ isOpen, onClose } : CreateW
 
     const { mutate, isPending } = useMutation({
         mutationFn: (payload: CreateWritingQuestionRequest) => WritingQuestionApi.create(payload),
-        onSuccess: () => {
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["writing-questions"] });
             message.success(t("createSuccess"));
             handleClose();
         },
@@ -187,24 +183,13 @@ export default function CreateWritingQuestionModal({ isOpen, onClose } : CreateW
                 <div className="flex flex-col gap-1.5">
                     <p className="text-sm font-medium text-fg">{t("uploadLabel")}</p>
 
-                    <ImgCrop
-                        aspect={CROP_ASPECT}
-                        rotationSlider
-                        showReset
-                        beforeCrop={beforeCrop}
-                        modalTitle={t("crops.title")}
-                        modalOk={t("crops.ok")}
-                        modalCancel={t("crops.cancel")}
-                        resetText={t("crops.reset")}
-                    >
-                        <Dragger {...uploadProps}>
-                            <div className="flex flex-col items-center justify-center gap-1.5">
-                                <FileUploadIcon width={32} height={32} className="text-accent"/>
-                                <p className="text-sm">{t("uploadText")}</p>
-                                <p className="text-muted text-sm">{t("uploadHint", { size: MAX_IMAGE_SIZE_MB })}</p>
-                            </div>
-                        </Dragger>
-                    </ImgCrop>
+                    <Dragger {...uploadProps}>
+                        <div className="flex flex-col items-center justify-center gap-1.5">
+                            <FileUploadIcon width={32} height={32} className="text-accent"/>
+                            <p className="text-sm">{t("uploadText")}</p>
+                            <p className="text-muted text-sm">{t("uploadHint", { size: MAX_IMAGE_SIZE_MB })}</p>
+                        </div>
+                    </Dragger>
 
                     {errors.image && <p className="text-sm text-error">{errors.image}</p>}
                 </div>

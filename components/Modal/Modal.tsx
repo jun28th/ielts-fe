@@ -30,6 +30,8 @@ export default function Modal({ isOpen, onClose, title, subtitle, size = "lg", c
             if (e.key === "Escape") onClose();
         };
 
+        document.addEventListener("keydown", handleKeyDown);
+
         const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
         const prevOverflow = document.body.style.overflow;
         const prevPaddingRight = document.body.style.paddingRight;
@@ -50,19 +52,26 @@ export default function Modal({ isOpen, onClose, title, subtitle, size = "lg", c
 
     return (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/45 p-6">
-            <div className={`w-full ${SIZE_CLASS[size]} max-h-[90vh] overflow-y-auto rounded-2xl bg-bg p-7`}>
-                <div className={`relative flex items-center mb-1 ${centerTitle ? "justify-center" : "justify-between gap-3"}`}>
-                    <p className={`font-serif font-bold text-xl text-fg ${centerTitle ? "text-center px-8" : ""}`}>{title}</p>
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        className={`rounded-md p-1.5 text-muted hover:bg-surface hover:text-fg ${centerTitle ? "absolute right-0 top-1/2 -translate-y-1/2" : ""}`}
-                    >
-                        <CloseIcon width={20} height={20}/>
-                    </button>
+            <div className={`flex w-full ${SIZE_CLASS[size]} max-h-[90vh] flex-col overflow-hidden rounded-2xl bg-bg`}>
+                {/* Header */}
+                <div className="shrink-0 px-7 pt-7 pb-5">
+                    <div className={`relative flex items-center mb-1 ${centerTitle ? "justify-center" : "justify-between gap-3"}`}>
+                        <p className={`font-serif font-bold text-xl text-fg ${centerTitle ? "text-center px-8" : ""}`}>{title}</p>
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className={`rounded-md p-1.5 text-muted hover:bg-surface hover:text-fg ${centerTitle ? "absolute right-0 top-1/2 -translate-y-1/2" : ""}`}
+                        >
+                            <CloseIcon width={20} height={20}/>
+                        </button>
+                    </div>
+                    {subtitle && <p className={`text-muted text-sm ${centerTitle ? "text-center" : ""}`}>{subtitle}</p>}
                 </div>
-                {subtitle && <p className={`text-muted text-sm mb-5 ${centerTitle ? "text-center" : ""}`}>{subtitle}</p>}
-                {children}
+
+                {/* Body */}
+                <div className="min-h-0 flex-1 overflow-y-auto px-7 pb-7">
+                    {children}
+                </div>
             </div>
         </div>
     );

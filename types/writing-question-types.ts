@@ -18,6 +18,10 @@ export type CreateWritingQuestionRequest = Omit<WritingQuestion, "id" | "imageUr
     image?: File;
 };
 
+export type UpdateWritingQuestionRequest = Partial<CreateWritingQuestionRequest> & {
+    removeImage?: boolean;
+};
+
 export type WritingQuestionListResponse = {
     content: WritingQuestion[];
     page: number;
