@@ -117,26 +117,35 @@
             "courses": "Courses",
             "detail": "Course Detail"
         },
-        "status": {
-            "UPCOMING": "Upcoming",
-            "ACTIVE": "Active",
-            "ENDED": "Ended"
+        "CourseHeader": {
+            "status": {
+                "UPCOMING": "Upcoming",
+                "ACTIVE": "Active",
+                "ENDED": "Ended"
+            },
+            "deletePopconfirm": {
+                "title": "Delete course",
+                "subtitle": "Are you sure you want to delete this course?",
+                "okText": "Delete",
+                "cancelText": "Cancel"
+            },
+            "deleteSuccess": "Course deleted successfully",
+            "startDateLabel": "Start date",
+            "sessionsLabel": "Sessions",
+            "scheduledWeeksLabel": "Weeks scheduled",
+            "capacityLabel": "Capacity",
+            "capacityValue": "{min}–{max} students"
         },
-        "deletePopconfirm": {
-            "title": "Delete course",
-            "subtitle": "Are you sure you want to delete this course?",
-            "okText": "Delete",
-            "cancelText": "Cancel"
+        "WeekSection": {
+            "title": "Weeks",
+            "gradeButton": "Grade",
+            "createButton": "Create week",
+            "empty": "No weeks yet",
+            "loadError": "Failed to load weeks"
         },
-        "deleteSuccess": "Course deleted successfully",
-        "startDateLabel": "Start date",
-        "sessionsLabel": "Sessions",
-        "scheduledWeeksLabel": "Weeks scheduled",
-        "capacityLabel": "Capacity",
-        "capacityValue": "{min}–{max} students",
-        "UpdateCourseModal" : {
+        "UpdateCourseModal": {
             "title": "Update course",
-            "subtitle": "Edit in the course details below.",
+            "subtitle": "Edit the course details below.",
             "updateSuccess": "Course updated successfully",
             "nameLabel": "Course name",
             "namePlaceholder": "e.g. IELTS Foundation - Course A1",
@@ -157,6 +166,21 @@
                 "maxStudentsBelowEnrolled": "Maximum students cannot be less than the current enrolled count ({count})",
                 "rangeInvalid": "Minimum cannot be greater than maximum"
             }
+        },
+        "CreateWeekSectionModal": {
+            "title": "Create Week",
+            "subtitle": "Choose the number of sessions for the week, then fill in the dates and times or use suggestions from the previous week.",
+            "weekNameLabel": "Week name",
+            "defaultWeekName": "Week {number}",
+            "sessionCountLabel": "Number of sessions",
+            "sessionTimes": "Session Times",
+            "weekCard": {
+                "sessionLabel": "Session {number}",
+                "dateLabel": "Date",
+                "startTimeLabel": "Start time",
+                "endTimeLabel": "End time"
+            },
+            "submit": "Create"
         }
     },
     "TeacherStudentsPage": {

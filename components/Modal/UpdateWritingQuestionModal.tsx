@@ -12,7 +12,7 @@ import FileUploadIcon from "../Icons/FileUploadIcon";
 import Button from "../Button";
 import { useAppMessage } from "@/contexts/message-context";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { WritingQuestionApi } from "@/lib/api/writing-question-client";
+import { WritingQuestionsApi } from "@/lib/api/writing-questions-client";
 
 const PROMPT_MAX_LENGTH = 1500;
 const MAX_IMAGE_SIZE_MB = 5;
@@ -126,7 +126,7 @@ export default function UpdateWritingQuestionModal({ question, isOpen, onClose }
     }
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (payload: UpdateWritingQuestionRequest) => WritingQuestionApi.update(question.id, payload),
+        mutationFn: (payload: UpdateWritingQuestionRequest) => WritingQuestionsApi.update(question.id, payload),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["writing-questions"] });
             message.success(t("updateSuccess"));

@@ -26,7 +26,7 @@ type CourseHeaderProps = {
 };
 
 export default function CourseHeader({ course }: CourseHeaderProps) {
-    const t = useTranslations("TeacherCourseDetailPage");
+    const t = useTranslations("TeacherCourseDetailPage.CourseHeader");
     const message = useAppMessage();
     const queryClient = useQueryClient();
     const router = useRouter(); 

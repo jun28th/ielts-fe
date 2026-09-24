@@ -7,7 +7,7 @@ import TrashIcon from "@/components/Icons/TrashIcon";
 import CreateWritingQuestionModal from "@/components/Modal/CreateWritingQuestionModal";
 import UpdateWritingQuestionModal from "@/components/Modal/UpdateWritingQuestionModal";
 import { useAppMessage } from "@/contexts/message-context";
-import { WritingQuestionApi } from "@/lib/api/writing-question-client";
+import { WritingQuestionsApi } from "@/lib/api/writing-questions-client";
 import { WritingDifficulty, WritingQuestion, WritingTaskType } from "@/types/writing-question-types";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Image, Popconfirm, Table, TableColumnsType, Tag, Tooltip } from "antd";
@@ -40,7 +40,7 @@ export default function QuestionBankWritingPage() {
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ["writing-questions", page],
-        queryFn: () => WritingQuestionApi.list({
+        queryFn: () => WritingQuestionsApi.list({
             page,
             size: DEFAULT_PAGE_SIZE
         }),
@@ -48,7 +48,7 @@ export default function QuestionBankWritingPage() {
     });
 
     const { mutate } = useMutation({
-        mutationFn: (id: string) => WritingQuestionApi.delete(id),
+        mutationFn: (id: string) => WritingQuestionsApi.delete(id),
         onSuccess: () => {
             if (page > 0 && data?.content.length === 1) {
                 setPage(page - 1);

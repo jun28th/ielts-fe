@@ -7,7 +7,7 @@ type ButtonProps = {
     disabled?: boolean;
     loading?: boolean;
     type?: "button" | "submit" | "reset";
-    variant?: "primary" | "secondary" | "danger";
+    variant?: "primary" | "secondary" | "tertiary" | "danger";
     fullWidth?: boolean;
     iconOnly?: boolean;
 }
@@ -17,6 +17,8 @@ const VARIANT_STYLES: Record<NonNullable<ButtonProps["variant"]>, string> = {
         "bg-accent text-white shadow-[0_2px_0_var(--color-accent-bg)] hover:bg-accent-hover active:translate-y-px active:bg-accent-active active:shadow-none disabled:bg-[#b7c4d6] disabled:shadow-none",
     secondary:
         "border border-border bg-bg text-fg hover:border-[#b9c2cf] hover:bg-surface",
+    tertiary:
+        "border border-border bg-bg text-accent hover:border-accent hover:bg-accent-bg active:text-accent-active disabled:opacity-50",
     danger:
         "bg-error text-white hover:bg-[#ff7875] active:bg-[#d9363e]",
 };
@@ -26,6 +28,8 @@ const ICON_ONLY_VARIANT_STYLES: Record<NonNullable<ButtonProps["variant"]>, stri
         "bg-accent text-white hover:bg-accent-hover active:bg-accent-active disabled:bg-[#b7c4d6]",
     secondary:
         "border border-border bg-bg text-muted hover:border-accent hover:bg-accent-bg hover:text-accent",
+    tertiary:
+        "border border-border bg-bg text-accent hover:border-accent hover:bg-accent-bg",
     danger:
         "border border-border bg-bg text-muted hover:border-error hover:bg-error-bg hover:text-error",
 };

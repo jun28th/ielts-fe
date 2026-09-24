@@ -15,7 +15,7 @@ function buildQuery(params: ListWritingQuestionParams): string {
     return searchParams.toString();
 }
 
-export const WritingQuestionApi = {
+export const WritingQuestionsApi = {
     create: (payload: CreateWritingQuestionRequest) => {
         const formData = new FormData();
 
@@ -28,7 +28,9 @@ export const WritingQuestionApi = {
 
         return http.post("/api/writing-questions", formData);
     },
+
     list: (params: ListWritingQuestionParams) => http.get<WritingQuestionListResponse>(`/api/writing-questions?${buildQuery(params)}`),
+
     update: (id: string, payload: UpdateWritingQuestionRequest) => {
         const formData = new FormData();
         if (payload.title !== undefined) formData.append("title", payload.title);
@@ -40,5 +42,6 @@ export const WritingQuestionApi = {
 
         return http.patch(`/api/writing-questions/${id}`, formData)
     },
+
     delete: (id: string) => http.delete<void>(`/api/writing-questions/${id}`)
 }

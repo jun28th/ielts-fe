@@ -1,6 +1,7 @@
 "use client";
 
 import CourseHeader from "@/components/Course/CourseHeader";
+import WeekSection from "@/components/Course/WeekSection";
 import { coursesApi } from "@/lib/api/courses-client";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
@@ -30,7 +31,7 @@ export default function CourseDetailPage() {
     return (
         <div className="flex flex-col gap-6">
             <CourseHeader course={course} />
-
+            <WeekSection course={course} />
         </div>
     );
 }

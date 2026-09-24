@@ -117,29 +117,38 @@
             "courses": "Khoá học",
             "detail": "Chi tiết khoá học"
         },
-        "status": {
-            "UPCOMING": "Sắp bắt đầu",
-            "ACTIVE": "Đang hoạt động",
-            "ENDED": "Kết thúc"
+        "CourseHeader": {
+            "status": {
+                "UPCOMING": "Sắp bắt đầu",
+                "ACTIVE": "Đang hoạt động",
+                "ENDED": "Kết thúc"
+            },
+            "deletePopconfirm": {
+                "title": "Xoá khoá học",
+                "subtitle": "Bạn có chắc chắn muốn xoá khoá học này?",
+                "okText": "Xoá",
+                "cancelText": "Hủy"
+            },
+            "deleteSuccess": "Xoá khoá học thành công",
+            "startDateLabel": "Khai giảng",
+            "sessionsLabel": "Tổng số buổi",
+            "scheduledWeeksLabel": "Số tuần đã lên lịch",
+            "capacityLabel": "Sĩ số",
+            "capacityValue": "{min}–{max} học viên"
         },
-        "deletePopconfirm": {
-            "title": "Xoá khoá học",
-            "subtitle": "Bạn có chắc chắn muốn xoá khoá học này?",
-            "okText": "Xoá",
-            "cancelText": "Hủy"
+        "WeekSection": {
+            "title": "Tuần học",
+            "gradeButton": "Chấm bài",
+            "createButton": "Tạo tuần học",
+            "empty": "Chưa có tuần học nào",
+            "loadError": "Không tải được danh sách tuần học"
         },
-        "deleteSuccess": "Xoá khoá học thành công",
-        "startDateLabel": "Khai giảng",
-        "sessionsLabel": "Tổng số buổi",
-        "scheduledWeeksLabel": "Số tuần đã lên lịch",
-        "capacityLabel": "Sĩ số",
-        "capacityValue": "{min}–{max} học viên",
         "UpdateCourseModal" : {
             "title": "Cập nhật khoá học",
             "subtitle": "Điều chỉnh thông tin khoá học bên dưới.",
             "updateSuccess": "Cập nhật khoá học thành công",
             "nameLabel": "Tên khoá học",
-            "namePlaceholder": "VD: IELTS Foundation - Lớp A1",
+            "namePlaceholder": "VD: IELTS Foundation - Khoá học A1",
             "sessionLabel": "Tổng số buổi học",
             "sessionPlaceholder": "VD: 24",
             "rangeLabel": "Số lượng học viên (khoảng)",
@@ -157,6 +166,21 @@
                 "maxStudentsBelowEnrolled": "Sĩ số tối đa không được nhỏ hơn số học viên đã đăng ký ({count})",
                 "rangeInvalid": "Số tối thiểu không được lớn hơn số tối đa"
             }
+        },
+        "CreateWeekSectionModal": {
+            "title": "Tạo tuần học",
+            "subtitle": "Chọn số buổi học trong tuần, sau đó điền hoặc lấy đề xuất ngày giờ từ tuần trước.",
+            "weekNameLabel": "Tên tuần",
+            "defaultWeekName": "Tuần {number}",
+            "sessionCountLabel": "Số buổi học",
+            "sessionTimes": "Thời gian từng buổi",
+            "weekCard": {
+                "sessionLabel": "Buổi {number}",
+                "dateLabel": "Ngày học",
+                "startTimeLabel": "Giờ bắt đầu",
+                "endTimeLabel": "Giờ kết thúc"
+            },
+            "submit":"Tạo mới"
         }
     },
     "TeacherStudentsPage": {

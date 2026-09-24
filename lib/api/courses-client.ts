@@ -1,5 +1,6 @@
 import { Course, CourseListResponse, CourseStatus, CreateCourseRequest, UpdateCourseRequest } from "@/types/course-types";
 import { http } from "./http";
+import { CreateWeekSectionRequest } from "@/types/week-section-types";
 
 type CourseStatusFilter = CourseStatus | "NOT_ENDED";
 
@@ -24,9 +25,16 @@ function buildQuery(params: ListCoursesParams): string {
 
 export const coursesApi = {
     create: (data: CreateCourseRequest) => http.post<Course>("/api/courses", data),
+
     list: (params: ListCoursesParams) => http.get<CourseListResponse>(`/api/courses?${buildQuery(params)}`),
+
     get: (courseId: string) => http.get<Course>(`/api/courses/${courseId}`),
+
     update: (courseId: string, data: UpdateCourseRequest) => http.patch<Course>(`/api/courses/${courseId}`, data),
+
     delete: (courseId: string) => http.delete<void>(`/api/courses/${courseId}`),
+
     listEnrollable: (params: Omit<ListCoursesParams, "status">) => coursesApi.list({ ...params, status: "NOT_ENDED" }),
+
+    createWeekSection: (courseId: string, data: CreateWeekSectionRequest) => http.post<Course>(`/api/courses/${courseId}`, data)
 }
