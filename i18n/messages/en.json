@@ -150,6 +150,11 @@
                 "subtitle": "Are you sure you want to delete this week?",
                 "okText": "Delete",
                 "cancelText": "Cancel"
+            },
+            "assignments": {
+                "title": "Writing assignments",
+                "addButton": "Add assignment",
+                "empty": "No assignments this week yet"
             }
         },
         "UpdateCourseModal": {

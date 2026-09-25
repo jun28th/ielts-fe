@@ -5,6 +5,7 @@ import PencilIcon from "../Icons/PencilIcon";
 import { Popconfirm } from "antd";
 import TrashIcon from "../Icons/TrashIcon";
 import { formatDayMonth, formatTime, parseLocalDate, todayIso } from "@/lib/utils";
+import PlusIcon from "../Icons/PlusIcon";
 
 type WeekSectionCardProps = {
     weekSection: WeekSection;
@@ -84,6 +85,26 @@ export default function WeekSectionCard({ weekSection } : WeekSectionCardProps) 
                         </div>
                     );
                 })}
+            </div>
+
+            <div className="flex flex-col gap-3 pt-1">
+                <div className="flex items-center justify-between">
+                    <p className="text-sm font-semibold uppercase tracking-wide text-muted">
+                        {t("assignments.title")}
+                    </p>
+
+                    <Button
+                        type="button"
+                        variant="tertiary"
+                        label={t("assignments.addButton")}
+                        icon={<PlusIcon className="text-accent" width={18} height={18} />}
+                        onClick={() => {}}
+                    />
+                </div>
+
+                <p className="rounded-lg border border-dashed border-border py-6 text-center text-sm text-muted">
+                    {t("assignments.empty")}
+                </p>
             </div>
         </div>
     );

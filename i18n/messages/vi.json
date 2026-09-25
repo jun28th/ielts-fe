@@ -150,6 +150,11 @@
                 "subtitle": "Bạn có chắc chắn muốn xoá tuần học này?",
                 "okText": "Xoá",
                 "cancelText": "Hủy"
+            },
+            "assignments": {
+                "title": "Bài tập Writing",
+                "addButton": "Thêm bài tập",
+                "empty": "Chưa có bài tập nào trong tuần này"
             }
         },
         "UpdateCourseModal" : {
