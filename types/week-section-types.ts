@@ -3,6 +3,7 @@ export type ClassSession = {
     date: string;
     startTime: string;
     endTime: string;
+    isNew?: boolean;
 }
 
 export type WeekSection = {
@@ -14,7 +15,19 @@ export type WeekSection = {
 
 export type CreateWeekSectionRequest = {
     weekName: string;
-    sessions: Omit<ClassSession, "id">[];
+    sessions: Omit<ClassSession, "id" | "isNew">[];
+}
+
+export type UpdateSessionRequest = {
+    id: string | null;
+    date: string;
+    startTime: string;
+    endTime: string;
+}
+
+export type UpdateWeekSectionRequest = {
+    weekName: string;
+    sessions: UpdateSessionRequest[];
 }
 
 export type SessionErrors = {

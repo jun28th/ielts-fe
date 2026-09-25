@@ -6,17 +6,22 @@ import { Popconfirm } from "antd";
 import TrashIcon from "../Icons/TrashIcon";
 import { formatDayMonth, formatTime, parseLocalDate, todayIso } from "@/lib/utils";
 import PlusIcon from "../Icons/PlusIcon";
+import UpdateWeekSectionModal from "../Modal/UpdateWeekSectionModal";
+import { useState } from "react";
 
 type WeekSectionCardProps = {
+    courseId: string;
     weekSection: WeekSection;
 }
 
-export default function WeekSectionCard({ weekSection } : WeekSectionCardProps) {
+export default function WeekSectionCard({ courseId, weekSection } : WeekSectionCardProps) {
     const t = useTranslations("TeacherCourseDetailPage.WeekSectionCard");
     const locale = useLocale();
 
     const weekdayFormatter = new Intl.DateTimeFormat(locale, { weekday: "short" });
     const today = todayIso();
+
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
 
     return (
         <div className="flex flex-col gap-3 rounded-xl bg-bg border border-border p-4">
@@ -35,7 +40,7 @@ export default function WeekSectionCard({ weekSection } : WeekSectionCardProps) 
                         variant="secondary"
                         icon={<PencilIcon width={18} height={18} />}
                         iconOnly={true}
-                        onClick={() => {}}
+                        onClick={() => setIsUpdateModalOpen(true)}
                     />
 
                     <Popconfirm
@@ -106,6 +111,13 @@ export default function WeekSectionCard({ weekSection } : WeekSectionCardProps) 
                     {t("assignments.empty")}
                 </p>
             </div>
+
+            <UpdateWeekSectionModal
+                isOpen={isUpdateModalOpen}
+                onClose={() => setIsUpdateModalOpen(false)}
+                courseId={courseId}
+                weekSection={weekSection}
+            />
         </div>
     );
 }

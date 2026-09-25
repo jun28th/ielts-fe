@@ -130,7 +130,8 @@ export default function UpdateWritingQuestionModal({ question, isOpen, onClose }
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["writing-questions"] });
             message.success(t("updateSuccess"));
-            handleClose();
+            setErrors({});
+            onClose();
         },
         onError: (error) => {
             message.error(error.message);

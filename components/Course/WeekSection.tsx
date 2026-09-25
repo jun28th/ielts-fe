@@ -46,6 +46,7 @@ export default function WeekSection({ course }: WeekSectionProps) {
                 {course.weekSections.map((weekSection) => (
                     <WeekSectionCard
                         key={weekSection.id}
+                        courseId={course.id}
                         weekSection={weekSection}
                     />
                 ))}

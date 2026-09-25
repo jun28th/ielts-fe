@@ -202,6 +202,28 @@
                 "endTimeRequired": "Please select an end time"
             },
             "createSuccess": "Week created successfully"
+        },
+        "UpdateWeekSectionModal": {
+            "title": "Update week",
+            "subtitle": "Adjust the week name, add or remove sessions, or update each session's date and time.",
+            "weekNameLabel": "Week name",
+            "defaultWeekName": "Week {number}",
+            "sessionCountLabel": "Number of sessions",
+            "sessionTimes": "Session Times",
+            "weekCard": {
+                "sessionLabel": "Session {number}",
+                "dateLabel": "Date",
+                "startTimeLabel": "Start time",
+                "endTimeLabel": "End time"
+            },
+            "submit": "Update",
+            "errors": {
+                "weekNameRequired": "Please enter a week name",
+                "dateRequired": "Please select a date",
+                "startTimeRequired": "Please select a start time",
+                "endTimeRequired": "Please select an end time"
+            },
+            "updateSuccess": "Week updated successfully"
         }
     },
     "TeacherStudentsPage": {

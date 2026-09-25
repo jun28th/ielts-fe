@@ -154,7 +154,8 @@ export default function UpdateStudentModal({ student, isOpen, onClose } : Update
                 queryClient.invalidateQueries({ queryKey: ["courses", "enrollable"]})
             ]);
             message.success(t("updateSuccess"));
-            handleClose();
+            setErrors({});
+            onClose();
         },
         onError: (error) => {
             message.error(error.message);

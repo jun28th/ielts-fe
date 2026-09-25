@@ -202,6 +202,28 @@
                 "endTimeRequired": "Vui lòng chọn giờ kết thúc"
             },
             "createSuccess": "Tạo tuần học thành công"
+        },
+        "UpdateWeekSectionModal": {
+            "title": "Cập nhật tuần học",
+            "subtitle": "Điều chỉnh tên tuần, thêm/giảm số buổi hoặc cập nhật ngày giờ từng buổi.",
+            "weekNameLabel": "Tên tuần",
+            "defaultWeekName": "Tuần {number}",
+            "sessionCountLabel": "Số buổi học",
+            "sessionTimes": "Thời gian từng buổi",
+            "weekCard": {
+                "sessionLabel": "Buổi {number}",
+                "dateLabel": "Ngày học",
+                "startTimeLabel": "Giờ bắt đầu",
+                "endTimeLabel": "Giờ kết thúc"
+            },
+            "submit":"Cập nhật",
+            "errors": {
+                "weekNameRequired": "Vui lòng nhập tên tuần",
+                "dateRequired": "Vui lòng chọn ngày học",
+                "startTimeRequired": "Vui lòng chọn giờ bắt đầu",
+                "endTimeRequired": "Vui lòng chọn giờ kết thúc"
+            },
+            "updateSuccess": "Cập nhật tuần học thành công"
         }
     },
     "TeacherStudentsPage": {
