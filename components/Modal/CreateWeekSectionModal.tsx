@@ -3,14 +3,17 @@ import Modal from "./Modal";
 import { useState } from "react";
 import TextInput from "../FormInput/TextInput";
 import WeekCard from "../Course/WeekCard";
-import { SessionTime } from "@/types/week-section-types";
+import { CreateWeekSectionRequest, SessionErrors, ClassSession } from "@/types/week-section-types";
 import Button from "../Button";
 import { Course } from "@/types/course-types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { coursesApi } from "@/lib/api/courses-client";
+import { useAppMessage } from "@/contexts/message-context";
 
 const MIN_SESSIONS = 1;
 const MAX_SESSIONS = 7;
 
-const emptySession = (): SessionTime => ({
+const emptySession = (): ClassSession => ({
     id: crypto.randomUUID(),
     date: "",
     startTime: "",
@@ -24,12 +27,21 @@ type CreateWeekSectionModalProps = {
     nextWeekNumber?: number;
 }
 
-export default function CreateWeekSectionModal({ isOpen, onClose, nextWeekNumber = 1 } : CreateWeekSectionModalProps) {
+type Errors = {
+    weekName?: string;
+    sessions?: Record<string, SessionErrors>;
+}
+
+export default function CreateWeekSectionModal({ course, isOpen, onClose, nextWeekNumber = 1 } : CreateWeekSectionModalProps) {
     const t = useTranslations("TeacherCourseDetailPage.CreateWeekSectionModal");
+    const message = useAppMessage();
+    const queryClient = useQueryClient();
 
     const [weekName, setWeekName] = useState<string>(() => t("defaultWeekName", { number: nextWeekNumber }));
     const [sessionCount, setSessionCount] = useState<number | "">(MIN_SESSIONS);
-    const [sessions, setSessions] = useState<SessionTime[]>(() => [emptySession()]);
+    const [sessions, setSessions] = useState<ClassSession[]>(() => [emptySession()]);
+
+    const [errors, setErrors] = useState<Errors>({});
 
     const handleSessionCountChange = (value: number | "") => {
         if (value === "") {
@@ -56,7 +68,7 @@ export default function CreateWeekSectionModal({ isOpen, onClose, nextWeekNumber
         setSessionCount(next.length);
     }
 
-    const handleSessionChange = (id: string, value: SessionTime) => {
+    const handleSessionChange = (id: string, value: ClassSession) => {
         setSessions(prev => prev.map(s => (s.id === id ? value : s)));
     }
 
@@ -64,13 +76,58 @@ export default function CreateWeekSectionModal({ isOpen, onClose, nextWeekNumber
         setWeekName(t("defaultWeekName", { number: nextWeekNumber }));
         setSessionCount(MIN_SESSIONS);
         setSessions([emptySession()]);
+        setErrors({});
         onClose();
     }
+
+    const { mutate, isPending } = useMutation({
+        mutationFn: (data: CreateWeekSectionRequest) => coursesApi.createWeekSection(course.id, data),
+        onSuccess: () => {
+            message.success(t("createSuccess"));
+            handleClose();
+        },
+        onError: (error) => {
+            message.error(error.message);
+        }
+    });
 
     const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        const newErrors: Errors = {};
 
+        if (!weekName.trim()) {
+            newErrors.weekName = t("errors.weekNameRequired");
+        }
+
+        const sessionErrors: Record<string, SessionErrors> = {};
+
+        for (const session of sessions) {
+            const err: SessionErrors = {};
+
+            if (!session.date) err.date = t("errors.dateRequired");
+            if (!session.startTime) err.startTime = t("errors.startTimeRequired");
+            if (!session.endTime) err.endTime = t("errors.endTimeRequired");
+
+            if (Object.keys(err).length > 0) {
+                sessionErrors[session.id] = err;
+            }
+        }
+
+        if (Object.keys(sessionErrors).length > 0) {
+            newErrors.sessions = sessionErrors;
+        }
+
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length > 0) {
+            return;
+        }
+
+        mutate({
+            weekName: weekName.trim(),
+            sessions: sessions.map(({ date, startTime, endTime }) => ({ date, startTime, endTime })),
+        });
     }
 
     return (
@@ -88,6 +145,7 @@ export default function CreateWeekSectionModal({ isOpen, onClose, nextWeekNumber
                             label={t("weekNameLabel")}
                             value={weekName}
                             onChange={setWeekName}
+                            error={errors.weekName}
                         />
                     </div>
 
@@ -112,6 +170,7 @@ export default function CreateWeekSectionModal({ isOpen, onClose, nextWeekNumber
                             onChange={(value) => handleSessionChange(session.id, value)}
                             onDelete={() => handleDeleteSession(session.id)}
                             canDelete={sessions.length > MIN_SESSIONS}
+                            errors={errors.sessions?.[session.id]}
                         />
                     ))}
                 </div>
@@ -120,6 +179,7 @@ export default function CreateWeekSectionModal({ isOpen, onClose, nextWeekNumber
                     <Button
                         label={t("submit")}
                         type="submit"
+                        loading={isPending}
                     />
                 </div>
             </form>

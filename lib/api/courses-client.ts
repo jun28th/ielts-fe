@@ -36,5 +36,5 @@ export const coursesApi = {
 
     listEnrollable: (params: Omit<ListCoursesParams, "status">) => coursesApi.list({ ...params, status: "NOT_ENDED" }),
 
-    createWeekSection: (courseId: string, data: CreateWeekSectionRequest) => http.post<Course>(`/api/courses/${courseId}`, data)
+    createWeekSection: (courseId: string, data: CreateWeekSectionRequest) => http.post<Course>(`/api/courses/${courseId}/week-sections`, data)
 }

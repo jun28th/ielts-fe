@@ -1,19 +1,20 @@
 import { useTranslations } from "next-intl";
 import DateInput from "../FormInput/DateInput";
-import { SessionTime } from "@/types/week-section-types";
+import { SessionErrors, ClassSession } from "@/types/week-section-types";
 import TimeInput from "../FormInput/TimeInput";
 import TrashIcon from "../Icons/TrashIcon";
 import Button from "../Button";
 
 type WeekCardProps = {
     index: number;
-    value: SessionTime;
-    onChange: (value: SessionTime) => void;
+    value: ClassSession;
+    onChange: (value: ClassSession) => void;
     onDelete: () => void;
-    canDelete: boolean
+    canDelete: boolean;
+    errors?: SessionErrors;
 }
 
-export default function WeekCard({ index, value, onChange, onDelete, canDelete }: WeekCardProps) {
+export default function WeekCard({ index, value, onChange, onDelete, canDelete, errors }: WeekCardProps) {
     const t = useTranslations("TeacherCourseDetailPage.CreateWeekSectionModal.weekCard");
 
     return (
@@ -37,6 +38,7 @@ export default function WeekCard({ index, value, onChange, onDelete, canDelete }
                         label={t("dateLabel")}
                         value={value.date}
                         onChange={(date) => onChange({ ...value, date })}
+                        error={errors?.date}
                     />
                 </div>
 
@@ -45,6 +47,7 @@ export default function WeekCard({ index, value, onChange, onDelete, canDelete }
                         label={t("startTimeLabel")}
                         value={value.startTime}
                         onChange={(startTime) => onChange({ ...value, startTime })}
+                        error={errors?.startTime}
                     />
                 </div>
 
@@ -53,6 +56,7 @@ export default function WeekCard({ index, value, onChange, onDelete, canDelete }
                         label={t("endTimeLabel")}
                         value={value.endTime}
                         onChange={(endTime) => onChange({ ...value, endTime })}
+                        error={errors?.endTime}
                     />
                 </div>
             </div>

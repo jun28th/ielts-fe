@@ -180,7 +180,14 @@
                 "startTimeLabel": "Giờ bắt đầu",
                 "endTimeLabel": "Giờ kết thúc"
             },
-            "submit":"Tạo mới"
+            "submit":"Tạo mới",
+            "errors": {
+                "weekNameRequired": "Vui lòng nhập tên tuần",
+                "dateRequired": "Vui lòng chọn ngày học",
+                "startTimeRequired": "Vui lòng chọn giờ bắt đầu",
+                "endTimeRequired": "Vui lòng chọn giờ kết thúc"
+            },
+            "createSuccess": "Tạo tuần học thành công"
         }
     },
     "TeacherStudentsPage": {

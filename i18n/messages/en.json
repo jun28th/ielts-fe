@@ -180,7 +180,14 @@
                 "startTimeLabel": "Start time",
                 "endTimeLabel": "End time"
             },
-            "submit": "Create"
+            "submit": "Create",
+            "errors": {
+                "weekNameRequired": "Please enter a week name",
+                "dateRequired": "Please select a date",
+                "startTimeRequired": "Please select a start time",
+                "endTimeRequired": "Please select an end time"
+            },
+            "createSuccess": "Week created successfully"
         }
     },
     "TeacherStudentsPage": {
