@@ -155,7 +155,8 @@
                 "title": "Bài tập Writing",
                 "addButton": "Thêm bài tập",
                 "empty": "Chưa có bài tập nào trong tuần này"
-            }
+            },
+            "deleteSuccess": "Xoá tuần học thành công"
         },
         "UpdateCourseModal" : {
             "title": "Cập nhật khoá học",

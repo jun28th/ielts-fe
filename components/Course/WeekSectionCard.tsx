@@ -8,6 +8,9 @@ import { formatDayMonth, formatTime, parseLocalDate, todayIso } from "@/lib/util
 import PlusIcon from "../Icons/PlusIcon";
 import UpdateWeekSectionModal from "../Modal/UpdateWeekSectionModal";
 import { useState } from "react";
+import { useAppMessage } from "@/contexts/message-context";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { coursesApi } from "@/lib/api/courses-client";
 
 type WeekSectionCardProps = {
     courseId: string;
@@ -17,11 +20,24 @@ type WeekSectionCardProps = {
 export default function WeekSectionCard({ courseId, weekSection } : WeekSectionCardProps) {
     const t = useTranslations("TeacherCourseDetailPage.WeekSectionCard");
     const locale = useLocale();
+    const message = useAppMessage();
+    const queryClient = useQueryClient();
 
     const weekdayFormatter = new Intl.DateTimeFormat(locale, { weekday: "short" });
     const today = todayIso();
 
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
+
+    const { mutate } = useMutation({
+        mutationFn: () => coursesApi.deleteWeekSection(courseId, weekSection.id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["course", courseId] });
+            message.success(t("deleteSuccess"));
+        },
+        onError: (error) => {
+            message.error(error.message);
+        }
+    });
 
     return (
         <div className="flex flex-col gap-3 rounded-xl bg-bg border border-border p-4">
@@ -49,7 +65,7 @@ export default function WeekSectionCard({ courseId, weekSection } : WeekSectionC
                         placement="bottomRight"
                         okText={t("deletePopconfirm.okText")}
                         cancelText={t("deletePopconfirm.cancelText")}
-                        onConfirm={() => {}}
+                        onConfirm={() => mutate()}
                     >
                         <button
                             type="button"

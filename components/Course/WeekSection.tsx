@@ -6,8 +6,6 @@ import Button from "../Button";
 import CheckBoxIcon from "../Icons/CheckBoxIcon";
 import PlusIcon from "../Icons/PlusIcon";
 import { Course } from "@/types/course-types";
-import { useAppMessage } from "@/contexts/message-context";
-import { useQueryClient } from "@tanstack/react-query";
 import CreateWeekSectionModal from "../Modal/CreateWeekSectionModal";
 import WeekSectionCard from "./WeekSectionCard";
 
@@ -17,8 +15,6 @@ type WeekSectionProps = {
 
 export default function WeekSection({ course }: WeekSectionProps) {
     const t = useTranslations("TeacherCourseDetailPage.WeekSection");
-    const message = useAppMessage();
-    const queryClient = useQueryClient();
 
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
 

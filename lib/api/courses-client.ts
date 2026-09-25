@@ -38,5 +38,7 @@ export const coursesApi = {
 
     createWeekSection: (courseId: string, data: CreateWeekSectionRequest) => http.post<Course>(`/api/courses/${courseId}/week-sections`, data),
 
-    updateWeekSection: (courseId: string, weekSectionId: string, data: UpdateWeekSectionRequest) => http.patch<Course>(`/api/courses/${courseId}/week-sections/${weekSectionId}`, data)
+    updateWeekSection: (courseId: string, weekSectionId: string, data: UpdateWeekSectionRequest) => http.patch<Course>(`/api/courses/${courseId}/week-sections/${weekSectionId}`, data),
+
+    deleteWeekSection: (courseId: string, weekSectionId: string) => http.delete<void>(`/api/courses/${courseId}/week-sections/${weekSectionId}`)
 }

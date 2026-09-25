@@ -155,7 +155,8 @@
                 "title": "Writing assignments",
                 "addButton": "Add assignment",
                 "empty": "No assignments this week yet"
-            }
+            },
+            "deleteSuccess": "Week deleted successfully"
         },
         "UpdateCourseModal": {
             "title": "Update course",
