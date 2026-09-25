@@ -83,6 +83,7 @@ export default function CreateWeekSectionModal({ course, isOpen, onClose, nextWe
     const { mutate, isPending } = useMutation({
         mutationFn: (data: CreateWeekSectionRequest) => coursesApi.createWeekSection(course.id, data),
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["course", course.id] })
             message.success(t("createSuccess"));
             handleClose();
         },

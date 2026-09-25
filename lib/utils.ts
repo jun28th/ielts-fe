@@ -4,6 +4,22 @@ export function formatDateDDMMYYYY(dateStr: string): string {
     return `${day}-${month}-${year}`;
 }
 
+// Convert YYYY-MM-DD to DD/MM
+export function formatDayMonth(dateStr: string): string {
+    const [, month, day] = dateStr.split("-");
+    return `${day}/${month}`;
+}
+
+// Parse YYYY-MM-DD as local date (avoid UTC shift of new Date("YYYY-MM-DD"))
+export function parseLocalDate(dateStr: string): Date {
+    return new Date(`${dateStr}T00:00:00`);
+}
+
+// Convert "HH:mm:ss" or "HH:mm" to "HH:mm"
+export function formatTime(timeStr: string): string {
+    return timeStr.slice(0, 5);
+}
+
 // Convert ISO Instant string to "DD-MM-YYYY HH:mm:ss"
 export function formatInstant(instantStr: string): string {
     const date = new Date(instantStr);
@@ -23,4 +39,12 @@ export function formatInstant(instantStr: string): string {
     const seconds = pad(date.getSeconds());
 
     return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+}
+
+// Today as YYYY-MM-DD in local time
+export function todayIso(): string {
+    const now = new Date();
+    const m = String(now.getMonth() + 1).padStart(2, "0");
+    const d = String(now.getDate()).padStart(2, "0");
+    return `${now.getFullYear()}-${m}-${d}`;
 }

@@ -143,6 +143,15 @@
             "empty": "Chưa có tuần học nào",
             "loadError": "Không tải được danh sách tuần học"
         },
+        "WeekSectionCard" : {
+            "sessionCount": "Buổi {count}",
+            "deletePopconfirm": {
+                "title": "Xoá tuần học",
+                "subtitle": "Bạn có chắc chắn muốn xoá tuần học này?",
+                "okText": "Xoá",
+                "cancelText": "Hủy"
+            }
+        },
         "UpdateCourseModal" : {
             "title": "Cập nhật khoá học",
             "subtitle": "Điều chỉnh thông tin khoá học bên dưới.",

@@ -9,6 +9,7 @@ import { Course } from "@/types/course-types";
 import { useAppMessage } from "@/contexts/message-context";
 import { useQueryClient } from "@tanstack/react-query";
 import CreateWeekSectionModal from "../Modal/CreateWeekSectionModal";
+import WeekSectionCard from "./WeekSectionCard";
 
 type WeekSectionProps = {
     course: Course;
@@ -39,6 +40,15 @@ export default function WeekSection({ course }: WeekSectionProps) {
                         onClick={() => setIsCreateModalOpen(true)}
                     />
                 </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+                {course.weekSections.map((weekSection) => (
+                    <WeekSectionCard
+                        key={weekSection.id}
+                        weekSection={weekSection}
+                    />
+                ))}
             </div>
 
             <CreateWeekSectionModal 

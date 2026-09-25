@@ -143,6 +143,15 @@
             "empty": "No weeks yet",
             "loadError": "Failed to load weeks"
         },
+        "WeekSectionCard" : {
+            "sessionCount": "Session {count}",
+            "deletePopconfirm": {
+                "title": "Delete week",
+                "subtitle": "Are you sure you want to delete this week?",
+                "okText": "Delete",
+                "cancelText": "Cancel"
+            }
+        },
         "UpdateCourseModal": {
             "title": "Update course",
             "subtitle": "Edit the course details below.",
