@@ -48,3 +48,13 @@ export function todayIso(): string {
     const d = String(now.getDate()).padStart(2, "0");
     return `${now.getFullYear()}-${m}-${d}`;
 }
+
+// Add days to YYYY-MM-DD, returns YYYY-MM-DD (local time)
+export function addDays(dateStr: string, days: number): string {
+    const d = new Date(`${dateStr}T00:00:00`);
+    d.setDate(d.getDate() + days);
+
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${d.getFullYear()}-${m}-${day}`;
+}

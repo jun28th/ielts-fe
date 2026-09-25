@@ -188,6 +188,8 @@
             "weekNameLabel": "Tên tuần",
             "defaultWeekName": "Tuần {number}",
             "sessionCountLabel": "Số buổi học",
+            "copyFromPreviousLabel": "Lấy lịch từ tuần trước",
+            "previousWeekChip": "{name} (tuần trước)",
             "sessionTimes": "Thời gian từng buổi",
             "weekCard": {
                 "sessionLabel": "Buổi {number}",

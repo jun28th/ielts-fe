@@ -188,6 +188,8 @@
             "weekNameLabel": "Week name",
             "defaultWeekName": "Week {number}",
             "sessionCountLabel": "Number of sessions",
+            "copyFromPreviousLabel": "Copy schedule from previous week",
+            "previousWeekChip": "{name} (previous week)",
             "sessionTimes": "Session Times",
             "weekCard": {
                 "sessionLabel": "Session {number}",

@@ -9,6 +9,7 @@ import { Course } from "@/types/course-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { coursesApi } from "@/lib/api/courses-client";
 import { useAppMessage } from "@/contexts/message-context";
+import { addDays, formatTime } from "@/lib/utils";
 
 const MIN_SESSIONS = 1;
 const MAX_SESSIONS = 7;
@@ -24,7 +25,6 @@ type CreateWeekSectionModalProps = {
     course: Course;
     isOpen: boolean;
     onClose: () => void;
-    nextWeekNumber?: number;
 }
 
 type Errors = {
@@ -32,12 +32,14 @@ type Errors = {
     sessions?: Record<string, SessionErrors>;
 }
 
-export default function CreateWeekSectionModal({ course, isOpen, onClose, nextWeekNumber = 1 } : CreateWeekSectionModalProps) {
+export default function CreateWeekSectionModal({ course, isOpen, onClose } : CreateWeekSectionModalProps) {
     const t = useTranslations("TeacherCourseDetailPage.CreateWeekSectionModal");
     const message = useAppMessage();
     const queryClient = useQueryClient();
 
-    const [weekName, setWeekName] = useState<string>(() => t("defaultWeekName", { number: nextWeekNumber }));
+    const previousWeek = course.weekSections.at(-1);
+
+    const [weekName, setWeekName] = useState<string>(() => t("defaultWeekName", { number: course.weekSections.length + 1 }));
     const [sessionCount, setSessionCount] = useState<number | "">(MIN_SESSIONS);
     const [sessions, setSessions] = useState<ClassSession[]>(() => [emptySession()]);
 
@@ -72,8 +74,23 @@ export default function CreateWeekSectionModal({ course, isOpen, onClose, nextWe
         setSessions(prev => prev.map(s => (s.id === id ? value : s)));
     }
 
+    const handleCopyFromPreviousWeek = () => {
+        if (!previousWeek) return;
+
+        const copied: ClassSession[] = previousWeek.sessions.map((s) => ({
+            id: crypto.randomUUID(),
+            date: addDays(s.date, 7),
+            startTime: formatTime(s.startTime),
+            endTime: formatTime(s.endTime),
+        }));
+
+        setSessions(copied);
+        setSessionCount(copied.length);
+        setErrors(prev => ({ ...prev, sessions: undefined }));
+    }
+
     const handleClose = () => {
-        setWeekName(t("defaultWeekName", { number: nextWeekNumber }));
+        setWeekName(t("defaultWeekName", { number: course.weekSections.length + 1 }));
         setSessionCount(MIN_SESSIONS);
         setSessions([emptySession()]);
         setErrors({});
@@ -159,6 +176,22 @@ export default function CreateWeekSectionModal({ course, isOpen, onClose, nextWe
                         />
                     </div>
                 </div>
+
+                {previousWeek && (
+                    <div className="flex flex-col gap-2">
+                        <p className="text-sm font-medium text-fg">{t("copyFromPreviousLabel")}</p>
+
+                        <div className="flex flex-wrap gap-2">
+                            <button
+                                type="button"
+                                onClick={handleCopyFromPreviousWeek}
+                                className="rounded-full border border-border bg-bg px-4 py-1.5 text-sm text-fg transition-colors cursor-pointer hover:border-accent hover:text-accent"
+                            >
+                                {t("previousWeekChip", { name: previousWeek.weekName })}
+                            </button>
+                        </div>
+                    </div>
+                )}
 
                 <p className="text-sm font-medium text-fg">{t("sessionTimes")}</p>
 

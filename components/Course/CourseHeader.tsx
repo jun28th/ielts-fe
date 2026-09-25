@@ -95,7 +95,7 @@ export default function CourseHeader({ course }: CourseHeaderProps) {
                 </div>
                 <div className="min-w-30">
                     <p className="text-xs text-muted">{t("scheduledWeeksLabel")}</p>
-                    <p className="mt-0.5 text-sm font-semibold">1</p>
+                    <p className="mt-0.5 text-sm font-semibold">{course.weekSections.length}</p>
                 </div>
             </div>
 
