@@ -34,7 +34,7 @@ const isSameSession = (a: ClassSession, b: ClassSession) =>
     a.date === b.date &&
     a.startTime === b.startTime &&
     a.endTime === b.endTime;
-    
+
 type UpdateWeekSectionModalProps = {
     courseId: string;
     weekSection: WeekSection;
@@ -58,16 +58,18 @@ export default function UpdateWeekSectionModal({ courseId, weekSection, isOpen, 
 
     const [errors, setErrors] = useState<Errors>({});
 
-    const isDirty = useMemo(() => {
-        if (weekName.trim() !== weekSection.weekName) return true;
+    const isWeekNameDirty = weekName.trim() !== weekSection.weekName;
 
+    const isSessionsDirty = useMemo(() => {
         const original = toFormSessions(weekSection.sessions);
 
         if (sessions.length !== original.length) return true;
         if (sessions.some(s => s.isNew)) return true;
 
         return sessions.some((s, i) => !isSameSession(s, original[i]));
-    }, [weekName, sessions, weekSection]);
+    }, [sessions, weekSection]);
+
+    const isDirty = isWeekNameDirty || isSessionsDirty;
 
     const handleSessionCountChange = (value: number | "") => {
         if (value === "") {
@@ -154,15 +156,22 @@ export default function UpdateWeekSectionModal({ courseId, weekSection, isOpen, 
             return;
         }
 
-        mutate({
-            weekName: weekName.trim(),
-            sessions: sessions.map(({ id, isNew, date, startTime, endTime }) => ({
+        const payload: UpdateWeekSectionRequest = {};
+
+        if (isWeekNameDirty) {
+            payload.weekName = weekName.trim();
+        }
+
+        if (isSessionsDirty) {
+            payload.sessions = sessions.map(({ id, isNew, date, startTime, endTime }) => ({
                 id: isNew ? null : id,
                 date,
                 startTime,
                 endTime,
-            })),
-        });
+            }));
+        }
+
+        mutate(payload);
     }
 
     return (

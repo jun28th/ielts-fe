@@ -25,10 +25,10 @@ export type UpdateSessionRequest = {
     endTime: string;
 }
 
-export type UpdateWeekSectionRequest = {
+export type UpdateWeekSectionRequest = Partial<{
     weekName: string;
     sessions: UpdateSessionRequest[];
-}
+}>;
 
 export type SessionErrors = {
     date?: string;
