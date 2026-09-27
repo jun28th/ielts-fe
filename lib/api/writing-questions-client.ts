@@ -1,9 +1,10 @@
-import { CreateWritingQuestionRequest, UpdateWritingQuestionRequest, WritingQuestionListResponse } from "@/types/writing-question-types";
+import { CreateWritingQuestionRequest, UpdateWritingQuestionRequest, WritingQuestionListResponse, WritingTaskType } from "@/types/writing-question-types";
 import { http } from "./http";
 
 type ListWritingQuestionParams = {
     page: number,
     size: number,
+    taskType?: WritingTaskType,
 }
 
 function buildQuery(params: ListWritingQuestionParams): string {
@@ -11,6 +12,8 @@ function buildQuery(params: ListWritingQuestionParams): string {
         page: String(params.page),
         size: String(params.size),
     });
+
+    if (params.taskType) searchParams.append("taskType", params.taskType);
 
     return searchParams.toString();
 }

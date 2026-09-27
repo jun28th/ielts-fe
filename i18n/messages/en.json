@@ -334,6 +334,11 @@
             "MEDIUM": "Medium",
             "HARD": "Hard"
         },
+        "filters": {
+            "ALL": "All",
+            "TASK_1": "Task 1",
+            "TASK_2": "Task 2"
+        },
         "loadError": "Failed to load writing questions.",
         "deletePopconfirm": {
             "title": "Delete question",

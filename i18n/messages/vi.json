@@ -334,6 +334,11 @@
             "MEDIUM": "Trung bình",
             "HARD": "Khó"
         },
+        "filters": {
+            "ALL": "Tất cả",
+            "TASK_1": "Task 1",
+            "TASK_2": "Task 2"
+        },
         "loadError": "Không tải được danh sách đề bài.",
         "deletePopconfirm": {
             "title": "Xóa đề",

@@ -14,6 +14,9 @@ import { Image, Popconfirm, Table, TableColumnsType, Tag, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
+type Filter = "ALL" | WritingTaskType;
+
+const FILTERS: Filter[] = ["ALL", "TASK_1", "TASK_2"];
 const DEFAULT_PAGE_SIZE = 10;
 
 const TASK_TYPE_COLORS: Record<WritingTaskType, string> = {
@@ -36,13 +39,15 @@ export default function QuestionBankWritingPage() {
     const [isUpdateModalOpen, setUpdateModalOpen] = useState<boolean>(false);
     const [selectedQuestion, setSelectedQuestion] = useState<WritingQuestion | null>(null);
 
+    const [filter, setFilter] = useState<Filter>("ALL");
     const [page, setPage] = useState<number>(0);
 
     const { data, isLoading, isError } = useQuery({
-        queryKey: ["writing-questions", page],
+        queryKey: ["writing-questions", page, filter],
         queryFn: () => WritingQuestionsApi.list({
             page,
-            size: DEFAULT_PAGE_SIZE
+            size: DEFAULT_PAGE_SIZE,
+            taskType: filter === "ALL" ? undefined : filter,
         }),
         placeholderData: keepPreviousData
     });
@@ -69,6 +74,11 @@ export default function QuestionBankWritingPage() {
     const handleUpdateModalClose = () => {
         setUpdateModalOpen(false);
         setSelectedQuestion(null);
+    };
+
+    const handleFilterChange = (key: Filter) => {
+        setFilter(key);
+        setPage(0);
     };
 
     const columns: TableColumnsType<WritingQuestion> = [
@@ -182,6 +192,27 @@ export default function QuestionBankWritingPage() {
                     icon={<PlusIcon className="text-white" width={20} height={20}/>}
                     onClick={() => setCreateModalOpen(true)}
                 />
+            </div>
+
+            <div className="mt-6 mb-6 flex flex-wrap gap-2">
+                {FILTERS.map((key) => {
+                    const isActive = key === filter;
+
+                    return (
+                        <button
+                            key={key}
+                            type="button"
+                            onClick={() => handleFilterChange(key)}
+                            className={`inline-flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-sm font-semibold transition-colors ${
+                                isActive
+                                    ? "border-accent bg-accent text-white"
+                                    : "border-border bg-bg text-muted hover:border-muted hover:text-fg"
+                            }`}
+                        >
+                            {t(`filters.${key}`)}
+                        </button>
+                    )
+                })}
             </div>
 
             {isError ? (
