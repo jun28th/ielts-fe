@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useAppMessage } from "@/contexts/message-context";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { coursesApi } from "@/lib/api/courses-client";
+import CreateWritingAssignmentModal from "../Modal/CreateWritingAssignmentModal";
 
 type WeekSectionCardProps = {
     courseId: string;
@@ -26,7 +27,8 @@ export default function WeekSectionCard({ courseId, weekSection } : WeekSectionC
     const weekdayFormatter = new Intl.DateTimeFormat(locale, { weekday: "short" });
     const today = todayIso();
 
-    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
+    const [isUpdateWeekSectionModalOpen, setIsUpdateWeekSectionModalOpen] = useState<boolean>(false);
+    const [isCreateWritingAssignmentModalOpen, setIsCreateWritingAssignmentModalOpen] = useState<boolean>(false);
 
     const { mutate } = useMutation({
         mutationFn: () => coursesApi.deleteWeekSection(courseId, weekSection.id),
@@ -56,7 +58,7 @@ export default function WeekSectionCard({ courseId, weekSection } : WeekSectionC
                         variant="secondary"
                         icon={<PencilIcon width={18} height={18} />}
                         iconOnly={true}
-                        onClick={() => setIsUpdateModalOpen(true)}
+                        onClick={() => setIsUpdateWeekSectionModalOpen(true)}
                     />
 
                     <Popconfirm
@@ -119,7 +121,7 @@ export default function WeekSectionCard({ courseId, weekSection } : WeekSectionC
                         variant="tertiary"
                         label={t("assignments.addButton")}
                         icon={<PlusIcon className="text-accent" width={18} height={18} />}
-                        onClick={() => {}}
+                        onClick={() => setIsCreateWritingAssignmentModalOpen(true)}
                     />
                 </div>
 
@@ -129,10 +131,17 @@ export default function WeekSectionCard({ courseId, weekSection } : WeekSectionC
             </div>
 
             <UpdateWeekSectionModal
-                isOpen={isUpdateModalOpen}
-                onClose={() => setIsUpdateModalOpen(false)}
+                isOpen={isUpdateWeekSectionModalOpen}
+                onClose={() => setIsUpdateWeekSectionModalOpen(false)}
                 courseId={courseId}
                 weekSection={weekSection}
+            />
+
+            <CreateWritingAssignmentModal
+                isOpen={isCreateWritingAssignmentModalOpen}
+                onClose={() => setIsCreateWritingAssignmentModalOpen(false)}
+                courseId={courseId}
+                weekSectionId={weekSection.id}
             />
         </div>
     );

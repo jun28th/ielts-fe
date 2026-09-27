@@ -227,6 +227,10 @@
                 "endTimeRequired": "Vui lòng chọn giờ kết thúc"
             },
             "updateSuccess": "Cập nhật tuần học thành công"
+        },
+        "CreateWritingAssignmentModal": {
+            "title": "Thêm bài tập Writing",
+            "subtitle": "Chọn một đề writing từ Kho đề, sau đó điền thông tin bài tập."
         }
     },
     "TeacherStudentsPage": {

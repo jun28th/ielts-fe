@@ -227,6 +227,10 @@
                 "endTimeRequired": "Please select an end time"
             },
             "updateSuccess": "Week updated successfully"
+        },
+        "CreateWritingAssignmentModal": {
+            "title": "Add Writing Assignment",
+            "subtitle": "Select a writing prompt from the Question Bank, then fill in the assignment details."
         }
     },
     "TeacherStudentsPage": {
