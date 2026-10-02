@@ -1,5 +1,35 @@
 import { useTranslations } from "next-intl";
 import Modal from "./Modal";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { WritingDifficulty, WritingQuestion, WritingTaskType } from "@/types/writing-question-types";
+import { useState } from "react";
+import { WritingQuestionsApi } from "@/lib/api/writing-questions-client";
+import { Image, Table, TableColumnsType, Tag, Tooltip } from "antd";
+import DateInput from "../FormInput/DateInput";
+import TextInput from "../FormInput/TextInput";
+import Button from "../Button";
+import { coursesApi } from "@/lib/api/courses-client";
+import { CreateWritingAssignmentRequest } from "@/types/writing-assignment-types";
+import { useAppMessage } from "@/contexts/message-context";
+
+type Filter = "ALL" | WritingTaskType;
+
+const FILTERS: Filter[] = ["ALL", "TASK_1", "TASK_2"];
+const DEFAULT_PAGE_SIZE = 5;
+const THUMB_SIZE = 64;
+
+const TASK_TYPE_COLORS: Record<WritingTaskType, string> = {
+    TASK_1: "blue",
+    TASK_2: "purple",
+};
+
+const DIFFICULTY_COLORS: Record<WritingDifficulty, string> = {
+    EASY: "green",
+    MEDIUM: "gold",
+    HARD: "red",
+};
+
+const SMALL_TAG_STYLE = { marginInlineEnd: 0, fontSize: 11, lineHeight: "18px", paddingInline: 6 };
 
 type CreateWritingAssignmentModalProps = {
     isOpen: boolean;
@@ -8,17 +38,135 @@ type CreateWritingAssignmentModalProps = {
     weekSectionId: string;
 }
 
+type Errors = {
+    selectedQuestionError?: string;
+    deadlineError?: string;
+}
+
 export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId, weekSectionId } : CreateWritingAssignmentModalProps) {
     const t = useTranslations("TeacherCourseDetailPage.CreateWritingAssignmentModal");
+    const message = useAppMessage();
+    const queryClient = useQueryClient();
+
+    const [selectedQuestion, setSelectedQuestion] = useState<WritingQuestion | null>(null);
+    const [deadline, setDeadline] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
+
+    const [errors, setErrors] = useState<Errors>({});
+
+    const [filter, setFilter] = useState<Filter>("ALL");
+    const [page, setPage] = useState<number>(0);
+
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["writing-questions", page, filter],
+        queryFn: () => WritingQuestionsApi.list({
+            page,
+            size: DEFAULT_PAGE_SIZE,
+            taskType: filter === "ALL" ? undefined : filter,
+        }),
+        placeholderData: keepPreviousData
+    });
+
+    const handleFilterChange = (key: Filter) => {
+        setFilter(key);
+        setPage(0);
+    };
 
     const handleClose = () => {
+        setSelectedQuestion(null);
+        setDeadline("");
+        setDescription("");
+        setErrors({});
         onClose();
     }
+
+    const { mutate, isPending } = useMutation({
+        mutationFn: (data: CreateWritingAssignmentRequest) => coursesApi.createWritingAssignment(courseId, weekSectionId, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["course", courseId] })
+            message.success(t("createSuccess"));
+            handleClose();
+        },
+        onError: (error) => {
+            message.error(error.message);
+        }
+    })
 
     const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        const newErrors: Errors = {};
+
+        if (!selectedQuestion) newErrors.selectedQuestionError = t("errors.selectedQuestionRequired");
+        if (!deadline) newErrors.deadlineError = t("errors.deadlineRequired");
+
+        setErrors(newErrors);
+
+        if (!selectedQuestion || Object.keys(newErrors).length > 0) {
+            return;
+        }
+
+        mutate({
+            writingQuestionId: selectedQuestion.id,
+            deadline,
+            description: description.trim() || undefined,
+        });
     }
+
+    const columns: TableColumnsType<WritingQuestion> = [
+        {
+            dataIndex: "id",
+            render: (_: string, record) => (
+                <div className="flex min-w-0 items-center gap-3">
+                    <div
+                        className="shrink-0 overflow-hidden rounded-md bg-gray-100"
+                        style={{ width: THUMB_SIZE, height: THUMB_SIZE }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {record.imageUrl ? (
+                            <Image
+                                src={record.imageUrl}
+                                alt={record.title}
+                                width={THUMB_SIZE}
+                                height={THUMB_SIZE}
+                                style={{ objectFit: "cover" }}
+                            />
+                        ) : (
+                            <div className="flex h-full w-full items-center justify-center text-xs text-muted">
+                                —
+                            </div>
+                        )}
+                    </div>
+
+                    <Tooltip
+                        placement="topLeft"
+                        title={<span className="whitespace-pre-line">{record.prompt}</span>}
+                    >
+                        <div className="flex min-w-0 flex-1 flex-col gap-1">
+                            <p className="truncate text-sm font-medium text-fg">{record.title}</p>
+                            <p className="truncate text-xs text-muted">{record.prompt}</p>
+                            <div className="mt-1 flex items-center gap-1.5">
+                                <Tag
+                                    variant="filled"
+                                    color={TASK_TYPE_COLORS[record.taskType]}
+                                    style={SMALL_TAG_STYLE}
+                                >
+                                    {t(`taskType.${record.taskType}`)}
+                                </Tag>
+                                <Tag
+                                    variant="filled"
+                                    color={DIFFICULTY_COLORS[record.difficulty]}
+                                    style={SMALL_TAG_STYLE}
+                                >
+                                    {t(`difficulty.${record.difficulty}`)}
+                                </Tag>
+                            </div>
+                        </div>
+                    </Tooltip>
+                </div>
+            ),
+        },
+    ];
 
     return (
         <Modal
@@ -28,8 +176,96 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
             onClose={handleClose}
             size="2xl"
         >
-            <form onSubmit={handleSubmit} className="">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                <p className="text-sm font-medium text-fg">
+                    {t("writingLabel")}
+                </p>
 
+                <div className="flex flex-wrap gap-2">
+                    {FILTERS.map((key) => {
+                        const isActive = key === filter;
+
+                        return (
+                            <button
+                                key={key}
+                                type="button"
+                                onClick={() => handleFilterChange(key)}
+                                className={`inline-flex h-7.5 items-center gap-1.5 rounded-full border px-3.5 text-sm font-semibold transition-colors ${
+                                    isActive
+                                        ? "border-accent bg-accent text-white"
+                                        : "border-border bg-bg text-muted hover:border-muted hover:text-fg"
+                                }`}
+                            >
+                                {t(`filters.${key}`)}
+                            </button>
+                        )
+                    })}
+                </div>
+
+                {isError ? (
+                    <p className="text-sm text-red-500">{t("loadError")}</p>
+                ) : (
+                    <Table<WritingQuestion>
+                        rowKey="id"
+                        showHeader={false}
+                        columns={columns}
+                        dataSource={data?.content ?? []}
+                        loading={isLoading}
+                        tableLayout="fixed"
+                        rowSelection={{
+                            type: "radio",
+                            columnWidth: 48,
+                            selectedRowKeys: selectedQuestion ? [selectedQuestion.id] : [],
+                            onChange: (_keys, rows) => setSelectedQuestion(rows[0] ?? null),
+                        }}
+                        onRow={(record) => ({
+                            onClick: () => setSelectedQuestion(record),
+                            className: "cursor-pointer",
+                        })}
+                        pagination={{
+                            current: page + 1,
+                            pageSize: DEFAULT_PAGE_SIZE,
+                            total: data?.totalElements ?? 0,
+                            showSizeChanger: false,
+                            onChange: (p) => setPage(p - 1),
+                        }}
+                    />
+                )}
+
+                {errors.selectedQuestionError && (
+                    <p className="text-sm text-red-500">{errors.selectedQuestionError}</p>
+                )}
+
+                {selectedQuestion && (
+                    <p className="truncate text-sm text-muted">
+                        {t("selected")}: <span className="font-medium text-fg">{selectedQuestion.title}</span>
+                    </p>
+                )}
+
+                <DateInput
+                    label={t("deadlineLabel")}
+                    value={deadline}
+                    onChange={setDeadline}
+                    error={errors.deadlineError}
+                />
+
+                <TextInput
+                    label={t("descriptionLabel")}
+                    placeholder={t("descriptionPlaceholder")}
+                    value={description}
+                    onChange={setDescription}
+                    type="textarea"
+                    maxLength={1500}
+                    rows={3}
+                />
+
+                <div className="flex justify-end">
+                    <Button
+                        label={t("submit")}
+                        type="submit"
+                        loading={isPending}
+                    />
+                </div>
             </form>
         </Modal>
     )

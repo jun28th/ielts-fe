@@ -230,7 +230,33 @@
         },
         "CreateWritingAssignmentModal": {
             "title": "Thêm bài tập Writing",
-            "subtitle": "Chọn một đề writing từ Kho đề, sau đó điền thông tin bài tập."
+            "subtitle": "Chọn một đề writing từ Kho đề, sau đó điền thông tin bài tập.",
+            "writingLabel": "Đề writing",
+            "deadlineLabel": "Hạn nộp",
+            "descriptionLabel": "Mô tả (Tuỳ chọn)",
+            "descriptionPlaceholder": "Ghi chú thêm cho học viên về phần bài tập này...",
+            "taskType": {
+                "TASK_1": "Task 1",
+                "TASK_2": "Task 2"
+            },
+            "difficulty": {
+                "EASY": "Dễ",
+                "MEDIUM": "Trung bình",
+                "HARD": "Khó"
+            },
+            "filters": {
+                "ALL": "Tất cả",
+                "TASK_1": "Task 1",
+                "TASK_2": "Task 2"
+            },
+            "selected": "Đã chọn",
+            "loadError": "Không tải được danh sách đề bài.",
+            "submit": "Tạo mới",
+            "errors": {
+                "selectedQuestionRequired": "Vui lòng chọn một đề writing.",
+                "deadlineRequired": "Vui lòng chọn hạn nộp."
+            },
+            "createSuccess": "Tạo bài tập thành công"
         }
     },
     "TeacherStudentsPage": {

@@ -52,6 +52,10 @@ export default async function Providers({ children } : { children : React.ReactN
                     },
                     Select: {
                         colorPrimary: "var(--color-accent)"
+                    },
+                    Tooltip: {
+                        colorBgSpotlight: "var(--color-accent-bg)",
+                        colorTextLightSolid: "var(--color-fg)"
                     }
                 }
             }}
