@@ -11,6 +11,8 @@
         ]
     },
     "Header": {
+        "account": "Account",
+        "language": "Language",
         "logout": "Log out",
         "signIn": "Sign in"
     },    

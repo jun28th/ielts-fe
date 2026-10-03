@@ -118,6 +118,13 @@ export default async function Providers({ children } : { children : React.ReactN
                         colorPrimaryHover: "var(--color-accent)",
                         colorPrimaryBorder: "var(--color-accent)",
                     },
+                    Dropdown: {
+                        colorText: "var(--color-fg)",
+                        controlItemBgHover: "var(--color-accent-bg)",
+                        colorPrimary: "var(--color-accent)",
+                        controlItemBgActive: "var(--color-accent-bg)",
+                        controlItemBgActiveHover: "var(--color-accent-bg)"                    
+                    }
                 }
             }}
         >

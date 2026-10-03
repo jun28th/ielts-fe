@@ -11,6 +11,8 @@
         ]
     },
     "Header": {
+        "account": "Tài khoản",
+        "language": "Ngôn ngữ",
         "logout": "Đăng xuất",
         "signIn": "Đăng nhập"
     },
