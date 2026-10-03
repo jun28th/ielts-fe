@@ -23,7 +23,7 @@ export default async function AuthLayout({ children } : { children : React.React
                     <ul className="flex flex-col gap-3.5">
                         {features.map((item) => (
                             <li key={item} className="flex items-start gap-2.5 text-[14px] text-fg">
-                                <CheckCircleIcon className="text-accent" width={18} height={18}/>
+                                <CheckCircleIcon className="text-highlight" width={18} height={18}/>
                                 <span>{item}</span>
                             </li>
                         ))}

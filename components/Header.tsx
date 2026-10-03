@@ -56,7 +56,14 @@ export default function Header() {
                 <div className="flex items-center gap-3">
                     {user ? (
                         <>
-                            <Avatar size={42} style={{ backgroundColor: "#e6f4ff", color: "#1677ff", fontWeight: "bold" }}>
+                            <Avatar
+                                size={42}
+                                style={{
+                                    backgroundColor: "var(--color-accent-bg)",
+                                    color: "var(--color-accent)",
+                                    fontWeight: "bold",
+                                }}
+                            >
                                 {getInitial(user.fullName)}
                             </Avatar>
 

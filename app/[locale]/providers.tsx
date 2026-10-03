@@ -37,8 +37,18 @@ export default async function Providers({ children } : { children : React.ReactN
                 },
                 components: {
                     Menu: {
-                        itemHoverBg: "var(--color-accent-bg)",
+                        // thanh ngang: chữ + gạch chân của mục đang chọn
+                        horizontalItemSelectedColor: "var(--color-accent)",
+                        horizontalItemHoverColor: "var(--color-accent)",
+                        subMenuItemSelectedColor: "var(--color-accent)",
+
+                        // mục con trong dropdown "Kho đề"
+                        itemSelectedColor: "var(--color-accent)",
                         itemSelectedBg: "var(--color-accent-bg)",
+
+                        // chữ của các mục bình thường
+                        itemColor: "var(--color-fg)",
+                        itemHoverColor: "var(--color-accent)",
                     },
                     Spin: {
                         colorPrimary: "var(--color-muted)",
@@ -48,7 +58,9 @@ export default async function Providers({ children } : { children : React.ReactN
                         linkHoverColor: "var(--color-accent)"
                     },
                     Table: {
-                        borderColor: "var(--color-border)"
+                        borderColor: "var(--color-border)",
+                        rowSelectedBg: "var(--color-accent-bg)",
+                        rowSelectedHoverBg: "var(--color-accent-bg)"
                     },
                     Select: {
                         colorPrimary: "var(--color-accent)"
@@ -56,7 +68,56 @@ export default async function Providers({ children } : { children : React.ReactN
                     Tooltip: {
                         colorBgSpotlight: "var(--color-accent-bg)",
                         colorTextLightSolid: "var(--color-fg)"
-                    }
+                    },
+                    Progress: {
+                        defaultColor: "var(--color-accent)",
+                        colorSuccess: "var(--color-highlight)"
+                    },
+                    Radio: {
+                        colorPrimary: "var(--color-accent)",
+                        colorPrimaryHover: "var(--color-accent)",
+                    },
+                    Pagination: {
+                        colorPrimary: "var(--color-accent)",
+                        colorPrimaryHover: "var(--color-accent)",
+                        itemActiveBg: "transparent",
+                    },
+                    DatePicker: {
+                        colorPrimary: "var(--color-accent)", 
+                        hoverBorderColor: "var(--color-accent)",
+                        activeBorderColor: "var(--color-accent)",
+                        activeShadow: "0 0 0 2px var(--color-accent-bg)",
+                        controlItemBgActive: "var(--color-accent-bg)",
+                        cellActiveWithRangeBg: "var(--color-accent-bg)",
+                        cellHoverWithRangeBg: "var(--color-accent-bg)",
+                        cellRangeBorderColor: "var(--color-accent)",
+                        colorLink: "var(--color-accent)",
+                        colorLinkHover: "var(--color-accent)",
+                        colorLinkActive: "var(--color-accent)",
+                    },
+                    Button: {
+                        colorPrimary: "var(--color-accent)",
+                        colorPrimaryHover: "var(--color-accent)",
+                        colorPrimaryActive: "var(--color-accent)",
+                        primaryShadow: "none",
+                        defaultHoverColor: "var(--color-accent)",
+                        defaultHoverBorderColor: "var(--color-accent)",
+                        defaultActiveColor: "var(--color-accent)",
+                        defaultActiveBorderColor: "var(--color-accent)",
+                    },
+                    Upload: {
+                        colorPrimary: "var(--color-accent)",
+                        colorPrimaryHover: "var(--color-accent)",
+                        colorPrimaryActive: "var(--color-accent)",
+                        colorLink: "var(--color-accent)",
+                        colorLinkHover: "var(--color-accent)",
+                        colorLinkActive: "var(--color-accent)",
+                    },
+                    Checkbox: {
+                        colorPrimary: "var(--color-accent)",
+                        colorPrimaryHover: "var(--color-accent)",
+                        colorPrimaryBorder: "var(--color-accent)",
+                    },
                 }
             }}
         >

@@ -7,29 +7,34 @@
 	/* Background — page canvas */
 	--color-bg: #ffffff;
 
-	/* Surface — cards and panels, slightly off-white */
-	--color-surface: #f7f8fa;
+	/* Surface — cards and panels, slightly off-white with a navy tint */
+	--color-surface: #f6f8fc;
 
-	/* Foreground — body text and headings */
-	--color-fg: #111111;
+	/* Foreground — body text and headings (brand dark navy) */
+	--color-fg: #030351;
 
 	/* Muted — secondary text and metadata */
-	--color-muted: #6b7280;
+	--color-muted: #5b6478;
 
 	/* Border — rules and dividers */
-	--color-border: #d9dee7;
+	--color-border: #d9deeb;
 
-	/* Accent — primary actions and emphasis (buttons, links) */
-	--color-accent: #1677ff;
-	--color-accent-bg: #e6f4ff;      /* light accent background, e.g. badges */
-	--color-accent-hover: #4096ff;   /* hover state */
-	--color-accent-active: #0958d9;  /* pressed/active state */
+	/* Accent — primary actions and emphasis (brand navy) */
+	--color-accent: #1b387f;
+	--color-accent-bg: #e9eef8;      /* light accent background, e.g. badges */
+	--color-accent-hover: #2a4fa8;   /* hover state */
+	--color-accent-active: #030351;  /* pressed/active state */
+
+	/* Highlight — brand yellow, for standout elements (use dark text on it) */
+	--color-highlight: #ffc200;
+	--color-highlight-hover: #ffd500;
+	--color-highlight-bg: #fff8db;
 
 	/* Status colors */
 	--color-error: #ff4d4f;
 	--color-error-bg: #fff1f0;
-	--color-warning: #faad14;
-	--color-warning-bg: #fffbe6;
+	--color-warning: #d97706;
+	--color-warning-bg: #fff4e5;
 	--color-success: #237804;
 	--color-success-bg: #f6ffed;
 }
