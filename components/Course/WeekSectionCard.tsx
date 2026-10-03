@@ -94,7 +94,7 @@ export default function WeekSectionCard({ courseId, weekSection } : WeekSectionC
                             ].join(" ")}
                         >
                             <div className="flex items-baseline gap-1.5">
-                                <p className={`text-xs font-medium uppercase ${isToday ? "text-accent" : "text-muted"}`}>
+                                <p className={`text-sm font-medium uppercase ${isToday ? "text-accent" : "text-muted"}`}>
                                     {weekdayFormatter.format(parseLocalDate(session.date))}
                                 </p>
                                 <p className="text-sm font-semibold text-fg">

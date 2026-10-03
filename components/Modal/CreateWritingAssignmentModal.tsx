@@ -132,7 +132,7 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
                                 style={{ objectFit: "cover" }}
                             />
                         ) : (
-                            <div className="flex h-full w-full items-center justify-center text-xs text-muted">
+                            <div className="flex h-full w-full items-center justify-center text-sm text-muted">
                                 —
                             </div>
                         )}
@@ -144,7 +144,7 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
                     >
                         <div className="flex min-w-0 flex-1 flex-col gap-1">
                             <p className="truncate text-sm font-medium text-fg">{record.title}</p>
-                            <p className="truncate text-xs text-muted">{record.prompt}</p>
+                            <p className="truncate text-sm text-muted">{record.prompt}</p>
                             <div className="mt-1 flex items-center gap-1.5">
                                 <Tag
                                     variant="filled"

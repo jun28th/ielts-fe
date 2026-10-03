@@ -93,7 +93,7 @@ export default function QuestionBankWritingPage() {
                 >
                     <div className="min-w-0">
                         <p className="truncate text-sm font-medium text-fg">{record.title}</p>
-                        <p className="truncate text-xs text-muted">{record.prompt}</p>
+                        <p className="truncate text-sm text-muted">{record.prompt}</p>
                     </div>
                 </Tooltip>
             ),

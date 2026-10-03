@@ -30,7 +30,7 @@ export default function CourseCard({ course } : CourseCardProps) {
             <div className="flex items-start justify-between gap-2.5">
                 <p className="font-serif text-base font-bold">{course.name}</p>
 
-                <p className={`inline-flex items-center h-6 flex-none rounded-full px-2.5 text-xs font-medium whitespace-nowrap ${STATUS_STYLE[course.status]}`}>
+                <p className={`inline-flex items-center h-6 flex-none rounded-full px-2.5 text-sm font-medium whitespace-nowrap ${STATUS_STYLE[course.status]}`}>
                     {t(`status.${course.status}`)}
                 </p>
             </div>

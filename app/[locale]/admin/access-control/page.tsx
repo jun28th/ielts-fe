@@ -117,7 +117,7 @@ function RolePermissionTransfer({ role, permissions }: { role: Role; permissions
                     <Tooltip placement="topLeft" title={record.description}>
                         <div className="min-w-0">
                             <p className="truncate text-sm font-medium text-fg">{record.name}</p>
-                            <p className="truncate font-mono text-xs text-muted">{record.code}</p>
+                            <p className="truncate font-mono text-sm text-muted">{record.code}</p>
                         </div>
                     </Tooltip>
                 ),

@@ -110,7 +110,7 @@ export default function SignInPage() {
                 />
             </form>
 
-            <div className="my-5.5 flex items-center gap-3 text-[12.5px] text-muted before:h-px before:flex-1 before:bg-border before:content-[''] after:h-px after:flex-1 after:bg-border after:content-['']">
+            <div className="my-5.5 flex items-center gap-3 text-sm text-muted before:h-px before:flex-1 before:bg-border before:content-[''] after:h-px after:flex-1 after:bg-border after:content-['']">
                 {t("or")}
             </div>
 
@@ -123,7 +123,7 @@ export default function SignInPage() {
                 fullWidth={true}
             />
 
-            <p className="mt-5.5 text-center text-[13.5px] text-muted">
+            <p className="mt-5.5 text-center text-sm text-muted">
                 {t("noAccount")}{" "}
                 <span className="font-medium text-accent hover:underline">
                     {t("contactUs")}

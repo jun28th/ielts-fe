@@ -157,7 +157,7 @@ export default function CreateWritingQuestionModal({ isOpen, onClose } : CreateW
                     maxLength={PROMPT_MAX_LENGTH}
                     rows={6}
                     rightSlot={
-                        <span className="text-xs text-muted">
+                        <span className="text-sm text-muted">
                             {prompt.length} / {PROMPT_MAX_LENGTH}
                         </span>
                     }

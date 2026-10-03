@@ -59,13 +59,13 @@ export default async function Footer() {
                         <span className="font-serif text-base font-bold">IELTS by Phanh</span>
                     </Link>
 
-                    <p className="max-w-[34ch] text-[13.5px] leading-relaxed text-muted">
+                    <p className="max-w-[34ch] text-sm leading-relaxed text-muted">
                         {t("tagline")}
                     </p>
 
                     <ul className="flex flex-col gap-2">
                         {CONTACT_ITEMS.map((item) => (
-                            <li key={item.label} className="flex items-center gap-2 text-[13.5px] text-muted">
+                            <li key={item.label} className="flex items-center gap-2 text-sm text-muted">
                                 {item.icon}
                                 <span>{item.label}</span>
                             </li>
@@ -76,12 +76,12 @@ export default async function Footer() {
                 {/* Nav columns */}
                 {FOOTER_COLUMNS.map((col) => (
                     <nav key={col.title} className="flex flex-col gap-2.5">
-                        <p className="mb-1 text-[13.5px] font-bold text-fg">{col.title}</p>
+                        <p className="mb-1 text-sm font-bold text-fg">{col.title}</p>
                         {col.links.map((link) => (
                             <Link
                                 key={link.label}
                                 href={link.href}
-                                className="text-[13.5px] text-muted hover:text-accent"
+                                className="text-sm text-muted hover:text-accent"
                             >
                                 {link.label}
                             </Link>
@@ -92,14 +92,14 @@ export default async function Footer() {
 
             {/* Bottom bar */}
             <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 border-t border-border px-7 py-4">
-                <p className="text-[12.5px] text-muted">
+                <p className="text-sm text-muted">
                     {t("copyright")}
                 </p>
                 <div className="flex gap-4.5">
-                    <Link href="#" className="text-[12.5px] text-muted hover:text-accent hover:underline">
+                    <Link href="#" className="text-sm text-muted hover:text-accent hover:underline">
                         {t("terms")}
                     </Link>
-                    <Link href="#" className="text-[12.5px] text-muted hover:text-accent hover:underline">
+                    <Link href="#" className="text-sm text-muted hover:text-accent hover:underline">
                         {t("privacy")}
                     </Link>
                 </div>

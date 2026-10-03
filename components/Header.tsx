@@ -86,7 +86,7 @@ export default function Header() {
                     <span className="flex h-7.5 w-7.5 flex-none items-center justify-center rounded-lg bg-accent">
                         <GraduationCapIcon className="text-white" width={17} height={17} />
                     </span>
-                    <span className="font-serif text-[17px] font-bold">IELTS by Phanh</span>
+                    <span className="font-serif text-base font-bold">IELTS by Phanh</span>
                 </Link>
 
                 <RoleNav />

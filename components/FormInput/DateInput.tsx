@@ -34,7 +34,7 @@ export default function DateInput({ label, value, onChange, error } : DateInputP
                 style={{ padding: "10px" }}
             />
 
-            {error && <span className="text-[12.5px] text-error">{error}</span>}
+            {error && <span className="text-sm text-error">{error}</span>}
         </div>
     );
 }

@@ -34,7 +34,7 @@ export default function TimeInput({ label, value, onChange, error } : TimeInputP
                 style={{ padding: "10px", width: "100%" }}
             />
 
-            {error && <span className="text-[12.5px] text-error">{error}</span>}
+            {error && <span className="text-sm text-error">{error}</span>}
         </div>
     );
 }

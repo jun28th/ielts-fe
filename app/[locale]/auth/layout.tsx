@@ -11,10 +11,10 @@ export default async function AuthLayout({ children } : { children : React.React
 
                 {/* Cột trái — promo panel, chỉ hiện khi màn hình đủ rộng */}
                 <div className="flex-1 max-w-lg">
-                    <p className="inline-flex items-center rounded-full bg-accent-bg px-3 py-1.25 text-xs font-bold text-accent-active mb-4.5">
+                    <p className="inline-flex items-center rounded-full bg-accent-bg px-3 py-1.25 text-sm font-bold text-accent-active mb-4.5">
                         {t("badge")}
                     </p>
-                    <h2 className="font-serif font-bold text-[clamp(28px,3.4vw,38px)] leading-[1.18] text-fg mb-4">
+                    <h2 className="font-serif font-bold text-4xl text-fg mb-4">
                         {t("headingLine1")}<br />{t("headingLine2")}
                     </h2>
                     <p className="text-muted leading-[1.6] max-w-[46ch] mb-6.5">
@@ -22,7 +22,7 @@ export default async function AuthLayout({ children } : { children : React.React
                     </p>
                     <ul className="flex flex-col gap-3.5">
                         {features.map((item) => (
-                            <li key={item} className="flex items-start gap-2.5 text-[14px] text-fg">
+                            <li key={item} className="flex items-start gap-2.5 text-sm text-fg">
                                 <CheckCircleIcon className="text-highlight" width={18} height={18}/>
                                 <span>{item}</span>
                             </li>

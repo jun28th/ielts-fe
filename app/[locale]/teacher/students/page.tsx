@@ -119,7 +119,7 @@ export default function StudentsPage() {
                         {courses.map((course) => (
                             <p 
                                 key={course.id}
-                                className={`inline-flex h-7 flex-none items-center whitespace-nowrap rounded-full px-3 text-xs font-medium ${STATUS_STYLE[course.status]}`}
+                                className={`inline-flex h-7 flex-none items-center whitespace-nowrap rounded-full px-3 text-sm font-medium ${STATUS_STYLE[course.status]}`}
                             >
                                 {course.name}
                             </p>

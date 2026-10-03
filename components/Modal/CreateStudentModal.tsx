@@ -57,11 +57,11 @@ function CourseTable({ selectedIds, onSelectionChange }: CourseTableProps) {
             width: "25%",
             render: (_, record) => (
                 <div className="flex items-center gap-2">
-                    <span className="text-xs">
+                    <span className="text-sm">
                         {record.enrolledCount}/{record.maxStudents}
                     </span>
                     {isFull(record) && (
-                        <span className="text-xs px-2 py-1 rounded bg-error/10 text-error">
+                        <span className="text-sm px-2 py-1 rounded bg-error/10 text-error">
                             {t("full")}
                         </span>
                     )}
@@ -73,7 +73,7 @@ function CourseTable({ selectedIds, onSelectionChange }: CourseTableProps) {
             dataIndex: "status",
             width: "25%",
             render: (status: CourseStatus) => (
-                <span className={`text-xs ${STATUS_STYLE[status]}`}>
+                <span className={`text-sm ${STATUS_STYLE[status]}`}>
                     {t(`status.${status}`)}
                 </span>
             ),
@@ -172,7 +172,7 @@ export default function CreateStudentModal({ isOpen, onClose } : CreateStudentMo
             subtitle={t("subtitle")}
             isOpen={isOpen}
             onClose={handleClose}
-            size="xl"
+            size="2xl"
         >
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                 <TextInput
