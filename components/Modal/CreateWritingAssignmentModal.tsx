@@ -51,7 +51,8 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
             size: DEFAULT_PAGE_SIZE,
             taskType: filter === "ALL" ? undefined : filter,
         }),
-        placeholderData: keepPreviousData
+        placeholderData: keepPreviousData,
+        enabled: isOpen
     });
 
     const handleFilterChange = (key: Filter) => {
