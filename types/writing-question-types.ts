@@ -4,6 +4,17 @@ export const DIFFICULTIES = ["EASY", "MEDIUM", "HARD"] as const;
 export type WritingTaskType = (typeof TASK_TYPES)[number];
 export type WritingDifficulty = (typeof DIFFICULTIES)[number];
 
+export const TASK_TYPE_COLORS: Record<WritingTaskType, string> = {
+    TASK_1: "blue",
+    TASK_2: "purple",
+};
+
+export const DIFFICULTY_COLORS: Record<WritingDifficulty, string> = {
+    EASY: "green",
+    MEDIUM: "gold",
+    HARD: "red",
+};
+
 export type WritingQuestion = {
     id: string;
     title: string;

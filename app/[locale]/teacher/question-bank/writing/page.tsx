@@ -8,7 +8,7 @@ import CreateWritingQuestionModal from "@/components/Modal/CreateWritingQuestion
 import UpdateWritingQuestionModal from "@/components/Modal/UpdateWritingQuestionModal";
 import { useAppMessage } from "@/contexts/message-context";
 import { WritingQuestionsApi } from "@/lib/api/writing-questions-client";
-import { WritingDifficulty, WritingQuestion, WritingTaskType } from "@/types/writing-question-types";
+import { DIFFICULTY_COLORS, TASK_TYPE_COLORS, WritingDifficulty, WritingQuestion, WritingTaskType } from "@/types/writing-question-types";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Image, Popconfirm, Table, TableColumnsType, Tag, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
@@ -18,17 +18,6 @@ type Filter = "ALL" | WritingTaskType;
 
 const FILTERS: Filter[] = ["ALL", "TASK_1", "TASK_2"];
 const DEFAULT_PAGE_SIZE = 10;
-
-const TASK_TYPE_COLORS: Record<WritingTaskType, string> = {
-    TASK_1: "blue",
-    TASK_2: "purple",
-};
-
-const DIFFICULTY_COLORS: Record<WritingDifficulty, string> = {
-    EASY: "green",
-    MEDIUM: "gold",
-    HARD: "red",
-};
 
 export default function QuestionBankWritingPage() {
     const t = useTranslations("QuestionBankWritingPage");

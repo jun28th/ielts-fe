@@ -12,6 +12,7 @@ import { useAppMessage } from "@/contexts/message-context";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { coursesApi } from "@/lib/api/courses-client";
 import CreateWritingAssignmentModal from "../Modal/CreateWritingAssignmentModal";
+import AssignmentList from "./AssignmentList";
 
 type WeekSectionCardProps = {
     courseId: string;
@@ -40,6 +41,8 @@ export default function WeekSectionCard({ courseId, weekSection } : WeekSectionC
             message.error(error.message);
         }
     });
+
+    const writingAssignments = weekSection.writingAssignments ?? [];
 
     return (
         <div className="flex flex-col gap-3 rounded-xl bg-bg border border-border p-4">
@@ -125,9 +128,13 @@ export default function WeekSectionCard({ courseId, weekSection } : WeekSectionC
                     />
                 </div>
 
-                <p className="rounded-lg border border-dashed border-border py-6 text-center text-sm text-muted">
-                    {t("assignments.empty")}
-                </p>
+                {writingAssignments.length > 0 ? (
+                    <AssignmentList writingAssignments={writingAssignments} />
+                ) : (
+                    <p className="rounded-lg border border-dashed border-border py-6 text-center text-sm text-muted">
+                        {t("assignments.empty")}
+                    </p>
+                )}
             </div>
 
             <UpdateWeekSectionModal

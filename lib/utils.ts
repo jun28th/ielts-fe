@@ -58,3 +58,8 @@ export function addDays(dateStr: string, days: number): string {
     const day = String(d.getDate()).padStart(2, "0");
     return `${d.getFullYear()}-${m}-${day}`;
 }
+
+// True if YYYY-MM-DD is before today (local time). The due date itself is not overdue yet.
+export function isOverdue(dateStr: string): boolean {
+    return dateStr < todayIso();
+}

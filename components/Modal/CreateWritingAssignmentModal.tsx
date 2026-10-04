@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import Modal from "./Modal";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { WritingDifficulty, WritingQuestion, WritingTaskType } from "@/types/writing-question-types";
+import { DIFFICULTY_COLORS, TASK_TYPE_COLORS, WritingQuestion, WritingTaskType } from "@/types/writing-question-types";
 import { useState } from "react";
 import { WritingQuestionsApi } from "@/lib/api/writing-questions-client";
 import { Image, Table, TableColumnsType, Tag, Tooltip } from "antd";
@@ -17,19 +17,6 @@ type Filter = "ALL" | WritingTaskType;
 const FILTERS: Filter[] = ["ALL", "TASK_1", "TASK_2"];
 const DEFAULT_PAGE_SIZE = 5;
 const THUMB_SIZE = 64;
-
-const TASK_TYPE_COLORS: Record<WritingTaskType, string> = {
-    TASK_1: "blue",
-    TASK_2: "purple",
-};
-
-const DIFFICULTY_COLORS: Record<WritingDifficulty, string> = {
-    EASY: "green",
-    MEDIUM: "gold",
-    HARD: "red",
-};
-
-const SMALL_TAG_STYLE = { marginInlineEnd: 0, fontSize: 11, lineHeight: "18px", paddingInline: 6 };
 
 type CreateWritingAssignmentModalProps = {
     isOpen: boolean;
@@ -49,7 +36,7 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
     const queryClient = useQueryClient();
 
     const [selectedQuestion, setSelectedQuestion] = useState<WritingQuestion | null>(null);
-    const [deadline, setDeadline] = useState<string>("");
+    const [dueDate, setDueDate] = useState<string>("");
     const [description, setDescription] = useState<string>("");
 
     const [errors, setErrors] = useState<Errors>({});
@@ -74,7 +61,7 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
 
     const handleClose = () => {
         setSelectedQuestion(null);
-        setDeadline("");
+        setDueDate("");
         setDescription("");
         setErrors({});
         onClose();
@@ -98,7 +85,7 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
         const newErrors: Errors = {};
 
         if (!selectedQuestion) newErrors.selectedQuestionError = t("errors.selectedQuestionRequired");
-        if (!deadline) newErrors.deadlineError = t("errors.deadlineRequired");
+        if (!dueDate) newErrors.deadlineError = t("errors.deadlineRequired");
 
         setErrors(newErrors);
 
@@ -108,7 +95,7 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
 
         mutate({
             writingQuestionId: selectedQuestion.id,
-            deadline,
+            dueDate,
             description: description.trim() || undefined,
         });
     }
@@ -146,18 +133,10 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
                             <p className="truncate text-sm font-medium text-fg">{record.title}</p>
                             <p className="truncate text-sm text-muted">{record.prompt}</p>
                             <div className="mt-1 flex items-center gap-1.5">
-                                <Tag
-                                    variant="filled"
-                                    color={TASK_TYPE_COLORS[record.taskType]}
-                                    style={SMALL_TAG_STYLE}
-                                >
+                                <Tag variant="filled" color={TASK_TYPE_COLORS[record.taskType]} style={{ marginInlineEnd: 0, fontSize: 14}}>
                                     {t(`taskType.${record.taskType}`)}
                                 </Tag>
-                                <Tag
-                                    variant="filled"
-                                    color={DIFFICULTY_COLORS[record.difficulty]}
-                                    style={SMALL_TAG_STYLE}
-                                >
+                                <Tag variant="filled" color={DIFFICULTY_COLORS[record.difficulty]} style={{ marginInlineEnd: 0,  fontSize: 14 }}>
                                     {t(`difficulty.${record.difficulty}`)}
                                 </Tag>
                             </div>
@@ -243,9 +222,9 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
                 )}
 
                 <DateInput
-                    label={t("deadlineLabel")}
-                    value={deadline}
-                    onChange={setDeadline}
+                    label={t("dueDateLabel")}
+                    value={dueDate}
+                    onChange={setDueDate}
                     error={errors.deadlineError}
                 />
 

@@ -156,7 +156,28 @@
             "assignments": {
                 "title": "Writing assignments",
                 "addButton": "Add assignment",
-                "empty": "No assignments this week yet"
+                "empty": "No assignments this week yet",
+                "taskType": {
+                    "TASK_1": "Task 1",
+                    "TASK_2": "Task 2"
+                },
+                "difficulty": {
+                    "EASY": "Easy",
+                    "MEDIUM": "Medium",
+                    "HARD": "Hard"
+                },
+                "showMore": "Show more", 
+                "showLess": "Show less",
+                "noteLabel": "Note",
+                "noNote": "None",
+                "dueLabel": "Due",
+                "overdue": "Overdue",
+                "deletePopconfirm": {
+                    "title": "Delete this assignment?",
+                    "subtitle": "The assignment will be removed from this week.",
+                    "okText": "Delete",
+                    "cancelText": "Cancel"
+                }
             },
             "deleteSuccess": "Week deleted successfully"
         },
@@ -234,7 +255,7 @@
             "title": "Add Writing Assignment",
             "subtitle": "Select a writing prompt from the Question Bank, then fill in the assignment details.",
             "writingLabel": "Writing prompt",
-            "deadlineLabel": "Deadline",
+            "dueDateLabel": "Due date",
             "descriptionLabel": "Description (Optional)",
             "descriptionPlaceholder": "Add any extra notes for students about this assignment...",
             "taskType": {

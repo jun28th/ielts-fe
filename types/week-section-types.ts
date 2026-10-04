@@ -1,3 +1,5 @@
+import { WritingAssignment } from "./writing-assignment-types";
+
 export type ClassSession = {
     id: string;
     date: string;
@@ -11,6 +13,7 @@ export type WeekSection = {
     weekName: string;
     createdAt: string;
     sessions: ClassSession[];
+    writingAssignments: WritingAssignment[];
 }
 
 export type CreateWeekSectionRequest = {

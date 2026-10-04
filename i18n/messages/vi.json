@@ -156,7 +156,28 @@
             "assignments": {
                 "title": "Bài tập Writing",
                 "addButton": "Thêm bài tập",
-                "empty": "Chưa có bài tập nào trong tuần này"
+                "empty": "Chưa có bài tập nào trong tuần này",
+                "taskType": {
+                    "TASK_1": "Task 1",
+                    "TASK_2": "Task 2"
+                },
+                "difficulty": {
+                    "EASY": "Dễ",
+                    "MEDIUM": "Trung bình",
+                    "HARD": "Khó"
+                },
+                "showMore": "Xem thêm",
+                "showLess": "Thu gọn",
+                "noteLabel": "Ghi chú",
+                "noNote": "Không",
+                "dueLabel": "Hạn nộp",
+                "overdue": "Quá hạn",
+                "deletePopconfirm": {
+                    "title": "Xoá bài tập này?",
+                    "subtitle": "Bài tập sẽ bị xoá khỏi tuần học.",
+                    "okText": "Xoá",
+                    "cancelText": "Huỷ"
+                }
             },
             "deleteSuccess": "Xoá tuần học thành công"
         },
@@ -234,7 +255,7 @@
             "title": "Thêm bài tập Writing",
             "subtitle": "Chọn một đề writing từ Kho đề, sau đó điền thông tin bài tập.",
             "writingLabel": "Đề writing",
-            "deadlineLabel": "Hạn nộp",
+            "dueDateLabel": "Hạn nộp",
             "descriptionLabel": "Mô tả (Tuỳ chọn)",
             "descriptionPlaceholder": "Ghi chú thêm cho học viên về phần bài tập này...",
             "taskType": {

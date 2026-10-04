@@ -124,6 +124,11 @@ export default async function Providers({ children } : { children : React.ReactN
                         colorPrimary: "var(--color-accent)",
                         controlItemBgActive: "var(--color-accent-bg)",
                         controlItemBgActiveHover: "var(--color-accent-bg)"                    
+                    },
+                    Typography: {
+                        colorLink: "var(--color-accent)",
+                        colorLinkActive: "var(--color-accent)",
+                        colorLinkHover: "var(--color-accent)",
                     }
                 }
             }}
