@@ -129,7 +129,11 @@ export default function WeekSectionCard({ courseId, weekSection } : WeekSectionC
                 </div>
 
                 {writingAssignments.length > 0 ? (
-                    <AssignmentList writingAssignments={writingAssignments} />
+                    <AssignmentList 
+                        courseId={courseId}
+                        weekSectionId={weekSection.id}
+                        writingAssignments={writingAssignments} 
+                    />
                 ) : (
                     <p className="rounded-lg border border-dashed border-border py-6 text-center text-sm text-muted">
                         {t("assignments.empty")}

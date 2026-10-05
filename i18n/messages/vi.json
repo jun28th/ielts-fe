@@ -177,7 +177,8 @@
                     "subtitle": "Bài tập sẽ bị xoá khỏi tuần học.",
                     "okText": "Xoá",
                     "cancelText": "Huỷ"
-                }
+                },
+                "deleteSuccess": "Xoá bài tập thành công"
             },
             "deleteSuccess": "Xoá tuần học thành công"
         },
@@ -277,9 +278,30 @@
             "submit": "Tạo mới",
             "errors": {
                 "selectedQuestionRequired": "Vui lòng chọn một đề writing.",
-                "deadlineRequired": "Vui lòng chọn hạn nộp."
+                "dueDateRequired": "Vui lòng chọn hạn nộp."
             },
             "createSuccess": "Tạo bài tập thành công"
+        },
+        "UpdateWritingAssignmentModal": {
+            "title": "Cập nhật bài tập Writing",
+            "subtitle": "Điều chỉnh thông tin bài tập Writing.",
+            "dueDateLabel": "Hạn nộp",
+            "descriptionLabel": "Mô tả (Tuỳ chọn)",
+            "descriptionPlaceholder": "Ghi chú thêm cho học viên về phần bài tập này...",
+            "taskType": {
+                "TASK_1": "Task 1",
+                "TASK_2": "Task 2"
+            },
+            "difficulty": {
+                "EASY": "Dễ",
+                "MEDIUM": "Trung bình",
+                "HARD": "Khó"
+            },
+            "submit": "Cập nhật",
+            "errors": {
+                "dueDateRequired": "Vui lòng chọn hạn nộp."
+            },
+            "updateSuccess": "Cập nhật bài tập thành công"
         }
     },
     "TeacherStudentsPage": {

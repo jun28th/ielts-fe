@@ -6,6 +6,11 @@ export type CreateWritingAssignmentRequest = {
     description?: string;
 }
 
+export type UpdateWritingAssignmentRequest = {
+    dueDate?: string;
+    description?: string | null;
+};
+
 export type WritingAssignment = {
     id: string;
     writingQuestion: WritingQuestion;

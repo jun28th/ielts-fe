@@ -86,7 +86,7 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
         const newErrors: Errors = {};
 
         if (!selectedQuestion) newErrors.selectedQuestionError = t("errors.selectedQuestionRequired");
-        if (!dueDate) newErrors.deadlineError = t("errors.deadlineRequired");
+        if (!dueDate) newErrors.deadlineError = t("errors.dueDateRequired");
 
         setErrors(newErrors);
 
@@ -236,7 +236,7 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
                     onChange={setDescription}
                     type="textarea"
                     maxLength={1500}
-                    rows={3}
+                    rows={6}
                 />
 
                 <div className="flex justify-end">

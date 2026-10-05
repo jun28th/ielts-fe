@@ -1,7 +1,7 @@
 import { Course, CourseListResponse, CourseStatus, CreateCourseRequest, UpdateCourseRequest } from "@/types/course-types";
 import { http } from "./http";
 import { CreateWeekSectionRequest, UpdateWeekSectionRequest } from "@/types/week-section-types";
-import { CreateWritingAssignmentRequest } from "@/types/writing-assignment-types";
+import { CreateWritingAssignmentRequest, UpdateWritingAssignmentRequest } from "@/types/writing-assignment-types";
 
 type CourseStatusFilter = CourseStatus | "NOT_ENDED";
 
@@ -44,4 +44,8 @@ export const coursesApi = {
     deleteWeekSection: (courseId: string, weekSectionId: string) => http.delete<void>(`/api/courses/${courseId}/week-sections/${weekSectionId}`),
 
     createWritingAssignment: (courseId: string, weekSectionId: string, data: CreateWritingAssignmentRequest) => http.post<Course>(`/api/courses/${courseId}/week-sections/${weekSectionId}/writing-assignments`, data),
+
+    updateWritingAssignment: (courseId: string, weekSectionId: string, assignmentId: string, data: UpdateWritingAssignmentRequest) => http.patch<Course>(`/api/courses/${courseId}/week-sections/${weekSectionId}/writing-assignments/${assignmentId}`, data),
+
+    deleteWritingAssignment: (courseId: string, weekSectionId: string, assignmentId: string) => http.delete<void>(`/api/courses/${courseId}/week-sections/${weekSectionId}/writing-assignments/${assignmentId}`),
 }

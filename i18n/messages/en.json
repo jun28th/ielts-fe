@@ -177,7 +177,8 @@
                     "subtitle": "The assignment will be removed from this week.",
                     "okText": "Delete",
                     "cancelText": "Cancel"
-                }
+                },
+                "deleteSuccess": "Assignment deleted successfully"
             },
             "deleteSuccess": "Week deleted successfully"
         },
@@ -277,9 +278,30 @@
             "submit": "Create",
             "errors": {
                 "selectedQuestionRequired": "Please select a writing question.",
-                "deadlineRequired": "Please set a deadline."
+                "dueDateRequired": "Please set a deadline."
             },
             "createSuccess": "Assignment created successfully"
+        },
+        "UpdateWritingAssignmentModal": {
+            "title": "Update Writing Assignment",
+            "subtitle": "Edit the details of this Writing assignment.",
+            "dueDateLabel": "Due date",
+            "descriptionLabel": "Description (Optional)",
+            "descriptionPlaceholder": "Add notes for students about this assignment...",
+            "taskType": {
+                "TASK_1": "Task 1",
+                "TASK_2": "Task 2"
+            },
+            "difficulty": {
+                "EASY": "Easy",
+                "MEDIUM": "Medium",
+                "HARD": "Hard"
+            },
+            "submit": "Update",
+            "errors": {
+                "dueDateRequired": "Please select a due date."
+            },
+            "updateSuccess": "Assignment updated successfully"
         }
     },
     "TeacherStudentsPage": {
