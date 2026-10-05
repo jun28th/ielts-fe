@@ -10,6 +10,8 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { coursesApi } from "@/lib/api/courses-client";
 import { useAppMessage } from "@/contexts/message-context";
+import TimeInput from "../FormInput/TimeInput";
+import { formatTime } from "@/lib/utils";
 
 const THUMB_SIZE = 64;
 
@@ -23,6 +25,7 @@ type UpdateWritingAssignmentModalProps = {
 
 type Errors = {
     dueDateError?: string;
+    dueTimeError?: string;
 }
 
 export default function UpdateWritingAssignmentModal({ courseId, weekSectionId, assignment, isOpen, onClose } : UpdateWritingAssignmentModalProps) {
@@ -31,19 +34,23 @@ export default function UpdateWritingAssignmentModal({ courseId, weekSectionId, 
     const queryClient = useQueryClient();
 
     const question = assignment.writingQuestion;
+    const initialDueTime = formatTime(assignment.dueTime);
     const initialDescription = (assignment.description ?? "").trim();
 
     const [dueDate, setDueDate] = useState<string>(assignment.dueDate);
+    const [dueTime, setDueTime] = useState<string>(initialDueTime);
     const [description, setDescription] = useState<string>(assignment.description ?? "");
 
     const [errors, setErrors] = useState<Errors>({});
 
     const isDueDateDirty = dueDate !== assignment.dueDate;
+    const isDueTimeDirty = dueTime !== initialDueTime;
     const isDescriptionDirty = description.trim() !== initialDescription;
-    const isDirty = isDueDateDirty || isDescriptionDirty;
+    const isDirty = isDueDateDirty || isDueTimeDirty || isDescriptionDirty;
 
     const handleClose = () => {
         setDueDate(assignment.dueDate);
+        setDueTime(initialDueTime);
         setDescription(assignment.description ?? "");
         setErrors({});
         onClose();
@@ -51,8 +58,8 @@ export default function UpdateWritingAssignmentModal({ courseId, weekSectionId, 
 
     const { mutate, isPending } = useMutation({
         mutationFn: (data: UpdateWritingAssignmentRequest) => coursesApi.updateWritingAssignment(courseId, weekSectionId, assignment.id, data),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["course", courseId] });
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["course", courseId] });
             message.success(t("updateSuccess"));
             setErrors({});
             onClose();
@@ -69,9 +76,8 @@ export default function UpdateWritingAssignmentModal({ courseId, weekSectionId, 
 
         const newErrors: Errors = {};
 
-        if (!dueDate) {
-            newErrors.dueDateError = t("errors.dueDateRequired");
-        }
+        if (!dueDate) newErrors.dueDateError = t("errors.dueDateRequired");
+        if (!dueTime) newErrors.dueTimeError = t("errors.dueTimeRequired");
 
         setErrors(newErrors);
         if (Object.keys(newErrors).length > 0) return;
@@ -79,6 +85,7 @@ export default function UpdateWritingAssignmentModal({ courseId, weekSectionId, 
         const payload: UpdateWritingAssignmentRequest = {};
 
         if (isDueDateDirty) payload.dueDate = dueDate;
+        if (isDueTimeDirty) payload.dueTime = dueTime;
         if (isDescriptionDirty) payload.description = description.trim();
 
         mutate(payload);
@@ -129,12 +136,21 @@ export default function UpdateWritingAssignmentModal({ courseId, weekSectionId, 
                     </div>
                 </div>
 
-                <DateInput
-                    label={t("dueDateLabel")}
-                    value={dueDate}
-                    onChange={setDueDate}
-                    error={errors.dueDateError}
-                />
+                <div className="grid grid-cols-2 gap-3">
+                    <DateInput
+                        label={t("dueDateLabel")}
+                        value={dueDate}
+                        onChange={setDueDate}
+                        error={errors.dueDateError}
+                    />
+
+                    <TimeInput
+                        label={t("dueTimeLabel")}
+                        value={dueTime}
+                        onChange={setDueTime}
+                        error={errors.dueTimeError}
+                    />
+                </div>
 
                 <TextInput
                     label={t("descriptionLabel")}

@@ -1,6 +1,6 @@
 import { WritingAssignment } from "@/types/writing-assignment-types";
 import { DIFFICULTY_COLORS, TASK_TYPE_COLORS } from "@/types/writing-question-types";
-import { formatDayMonth, isOverdue } from "@/lib/utils";
+import { formatDayMonth, formatTime, isOverdue } from "@/lib/utils";
 import { Image, Listy, Popconfirm, Tag, Tooltip, Typography } from "antd";
 import { useTranslations } from "use-intl";
 import Button from "../Button";
@@ -28,10 +28,10 @@ export default function AssignmentList({ courseId, weekSectionId, writingAssignm
     const [isUpdateAssignmentModalOpen, setIsUpdateAssignmentModalOpen] = useState<boolean>(false);
     const [selectedAssignment, setSelectedAssignment] = useState<WritingAssignment | null>(null);
 
-    const { mutate } = useMutation({
+    const { mutateAsync } = useMutation({
         mutationFn: (assignmentId: string) => coursesApi.deleteWritingAssignment(courseId, weekSectionId, assignmentId),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["course", courseId] });
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["course", courseId] });
             message.success(t("deleteSuccess"));
         },
         onError: (error) => {
@@ -47,7 +47,7 @@ export default function AssignmentList({ courseId, weekSectionId, writingAssignm
                 classNames={{ root: "rounded-lg border border-border" }}
                 itemRender={(assignment) => {
                     const question = assignment.writingQuestion;
-                    const overdue = isOverdue(assignment.dueDate);
+                    const overdue = isOverdue(assignment.dueDate, assignment.dueTime);
                     const hasNote = assignment.description?.trim() ? true : false;
 
                     return (
@@ -114,7 +114,7 @@ export default function AssignmentList({ courseId, weekSectionId, writingAssignm
                                 <p className="text-sm">
                                     <span className="font-medium text-muted">{t("dueLabel")}: </span>
                                     <span className={overdue ? "text-error" : "text-fg"}>
-                                        {formatDayMonth(assignment.dueDate)}
+                                        {formatTime(assignment.dueTime)} - {formatDayMonth(assignment.dueDate)}
                                     </span>
                                     {overdue && (
                                         <span className="ml-2 font-medium text-error">{t("overdue")}</span>
@@ -141,7 +141,9 @@ export default function AssignmentList({ courseId, weekSectionId, writingAssignm
                                     placement="bottomRight"
                                     okText={t("deletePopconfirm.okText")}
                                     cancelText={t("deletePopconfirm.cancelText")}
-                                    onConfirm={() => mutate(assignment.id)}
+                                    okButtonProps={{ style: { cursor: "pointer" } }}
+                                    cancelButtonProps={{ style: { cursor: "pointer" } }}
+                                    onConfirm={() => mutateAsync(assignment.id).catch(() => {})}                                
                                 >
                                     <button
                                         type="button"

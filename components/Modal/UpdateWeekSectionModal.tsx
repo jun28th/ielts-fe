@@ -110,8 +110,8 @@ export default function UpdateWeekSectionModal({ courseId, weekSection, isOpen, 
 
     const { mutate, isPending } = useMutation({
         mutationFn: (data: UpdateWeekSectionRequest) => coursesApi.updateWeekSection(courseId, weekSection.id, data),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["course", courseId] });
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["course", courseId] });
             message.success(t("updateSuccess"));
             setErrors({});
             onClose();

@@ -11,6 +11,7 @@ import Button from "../Button";
 import { coursesApi } from "@/lib/api/courses-client";
 import { CreateWritingAssignmentRequest } from "@/types/writing-assignment-types";
 import { useAppMessage } from "@/contexts/message-context";
+import TimeInput from "../FormInput/TimeInput";
 
 type Filter = "ALL" | WritingTaskType;
 
@@ -27,7 +28,8 @@ type CreateWritingAssignmentModalProps = {
 
 type Errors = {
     selectedQuestionError?: string;
-    deadlineError?: string;
+    dueDateError?: string;
+    dueTimeError?: string;
 }
 
 export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId, weekSectionId } : CreateWritingAssignmentModalProps) {
@@ -37,6 +39,7 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
 
     const [selectedQuestion, setSelectedQuestion] = useState<WritingQuestion | null>(null);
     const [dueDate, setDueDate] = useState<string>("");
+    const [dueTime, setDueTime] = useState<string>("");
     const [description, setDescription] = useState<string>("");
 
     const [errors, setErrors] = useState<Errors>({});
@@ -63,6 +66,7 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
     const handleClose = () => {
         setSelectedQuestion(null);
         setDueDate("");
+        setDueTime("");
         setDescription("");
         setErrors({});
         onClose();
@@ -70,8 +74,8 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
 
     const { mutate, isPending } = useMutation({
         mutationFn: (data: CreateWritingAssignmentRequest) => coursesApi.createWritingAssignment(courseId, weekSectionId, data),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["course", courseId] })
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["course", courseId] })
             message.success(t("createSuccess"));
             handleClose();
         },
@@ -86,7 +90,8 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
         const newErrors: Errors = {};
 
         if (!selectedQuestion) newErrors.selectedQuestionError = t("errors.selectedQuestionRequired");
-        if (!dueDate) newErrors.deadlineError = t("errors.dueDateRequired");
+        if (!dueDate) newErrors.dueDateError = t("errors.dueDateRequired");
+        if (!dueTime) newErrors.dueTimeError = t("errors.dueTimeRequired");
 
         setErrors(newErrors);
 
@@ -97,6 +102,7 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
         mutate({
             writingQuestionId: selectedQuestion.id,
             dueDate,
+            dueTime,
             description: description.trim() || undefined,
         });
     }
@@ -222,12 +228,21 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
                     </p>
                 )}
 
-                <DateInput
-                    label={t("dueDateLabel")}
-                    value={dueDate}
-                    onChange={setDueDate}
-                    error={errors.deadlineError}
-                />
+                <div className="grid grid-cols-2 gap-3">
+                    <DateInput
+                        label={t("dueDateLabel")}
+                        value={dueDate}
+                        onChange={setDueDate}
+                        error={errors.dueDateError}
+                    />
+
+                    <TimeInput
+                        label={t("dueTimeLabel")}
+                        value={dueTime}
+                        onChange={setDueTime}
+                        error={errors.dueTimeError}
+                    />
+                </div>
 
                 <TextInput
                     label={t("descriptionLabel")}

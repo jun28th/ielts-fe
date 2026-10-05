@@ -41,13 +41,13 @@ export default function QuestionBankWritingPage() {
         placeholderData: keepPreviousData
     });
 
-    const { mutate } = useMutation({
+    const { mutateAsync } = useMutation({
         mutationFn: (id: string) => WritingQuestionsApi.delete(id),
-        onSuccess: () => {
+        onSuccess: async () => {
             if (page > 0 && data?.content.length === 1) {
                 setPage(page - 1);
             }
-            queryClient.invalidateQueries({ queryKey: ["writing-questions"] });
+            await queryClient.invalidateQueries({ queryKey: ["writing-questions"] });
             message.success(t("deleteSuccess"));
         },
         onError: (error) => {
@@ -149,7 +149,9 @@ export default function QuestionBankWritingPage() {
                         placement="bottomRight"
                         okText={t("deletePopconfirm.okText")}
                         cancelText={t("deletePopconfirm.cancelText")}
-                        onConfirm={() => mutate(record.id)}
+                        okButtonProps={{ style: { cursor: "pointer" } }}
+                        cancelButtonProps={{ style: { cursor: "pointer" } }}
+                        onConfirm={() => mutateAsync(record.id).catch(() => {})}                                
                     >
                         <button
                             type="button"

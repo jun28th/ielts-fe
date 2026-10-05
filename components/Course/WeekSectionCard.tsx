@@ -31,10 +31,10 @@ export default function WeekSectionCard({ courseId, weekSection } : WeekSectionC
     const [isUpdateWeekSectionModalOpen, setIsUpdateWeekSectionModalOpen] = useState<boolean>(false);
     const [isCreateWritingAssignmentModalOpen, setIsCreateWritingAssignmentModalOpen] = useState<boolean>(false);
 
-    const { mutate } = useMutation({
+    const { mutateAsync } = useMutation({
         mutationFn: () => coursesApi.deleteWeekSection(courseId, weekSection.id),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["course", courseId] });
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["course", courseId] });
             message.success(t("deleteSuccess"));
         },
         onError: (error) => {
@@ -70,7 +70,9 @@ export default function WeekSectionCard({ courseId, weekSection } : WeekSectionC
                         placement="bottomRight"
                         okText={t("deletePopconfirm.okText")}
                         cancelText={t("deletePopconfirm.cancelText")}
-                        onConfirm={() => mutate()}
+                        okButtonProps={{ style: { cursor: "pointer" } }}
+                        cancelButtonProps={{ style: { cursor: "pointer" } }}
+                        onConfirm={() => mutateAsync().catch(() => {})}                                
                     >
                         <button
                             type="button"

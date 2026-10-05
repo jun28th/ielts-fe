@@ -51,9 +51,9 @@ export default function CreateCourseModal({ isOpen, onClose }: CreateCourseModal
 
     const { mutate, isPending } = useMutation({
         mutationFn: (data: CreateCourseRequest) => coursesApi.create(data),
-        onSuccess: () => {
-            message.success(t("createSuccess"))
-            queryClient.invalidateQueries({ queryKey: ["courses"] });
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["courses"] });
+            message.success(t("createSuccess"));
             handleClose();
         },
         onError: (error) => {

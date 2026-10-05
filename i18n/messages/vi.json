@@ -257,6 +257,7 @@
             "subtitle": "Chọn một đề writing từ Kho đề, sau đó điền thông tin bài tập.",
             "writingLabel": "Đề writing",
             "dueDateLabel": "Hạn nộp",
+            "dueTimeLabel": "Giờ nộp",
             "descriptionLabel": "Mô tả (Tuỳ chọn)",
             "descriptionPlaceholder": "Ghi chú thêm cho học viên về phần bài tập này...",
             "taskType": {
@@ -278,7 +279,8 @@
             "submit": "Tạo mới",
             "errors": {
                 "selectedQuestionRequired": "Vui lòng chọn một đề writing.",
-                "dueDateRequired": "Vui lòng chọn hạn nộp."
+                "dueDateRequired": "Vui lòng chọn hạn nộp.",
+                "dueTimeRequired": "Vui lòng chọn giờ nộp."
             },
             "createSuccess": "Tạo bài tập thành công"
         },
@@ -286,6 +288,7 @@
             "title": "Cập nhật bài tập Writing",
             "subtitle": "Điều chỉnh thông tin bài tập Writing.",
             "dueDateLabel": "Hạn nộp",
+            "dueTimeLabel": "Giờ nộp",
             "descriptionLabel": "Mô tả (Tuỳ chọn)",
             "descriptionPlaceholder": "Ghi chú thêm cho học viên về phần bài tập này...",
             "taskType": {
@@ -299,7 +302,8 @@
             },
             "submit": "Cập nhật",
             "errors": {
-                "dueDateRequired": "Vui lòng chọn hạn nộp."
+                "dueDateRequired": "Vui lòng chọn hạn nộp.",
+                "dueTimeRequired": "Vui lòng chọn giờ nộp."
             },
             "updateSuccess": "Cập nhật bài tập thành công"
         }

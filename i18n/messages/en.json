@@ -257,6 +257,7 @@
             "subtitle": "Select a writing prompt from the Question Bank, then fill in the assignment details.",
             "writingLabel": "Writing prompt",
             "dueDateLabel": "Due date",
+            "dueTimeLabel": "Due time",
             "descriptionLabel": "Description (Optional)",
             "descriptionPlaceholder": "Add any extra notes for students about this assignment...",
             "taskType": {
@@ -286,6 +287,7 @@
             "title": "Update Writing Assignment",
             "subtitle": "Edit the details of this Writing assignment.",
             "dueDateLabel": "Due date",
+            "dueTimeLabel": "Due time",
             "descriptionLabel": "Description (Optional)",
             "descriptionPlaceholder": "Add notes for students about this assignment...",
             "taskType": {
@@ -299,7 +301,8 @@
             },
             "submit": "Update",
             "errors": {
-                "dueDateRequired": "Please select a due date."
+                "dueDateRequired": "Please select a due date.",
+                "dueTimeRequired": "Please select a due time."
             },
             "updateSuccess": "Assignment updated successfully"
         }

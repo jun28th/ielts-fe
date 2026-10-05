@@ -35,11 +35,11 @@ export default function CourseHeader({ course }: CourseHeaderProps) {
 
     const percentFill = (course.enrolledCount / course.maxStudents) * 100;
 
-    const { mutate } = useMutation({
+    const { mutateAsync } = useMutation({
         mutationFn: () => coursesApi.delete(course.id),
-        onSuccess: () => {
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["courses"] });
             message.success(t("deleteSuccess"));
-            queryClient.invalidateQueries({ queryKey: ["courses"] });
             router.replace(TeacherCoursesRoute);
         },
         onError: (error) => {
@@ -72,7 +72,9 @@ export default function CourseHeader({ course }: CourseHeaderProps) {
                         placement="bottomRight"
                         okText={t("deletePopconfirm.okText")}
                         cancelText={t("deletePopconfirm.cancelText")}
-                        onConfirm={() => mutate()}
+                        okButtonProps={{ style: { cursor: "pointer" } }}
+                        cancelButtonProps={{ style: { cursor: "pointer" } }}
+                        onConfirm={() => mutateAsync().catch(() => {})}                                
                     >
                         <button
                             type="button"

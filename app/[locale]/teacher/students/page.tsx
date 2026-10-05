@@ -69,13 +69,13 @@ export default function StudentsPage() {
         setSelectedStudent(null);
     };
 
-    const { mutate } = useMutation({
+    const { mutateAsync } = useMutation({
         mutationFn: (userId: string) => userApi.deleteStudentAccount(userId),
-        onSuccess: () => {
+        onSuccess: async () => {
             if (page > 0 && data?.content.length === 1) {
                 setPage(page - 1);
             }
-            queryClient.invalidateQueries({ queryKey: ["students"]});
+            await queryClient.invalidateQueries({ queryKey: ["students"] });
             message.success(t("deleteSuccess"));
         },
         onError: (error) => {
@@ -157,7 +157,9 @@ export default function StudentsPage() {
                         placement="bottomRight"
                         okText={t("deletePopconfirm.okText")}
                         cancelText={t("deletePopconfirm.cancelText")}
-                        onConfirm={() => mutate(record.id)}
+                        okButtonProps={{ style: { cursor: "pointer" } }}
+                        cancelButtonProps={{ style: { cursor: "pointer" } }}
+                        onConfirm={() => mutateAsync(record.id).catch(() => {})}                                
                     >
                         <button
                             type="button"
