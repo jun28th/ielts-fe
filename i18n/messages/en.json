@@ -279,7 +279,8 @@
             "submit": "Create",
             "errors": {
                 "selectedQuestionRequired": "Please select a writing question.",
-                "dueDateRequired": "Please set a deadline."
+                "dueDateRequired": "Please select a due date.",
+                "dueTimeRequired": "Please select a due time."
             },
             "createSuccess": "Assignment created successfully"
         },
