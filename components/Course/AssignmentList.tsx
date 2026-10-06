@@ -9,8 +9,8 @@ import TrashIcon from "../Icons/TrashIcon";
 import { useState } from "react";
 import UpdateWritingAssignmentModal from "../Modal/UpdateWritingAssignmentModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { coursesApi } from "@/lib/api/courses-client";
 import { useAppMessage } from "@/contexts/message-context";
+import { writingAssignmentsApi } from "@/lib/api/writing-assignments-client";
 
 const THUMB_SIZE = 64;
 
@@ -29,7 +29,7 @@ export default function AssignmentList({ courseId, weekSectionId, writingAssignm
     const [selectedAssignment, setSelectedAssignment] = useState<WritingAssignment | null>(null);
 
     const { mutateAsync } = useMutation({
-        mutationFn: (assignmentId: string) => coursesApi.deleteWritingAssignment(courseId, weekSectionId, assignmentId),
+        mutationFn: (assignmentId: string) => writingAssignmentsApi.delete(courseId, weekSectionId, assignmentId),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["course", courseId] });
             message.success(t("deleteSuccess"));

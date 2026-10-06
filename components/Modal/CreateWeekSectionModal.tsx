@@ -7,9 +7,9 @@ import { CreateWeekSectionRequest, SessionErrors, ClassSession } from "@/types/w
 import Button from "../Button";
 import { Course } from "@/types/course-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { coursesApi } from "@/lib/api/courses-client";
 import { useAppMessage } from "@/contexts/message-context";
 import { addDays, formatTime } from "@/lib/utils";
+import { weekSectionsApi } from "@/lib/api/week-sections-client";
 
 const MIN_SESSIONS = 1;
 const MAX_SESSIONS = 7;
@@ -98,7 +98,7 @@ export default function CreateWeekSectionModal({ course, isOpen, onClose } : Cre
     }
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (data: CreateWeekSectionRequest) => coursesApi.createWeekSection(course.id, data),
+        mutationFn: (data: CreateWeekSectionRequest) => weekSectionsApi.create(course.id, data),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["course", course.id] })
             message.success(t("createSuccess"));

@@ -8,10 +8,10 @@ import { Image, Table, TableColumnsType, Tag, Tooltip } from "antd";
 import DateInput from "../FormInput/DateInput";
 import TextInput from "../FormInput/TextInput";
 import Button from "../Button";
-import { coursesApi } from "@/lib/api/courses-client";
 import { CreateWritingAssignmentRequest } from "@/types/writing-assignment-types";
 import { useAppMessage } from "@/contexts/message-context";
 import TimeInput from "../FormInput/TimeInput";
+import { writingAssignmentsApi } from "@/lib/api/writing-assignments-client";
 
 type Filter = "ALL" | WritingTaskType;
 
@@ -73,7 +73,7 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
     }
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (data: CreateWritingAssignmentRequest) => coursesApi.createWritingAssignment(courseId, weekSectionId, data),
+        mutationFn: (data: CreateWritingAssignmentRequest) => writingAssignmentsApi.create(courseId, weekSectionId, data),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["course", courseId] })
             message.success(t("createSuccess"));

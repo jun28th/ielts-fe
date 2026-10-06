@@ -8,7 +8,7 @@ import TextInput from "../FormInput/TextInput";
 import { formatTime } from "@/lib/utils";
 import WeekCard from "../Course/WeekCard";
 import Button from "../Button";
-import { coursesApi } from "@/lib/api/courses-client";
+import { weekSectionsApi } from "@/lib/api/week-sections-client";
 
 const MIN_SESSIONS = 1;
 const MAX_SESSIONS = 7;
@@ -109,7 +109,7 @@ export default function UpdateWeekSectionModal({ courseId, weekSection, isOpen, 
     }
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (data: UpdateWeekSectionRequest) => coursesApi.updateWeekSection(courseId, weekSection.id, data),
+        mutationFn: (data: UpdateWeekSectionRequest) => weekSectionsApi.update(courseId, weekSection.id, data),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["course", courseId] });
             message.success(t("updateSuccess"));
