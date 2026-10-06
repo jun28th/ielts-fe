@@ -19,8 +19,8 @@ type Filter = "ALL" | WritingTaskType;
 const FILTERS: Filter[] = ["ALL", "TASK_1", "TASK_2"];
 const DEFAULT_PAGE_SIZE = 10;
 
-export default function QuestionBankWritingPage() {
-    const t = useTranslations("QuestionBankWritingPage");
+export default function TeacherQuestionBankWritingPage() {
+    const t = useTranslations("TeacherQuestionBankWritingPage");
     const message = useAppMessage();
     const queryClient = useQueryClient();
 

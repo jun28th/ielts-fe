@@ -14,7 +14,27 @@
         "account": "Account",
         "language": "Language",
         "logout": "Log out",
-        "signIn": "Sign in"
+        "signIn": "Sign in",
+        "teacherNav": {
+            "dashboard": "Dashboard",
+            "courses": "Courses",
+            "questionBank": "Question bank",
+            "questionBankItems": {
+                "listening": "Listening bank",
+                "reading": "Reading bank",
+                "writing": "Writing bank",
+                "speaking": "Speaking bank"
+            },
+            "students": "Student list"
+        },
+        "adminNav": {
+            "dashboard": "Dashboard",
+            "accessControl": "Access control"
+        },
+        "studentNav": {
+            "dashboard": "Dashboard",
+            "courses": "Courses"
+        }
     },    
     "Footer": {
         "tagline": "An IELTS learning platform — personalized roadmaps, dedicated teachers, and skill-by-skill progress tracking for students.",
@@ -50,22 +70,6 @@
         "contactUs": "Contact IELTS by Phanh",
         "signInFailed": "Sign in failed",
         "genericError": "Something went wrong"
-    },
-    "TeacherNav": {
-        "dashboard": "Dashboard",
-        "courses": "Courses",
-        "questionBank": "Question bank",
-        "questionBankItems": {
-            "listening": "Listening bank",
-            "reading": "Reading bank",
-            "writing": "Writing bank",
-            "speaking": "Speaking bank"
-        },
-        "students": "Student list"
-    },
-    "AdminNav": {
-        "dashboard": "Dashboard",
-        "accessControl": "Access control"
     },
     "TeacherCoursesPage": {
         "title": "Courses",
@@ -389,7 +393,7 @@
             "submit": "Update"
         }
     },
-    "QuestionBankWritingPage": {
+    "TeacherQuestionBankWritingPage": {
         "title": "Writing Question Bank",
         "subtitle": "List of Writing test questions used for courses.",
         "createButton": "Create Writing Question",
@@ -482,6 +486,27 @@
             },
             "updateSuccess":"Question updated successfully"
         }
+    },
+    "StudentCoursesPage": {
+        "title": "Courses",
+        "subtitle": "The list of courses you are enrolled in.",
+        "emptyTitle": "No courses yet",
+        "emptySubtitle": "You haven't been added to any courses yet. Please contact your teacher to be added to a course.",
+        "filters": {
+            "ALL": "All",
+            "UPCOMING": "Upcoming",
+            "ACTIVE": "Active",
+            "ENDED": "Ended"
+        },
+        "noMatchTitle": "No courses found",
+        "noMatchSubTitle": "No courses match the status you selected.",
+        "status": {
+            "UPCOMING": "Upcoming",
+            "ACTIVE": "Active",
+            "ENDED": "Ended"
+        },
+        "startDateLabel": "Start date:",
+        "sessionsLabel": "Total sessions:"
     },
     "AdminAccessControlPage": {
         "title": "Access control",

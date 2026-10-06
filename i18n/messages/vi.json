@@ -14,7 +14,27 @@
         "account": "Tài khoản",
         "language": "Ngôn ngữ",
         "logout": "Đăng xuất",
-        "signIn": "Đăng nhập"
+        "signIn": "Đăng nhập",
+        "teacherNav": {
+            "dashboard": "Dashboard",
+            "courses": "Khoá học",
+            "questionBank": "Kho đề",
+            "questionBankItems": {
+                "listening": "Kho đề Listening",
+                "reading": "Kho đề Reading",
+                "writing": "Kho đề Writing",
+                "speaking": "Kho đề Speaking"
+            },
+            "students": "Danh sách học viên"
+        },
+        "adminNav": {
+            "dashboard": "Dashboard",
+            "accessControl": "Quản lý quyền truy cập"
+        },
+        "studentNav": {
+            "dashboard": "Dashboard",
+            "courses": "Khoá học"
+        }
     },
     "Footer": {
         "tagline": "Nền tảng học IELTS — lộ trình cá nhân hoá, giáo viên đồng hành, theo dõi tiến độ từng kỹ năng cho học viên.",
@@ -50,22 +70,6 @@
         "contactUs": "Liên hệ IELTS by Phanh",
         "signInFailed": "Đăng nhập thất bại",
         "genericError": "Đã có lỗi xảy ra"
-    },
-    "TeacherNav": {
-        "dashboard": "Dashboard",
-        "courses": "Khoá học",
-        "questionBank": "Kho đề",
-        "questionBankItems": {
-            "listening": "Kho đề Listening",
-            "reading": "Kho đề Reading",
-            "writing": "Kho đề Writing",
-            "speaking": "Kho đề Speaking"
-        },
-        "students": "Danh sách học viên"
-    },
-    "AdminNav": {
-        "dashboard": "Dashboard",
-        "accessControl": "Quản lý quyền truy cập"
     },
     "TeacherCoursesPage": {
         "title": "Khoá học",
@@ -389,7 +393,7 @@
             "submit": "Cập nhật"
         }
     },
-    "QuestionBankWritingPage": {
+    "TeacherQuestionBankWritingPage": {
         "title": "Kho đề Writing",
         "subtitle": "Danh sách đề thi Writing dùng cho các khoá học.",
         "createButton": "Tạo đề writing",
@@ -482,6 +486,27 @@
             },
             "updateSuccess":"Cập nhật đề thành công"
         }
+    },
+    "StudentCoursesPage": {
+        "title": "Khoá học",
+        "subtitle": "Danh sách khoá học bạn đang tham gia.",
+        "emptyTitle": "Chưa có khoá học nào",
+        "emptySubtitle": "Bạn chưa được thêm vào bất kỳ khoá học nào. Vui lòng liên hệ giáo viên để được thêm vào khoá học.",
+        "filters": {
+            "ALL": "Tất cả",
+            "UPCOMING": "Sắp bắt đầu",
+            "ACTIVE": "Đang hoạt động",
+            "ENDED": "Kết thúc"
+        },
+        "noMatchTitle": "Không có khoá học nào",
+        "noMatchSubTitle": "Không có khoá học nào phù hợp với trạng thái bạn đã chọn.",
+        "status": {
+            "UPCOMING": "Sắp bắt đầu",
+            "ACTIVE": "Đang hoạt động",
+            "ENDED": "Kết thúc"
+        },
+        "startDateLabel": "Khai giảng:",
+        "sessionsLabel": "Tổng số buổi:"
     },
     "AdminAccessControlPage": {
         "title": "Phân quyền",

@@ -8,6 +8,7 @@ export const SignUpRoute = "/auth/sign-up";
 // Student Routes
 export const StudentRoute = "/student"
 export const StudentDashboardRoute = "/student/dashboard";
+export const StudentCoursesRoute = "/student/courses";
 
 // Teacher Routes
 export const TeacherRoute = "/teacher"

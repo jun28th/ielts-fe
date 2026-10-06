@@ -1,29 +1,58 @@
-import { StudentDashboardRoute } from "@/lib/routes";
+import { StudentCoursesRoute, StudentDashboardRoute } from "@/lib/routes";
 import { Link } from "@/lib/navigation";
 import { usePathname } from "@/lib/navigation"; 
+import { useTranslations } from "next-intl";
+import { Menu, MenuProps } from "antd";
+import { useMemo, useState } from "react";
 
-const NO_BG = "bg-transparent hover:bg-transparent focus:bg-transparent active:bg-transparent";
+type MenuItem = Required<MenuProps>['items'][number];
 
-function navLinkClass(active: boolean): string {
-    return `${NO_BG} ${active ? "text-accent font-semibold" : "text-fg hover:text-accent"} transition-colors`;
-}
+const LEAF_ROUTES = [
+    StudentDashboardRoute,
+    StudentCoursesRoute,
+].sort((a, b) => b.length - a.length);
 
 export default function StudentNav() {
+    const t = useTranslations("Header.studentNav");
     const pathname = usePathname();
 
-    const isActive = (href: string) => pathname === href;
-    
-    return (
-        <ul className="menu menu-horizontal gap-1 font-serif">
-             <li>
-                <Link
-                    href={StudentDashboardRoute}
-                    replace
-                    className={navLinkClass(isActive(StudentDashboardRoute))}
-                >
-                    Dashboard
+    const [openKeys, setOpenKeys] = useState<string[]>([]);
+
+    const items: MenuItem[] = [
+        {
+            key: StudentDashboardRoute,
+            label: (
+                <Link href={StudentDashboardRoute} replace>
+                    {t("dashboard")}
                 </Link>
-            </li>
-        </ul>
+            ),
+        },
+        {
+            key: StudentCoursesRoute,
+            label: (
+                <Link href={StudentCoursesRoute} replace>
+                    {t("courses")}
+                </Link>
+            )
+        }
+    ];
+    
+    const selectedKeys = useMemo(() => {
+        const match = LEAF_ROUTES.find(
+            (href) => pathname === href || pathname.startsWith(href + "/")
+        );
+        return match ? [match] : [];
+    }, [pathname]);
+
+    return (
+        <Menu
+            mode="horizontal"
+            items={items}
+            selectedKeys={selectedKeys}
+            openKeys={openKeys}
+            onOpenChange={(keys) => setOpenKeys(keys as string[])}
+            onClick={() => setOpenKeys([])}
+            disabledOverflow
+        />
     );
 }

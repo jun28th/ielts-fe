@@ -34,7 +34,7 @@ const LEAF_ROUTES = [
 
 export default function TeacherNav() {
     const pathname = usePathname();
-    const t = useTranslations("TeacherNav");
+    const t = useTranslations("Header.teacherNav");
 
     const [openKeys, setOpenKeys] = useState<string[]>([]);
 

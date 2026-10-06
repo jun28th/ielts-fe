@@ -14,7 +14,7 @@ const LEAF_ROUTES = [
 
 export default function AdminNav() {
     const pathname = usePathname();
-    const t = useTranslations("AdminNav");
+    const t = useTranslations("Header.adminNav");
 
     const [openKeys, setOpenKeys] = useState<string[]>([]);
 

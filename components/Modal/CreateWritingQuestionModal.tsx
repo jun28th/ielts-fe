@@ -30,7 +30,7 @@ type Errors = {
 }
 
 export default function CreateWritingQuestionModal({ isOpen, onClose } : CreateWritingQuestionModalProps) {
-    const t = useTranslations("QuestionBankWritingPage.CreateWritingQuestionModal");
+    const t = useTranslations("TeacherQuestionBankWritingPage.CreateWritingQuestionModal");
     const message = useAppMessage();
     const queryClient = useQueryClient();
 
