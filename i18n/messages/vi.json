@@ -146,8 +146,7 @@
             "title": "Tuần học",
             "gradeButton": "Chấm bài",
             "createButton": "Tạo tuần học",
-            "empty": "Chưa có tuần học nào",
-            "loadError": "Không tải được danh sách tuần học"
+            "empty": "Chưa có tuần học nào"
         },
         "WeekSectionCard" : {
             "sessionCount": "Buổi {count}",
@@ -507,6 +506,48 @@
         },
         "startDateLabel": "Khai giảng:",
         "sessionsLabel": "Tổng số buổi:"
+    },
+    "StudentCourseDetailPage": {
+        "breadcrumbs": {
+            "courses": "Khoá học",
+            "detail": "Chi tiết khoá học"
+        },
+        "CourseHeader": {
+            "status": {
+                "UPCOMING": "Sắp bắt đầu",
+                "ACTIVE": "Đang hoạt động",
+                "ENDED": "Kết thúc"
+            },
+            "startDateLabel": "Khai giảng",
+            "sessionsLabel": "Tổng số buổi",
+            "scheduledWeeksLabel": "Số tuần đã lên lịch"
+        },
+        "WeekSection": {
+            "title": "Tuần học",
+            "empty": "Chưa có tuần học nào"
+        },
+        "WeekSectionCard": {
+            "sessionCount": "Buổi {count}",
+            "assignments": {
+                "title": "Bài tập Writing",
+                "empty": "Chưa có bài tập nào trong tuần này",
+                "taskType": {
+                    "TASK_1": "Task 1",
+                    "TASK_2": "Task 2"
+                },
+                "difficulty": {
+                    "EASY": "Dễ",
+                    "MEDIUM": "Trung bình",
+                    "HARD": "Khó"
+                },
+                "showMore": "Xem thêm",
+                "showLess": "Thu gọn",
+                "noteLabel": "Ghi chú",
+                "noNote": "Không",
+                "dueLabel": "Hạn nộp",
+                "overdue": "Quá hạn"
+            }
+        }
     },
     "AdminAccessControlPage": {
         "title": "Phân quyền",

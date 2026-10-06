@@ -1,5 +1,3 @@
-"use client";
-
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import Button from "../Button";
@@ -38,15 +36,21 @@ export default function WeekSection({ course }: WeekSectionProps) {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-3">
-                {course.weekSections.map((weekSection) => (
-                    <WeekSectionCard
-                        key={weekSection.id}
-                        courseId={course.id}
-                        weekSection={weekSection}
-                    />
-                ))}
-            </div>
+            {course.weekSections.length === 0 ? (
+                <div className="rounded-xl border border-dashed border-border px-6 py-10 text-center text-sm text-muted">
+                    {t("empty")}
+                </div>
+            ) : (
+                <div className="flex flex-col gap-3">
+                    {course.weekSections.map((weekSection) => (
+                        <WeekSectionCard
+                            key={weekSection.id}
+                            courseId={course.id}
+                            weekSection={weekSection}
+                        />
+                    ))}
+                </div>
+            )}
 
             <CreateWeekSectionModal 
                 course={course}

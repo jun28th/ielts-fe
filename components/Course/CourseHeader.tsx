@@ -1,6 +1,4 @@
-"use client";
-
-import { Course, CourseStatus } from "@/types/course-types";
+import { Course, STATUS_STYLE } from "@/types/course-types";
 import { Popconfirm, Progress } from "antd";
 import { useTranslations } from "next-intl";
 import PencilIcon from "../Icons/PencilIcon";
@@ -14,12 +12,6 @@ import { coursesApi } from "@/lib/api/courses-client";
 import { useRouter } from "@/lib/navigation";
 import { useAppMessage } from "@/contexts/message-context";
 import { TeacherCoursesRoute } from "@/lib/routes";
-
-const STATUS_STYLE: Record<CourseStatus, string> = {
-    UPCOMING: "bg-accent-bg text-accent-active",
-    ACTIVE: "bg-success-bg text-success",
-    ENDED: "bg-surface text-muted border border-border",
-};
 
 type CourseHeaderProps = {
     course: Course;

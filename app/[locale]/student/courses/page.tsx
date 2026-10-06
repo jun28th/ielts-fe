@@ -1,6 +1,10 @@
 "use client";
 
+import StudentCourseCard from "@/components/Course/StudentCourseCard";
+import { coursesApi } from "@/lib/api/courses-client";
 import { CourseStatus } from "@/types/course-types";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { Pagination } from "antd";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -14,6 +18,19 @@ export default function StudentCoursesPage() {
 
     const [filter, setFilter] = useState<Filter>("ALL");
     const [page, setPage] = useState<number>(0);
+
+    const { data, isLoading, isPlaceholderData, error } = useQuery({
+        queryKey: ["courses", page, filter],
+        queryFn: () => coursesApi.listEnrolled({
+            page,
+            size: PAGE_SIZE,
+            status: filter === "ALL" ? undefined : filter,
+        }),
+        placeholderData: keepPreviousData,
+    });
+
+    const courses = data?.content ?? [];
+    const totalElements = data?.totalElements ?? 0;
 
     const handleFilterChange = (key: Filter) => {
         setFilter(key);
@@ -50,6 +67,53 @@ export default function StudentCoursesPage() {
                         </button>
                     )
                 })}
+            </div>
+
+            <div className="mt-6">
+                {isLoading && (
+                    <div className="grid grid-cols-1 gap-4.5 md:grid-cols-2 lg:grid-cols-3">
+                        {[0, 1, 2, 3, 4, 5].map((i) => (
+                            <div key={i} className="h-44 animate-pulse rounded-2xl border border-border bg-surface" />
+                        ))}
+                    </div>
+                )}
+
+                {error && (
+                    <div className="rounded-2xl border border-error/40 bg-error-bg px-6 py-10 text-center text-sm text-error">
+                        {error.message}
+                    </div>
+                )}
+
+                {!isLoading && courses.length === 0 && (
+                    <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-border px-6 py-16 text-center">
+                        <p className="font-serif text-base font-bold">
+                            {filter === "ALL" ? t("emptyTitle") : t("noMatchTitle")}
+                        </p>
+                        <p className="max-w-xs text-sm text-muted">
+                            {filter === "ALL" ? t("emptySubtitle") : t("noMatchSubTitle")}
+                        </p>
+                    </div>
+                )}
+
+                {courses.length > 0 && (
+                    <div className={`grid grid-cols-1 gap-4.5 md:grid-cols-2 lg:grid-cols-3 transition-opacity ${isPlaceholderData ? "opacity-60" : ""}`}>
+                        {courses.map((course) => (
+                            <StudentCourseCard key={course.id} course={course}/>
+                        ))}
+                    </div>
+                )}
+
+                {totalElements > PAGE_SIZE && (
+                    <div className="mt-6 flex justify-center">
+                        <Pagination
+                            current={page + 1}
+                            pageSize={PAGE_SIZE}
+                            total={totalElements}
+                            onChange={(uiPage) => setPage(uiPage - 1)}
+                            showSizeChanger={false}
+                        />
+                    </div>
+                )}
             </div>
         </>
     )

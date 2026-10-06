@@ -1,24 +1,21 @@
-import { Course, STATUS_STYLE } from "@/types/course-types"
+import { Link } from "@/lib/navigation";
+import { StudentCourseDetailRoute } from "@/lib/routes";
+import { STATUS_STYLE, StudentCourse } from "@/types/course-types";
 import { useTranslations } from "next-intl";
 import CalendarIcon from "../Icons/CalendarIcon";
-import BookIcon from "../Icons/BookIcon";
-import { Progress } from "antd";
-import { Link } from "@/lib/navigation";
-import { TeacherCourseDetailRoute } from "@/lib/routes";
 import { formatDateDDMMYYYY } from "@/lib/utils";
+import BookIcon from "../Icons/BookIcon";
 
-type CourseCardProps = { 
-    course: Course
+type StudentCourseCardProps = {
+    course: StudentCourse;
 }
 
-export default function CourseCard({ course } : CourseCardProps) {
-    const t = useTranslations("TeacherCoursesPage");
-
-    const percentFill = (course.enrolledCount / course.maxStudents) * 100;
+export default function StudentCourseCard({ course } : StudentCourseCardProps) {
+    const t = useTranslations("StudentCoursesPage");
 
     return (
-        <Link 
-            href={TeacherCourseDetailRoute(course.id)}
+        <Link
+            href={StudentCourseDetailRoute(course.id)}
             className="group flex cursor-pointer flex-col gap-2.5 rounded-2xl border border-border bg-bg p-5 transition-all duration-150 hover:-translate-y-0.5 hover:border-accent hover:shadow-lg hover:shadow-black/5"
         >
             <div className="flex items-start justify-between gap-2.5">
@@ -50,18 +47,6 @@ export default function CourseCard({ course } : CourseCardProps) {
                     </>
                 </div>
             </div>
-
-            <div className="flex flex-col gap-1.5">
-                <div className="flex justify-between">
-                    <p className="text-muted text-sm">{t("capacityLabel")}</p>
-                    <div className="flex items-center gap-1 text-sm font-bold">
-                        <p>{course.enrolledCount}</p>
-                        <p> / </p>
-                        <p>{t("capacityValue", { min: course.minStudents, max: course.maxStudents })}</p>
-                    </div>
-                </div>
-                <Progress percent={percentFill} showInfo={false}/>
-            </div>
         </Link>
-    );
+    )
 }

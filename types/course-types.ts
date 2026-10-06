@@ -2,6 +2,12 @@ import { WeekSection } from "./week-section-types";
 
 export type CourseStatus = "UPCOMING" | "ACTIVE" | "ENDED";
 
+export const STATUS_STYLE: Record<CourseStatus, string> = {
+    UPCOMING: "bg-accent-bg text-accent-active",
+    ACTIVE: "bg-success-bg text-success",
+    ENDED: "bg-surface text-muted border border-border",
+};
+
 export type Course = {
     id: string;
 	name: string;
@@ -26,3 +32,15 @@ export type CourseListResponse = {
 	totalElements: number;
 	totalPages: number;
 };
+
+// === Student Course Types ===
+
+export type StudentCourse = Omit<Course, "minStudents" | "maxStudents" | "createdAt" | "enrolledCount">;
+
+export type StudentCourseListResponse = {
+	content: StudentCourse[];
+	page: number;
+	size: number;
+	totalElements: number;
+	totalPages: number;
+}

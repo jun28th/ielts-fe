@@ -146,8 +146,7 @@
             "title": "Weeks",
             "gradeButton": "Grade",
             "createButton": "Create week",
-            "empty": "No weeks yet",
-            "loadError": "Failed to load weeks"
+            "empty": "No weeks yet"
         },
         "WeekSectionCard" : {
             "sessionCount": "Session {count}",
@@ -507,6 +506,48 @@
         },
         "startDateLabel": "Start date:",
         "sessionsLabel": "Total sessions:"
+    },
+    "StudentCourseDetailPage": {
+        "breadcrumbs": {
+            "courses": "Courses",
+            "detail": "Course Detail"
+        },
+        "CourseHeader": {
+            "status": {
+                "UPCOMING": "Upcoming",
+                "ACTIVE": "Active",
+                "ENDED": "Ended"
+            },
+            "startDateLabel": "Start date",
+            "sessionsLabel": "Sessions",
+            "scheduledWeeksLabel": "Weeks scheduled"
+        },
+        "WeekSection": {
+            "title": "Weeks",
+            "empty": "No weeks yet"
+        },
+        "WeekSectionCard" : {
+            "sessionCount": "Session {count}",
+            "assignments": {
+                "title": "Writing assignments",
+                "empty": "No assignments this week yet",
+                "taskType": {
+                    "TASK_1": "Task 1",
+                    "TASK_2": "Task 2"
+                },
+                "difficulty": {
+                    "EASY": "Easy",
+                    "MEDIUM": "Medium",
+                    "HARD": "Hard"
+                },
+                "showMore": "Show more", 
+                "showLess": "Show less",
+                "noteLabel": "Note",
+                "noNote": "None",
+                "dueLabel": "Due",
+                "overdue": "Overdue"
+            }
+        }
     },
     "AdminAccessControlPage": {
         "title": "Access control",
