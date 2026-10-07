@@ -25,7 +25,7 @@ export default function CoursesPage() {
 
     const { data, isLoading, isPlaceholderData, error } = useQuery({
         queryKey: ["courses", page, filter],
-        queryFn: () => coursesApi.list({
+        queryFn: () => coursesApi.listCourses({
             page,
             size: PAGE_SIZE,
             status: filter === "ALL" ? undefined : filter,

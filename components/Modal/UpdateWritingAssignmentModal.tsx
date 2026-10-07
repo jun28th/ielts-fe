@@ -11,7 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppMessage } from "@/contexts/message-context";
 import TimeInput from "../FormInput/TimeInput";
 import { formatTime } from "@/lib/utils";
-import { writingAssignmentsApi } from "@/lib/api/writing-assignments-client";
+import { coursesApi } from "@/lib/api/courses-client";
 
 const THUMB_SIZE = 64;
 
@@ -57,7 +57,7 @@ export default function UpdateWritingAssignmentModal({ courseId, weekSectionId, 
     }
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (data: UpdateWritingAssignmentRequest) => writingAssignmentsApi.update(courseId, weekSectionId, assignment.id, data),
+        mutationFn: (data: UpdateWritingAssignmentRequest) => coursesApi.updateWritingAssignment(courseId, weekSectionId, assignment.id, data),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["course", courseId] });
             message.success(t("updateSuccess"));

@@ -2,7 +2,7 @@ import { backendFetch, errorResponse } from "@/lib/api/server";
 
 type RouteParams = { params: Promise<{ courseId: string; weekSectionId: string }> };
 
-// PATCH /api/week-sections/{courseId}/{weekSectionId} - update
+// PATCH /api/courses/{courseId}/week-sections/{weekSectionId} - update
 export async function PATCH(request: Request, { params } : RouteParams) {
     const { courseId, weekSectionId } = await params;
 
@@ -18,7 +18,7 @@ export async function PATCH(request: Request, { params } : RouteParams) {
     let raw: string;
 
     try {
-        res = await backendFetch(`/api/week-sections/${courseId}/${weekSectionId}`, {
+        res = await backendFetch(`/api/courses/${courseId}/week-sections/${weekSectionId}`, {
             method: "PATCH",
             body: JSON.stringify(body),
         });
@@ -45,7 +45,7 @@ export async function PATCH(request: Request, { params } : RouteParams) {
     return data ? Response.json(data, { status: 200 }) : new Response(null, { status: 204 });
 }
 
-// DELETE /api/week-sections/{courseId}/{weekSectionId} - delete
+// DELETE /api/courses/{courseId}/week-sections/{weekSectionId} - delete
 export async function DELETE(_request: Request, { params } : RouteParams) {
     const { courseId, weekSectionId } = await params;
 
@@ -53,7 +53,7 @@ export async function DELETE(_request: Request, { params } : RouteParams) {
     let raw: string;
 
     try {
-        res = await backendFetch(`/api/week-sections/${courseId}/${weekSectionId}`, {
+        res = await backendFetch(`/api/courses/${courseId}/week-sections/${weekSectionId}`, {
             method: "DELETE",
         });
 

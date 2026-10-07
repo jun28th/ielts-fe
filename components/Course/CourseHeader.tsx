@@ -28,7 +28,7 @@ export default function CourseHeader({ course }: CourseHeaderProps) {
     const percentFill = (course.enrolledCount / course.maxStudents) * 100;
 
     const { mutateAsync } = useMutation({
-        mutationFn: () => coursesApi.delete(course.id),
+        mutationFn: () => coursesApi.deleteCourse(course.id),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["courses"] });
             message.success(t("deleteSuccess"));

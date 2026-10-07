@@ -11,7 +11,7 @@ import Button from "../Button";
 import { CreateWritingAssignmentRequest } from "@/types/writing-assignment-types";
 import { useAppMessage } from "@/contexts/message-context";
 import TimeInput from "../FormInput/TimeInput";
-import { writingAssignmentsApi } from "@/lib/api/writing-assignments-client";
+import { coursesApi } from "@/lib/api/courses-client";
 
 type Filter = "ALL" | WritingTaskType;
 
@@ -73,7 +73,7 @@ export default function CreateWritingAssignmentModal({ isOpen, onClose, courseId
     }
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (data: CreateWritingAssignmentRequest) => writingAssignmentsApi.create(courseId, weekSectionId, data),
+        mutationFn: (data: CreateWritingAssignmentRequest) => coursesApi.createWritingAssignment(courseId, weekSectionId, data),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["course", courseId] })
             message.success(t("createSuccess"));

@@ -60,7 +60,7 @@ export default function UpdateCourseModal({ course, isOpen, onClose } : UpdateCo
     }
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (data: UpdateCourseRequest) => coursesApi.update(course.id, data),
+        mutationFn: (data: UpdateCourseRequest) => coursesApi.updateCourse(course.id, data),
         onSuccess: async () => {
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ["courses"] }),

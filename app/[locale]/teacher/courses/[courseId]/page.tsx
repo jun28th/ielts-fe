@@ -11,7 +11,7 @@ export default function CourseDetailPage() {
 
     const { data: course, isLoading: isCourseLoading, error: courseError } = useQuery({
         queryKey: ["course", courseId],
-        queryFn: () => coursesApi.get(courseId),
+        queryFn: () => coursesApi.getCourse(courseId),
     });
 
     if (isCourseLoading) {
