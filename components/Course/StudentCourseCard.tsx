@@ -5,13 +5,16 @@ import { useTranslations } from "next-intl";
 import CalendarIcon from "../Icons/CalendarIcon";
 import { formatDateDDMMYYYY } from "@/lib/utils";
 import BookIcon from "../Icons/BookIcon";
+import { Progress } from "antd";
 
 type StudentCourseCardProps = {
     course: StudentCourse;
 }
 
 export default function StudentCourseCard({ course } : StudentCourseCardProps) {
-    const t = useTranslations("StudentCoursesPage");
+    const t = useTranslations("StudentCoursesPage.StudentCourseCard");
+
+    const progressPercent = Math.min(Math.round((course.completedSessions / course.totalSessions) * 100), 100);
 
     return (
         <Link
@@ -28,6 +31,16 @@ export default function StudentCourseCard({ course } : StudentCourseCardProps) {
 
             <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
+                    <BookIcon width={14} height={14} className="text-muted"/>
+                    <>
+                        <p className="text-muted text-sm">
+                            {t("teacherLabel")}
+                        </p>
+                        <p className="text-sm">{"Nguyễn Ngọc Phương Anh"}</p>
+                    </>
+                </div>
+
+                <div className="flex items-center gap-2">
                     <CalendarIcon width={14} height={14} className="text-muted"/>
                     <>
                         <p className="text-muted text-sm">
@@ -36,16 +49,16 @@ export default function StudentCourseCard({ course } : StudentCourseCardProps) {
                         <p className="text-sm">{formatDateDDMMYYYY(course.startDate)}</p>
                     </>
                 </div>
+            </div>
 
-                <div className="flex items-center gap-2">
-                    <BookIcon width={14} height={14} className="text-muted"/>
-                    <>
-                        <p className="text-muted text-sm">
-                            {t("sessionsLabel")}
-                        </p>
-                        <p className="text-sm">{course.totalSessions}</p>
-                    </>
+            <div className="flex flex-col gap-1.5">
+                <div className="flex items-baseline justify-between gap-3">
+                    <p className="text-sm text-muted">{t("progressLabel")}</p>
+                    <p className="whitespace-nowrap text-sm font-bold">
+                        {t("progressValue", { completed: course.completedSessions, total: course.totalSessions })}
+                    </p>
                 </div>
+                <Progress percent={progressPercent} showInfo={false} />
             </div>
         </Link>
     )

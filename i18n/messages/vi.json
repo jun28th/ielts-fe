@@ -85,15 +85,19 @@
         },
         "noMatchTitle": "Không có khoá học nào",
         "noMatchSubTitle": "Không có khoá học nào phù hợp với trạng thái bạn đã chọn.",
-        "status": {
-            "UPCOMING": "Sắp bắt đầu",
-            "ACTIVE": "Đang hoạt động",
-            "ENDED": "Kết thúc"
+        "CourseCard": {
+            "status": {
+                "UPCOMING": "Sắp bắt đầu",
+                "ACTIVE": "Đang hoạt động",
+                "ENDED": "Kết thúc"
+            },
+            "teacherLabel": "Giáo viên:",
+            "startDateLabel": "Khai giảng:",
+            "capacityLabel": "Sĩ số:",
+            "capacityValue": "{min}–{max} học viên",
+            "progressLabel": "Tiến độ khóa học",
+            "progressValue": "{completed} / {total} buổi"
         },
-        "startDateLabel": "Khai giảng:",
-        "sessionsLabel": "Tổng số buổi:",
-        "capacityLabel": "Sĩ số:",
-        "capacityValue": "{min}–{max} học viên",
         "CreateCourseModal": {
             "title": "Tạo khoá học mới",
             "subtitle": "Điền thông tin khoá học bên dưới.",
@@ -136,6 +140,7 @@
                 "cancelText": "Hủy"
             },
             "deleteSuccess": "Xoá khoá học thành công",
+            "teacherLabel": "Giáo viên",
             "startDateLabel": "Khai giảng",
             "scheduledWeeksLabel": "Số tuần đã lên lịch",
             "capacityLabel": "Sĩ số",
@@ -500,13 +505,17 @@
         },
         "noMatchTitle": "Không có khoá học nào",
         "noMatchSubTitle": "Không có khoá học nào phù hợp với trạng thái bạn đã chọn.",
-        "status": {
-            "UPCOMING": "Sắp bắt đầu",
-            "ACTIVE": "Đang hoạt động",
-            "ENDED": "Kết thúc"
-        },
-        "startDateLabel": "Khai giảng:",
-        "sessionsLabel": "Tổng số buổi:"
+        "StudentCourseCard": {
+            "status": {
+                "UPCOMING": "Sắp bắt đầu",
+                "ACTIVE": "Đang hoạt động",
+                "ENDED": "Kết thúc"
+            },
+            "teacherLabel": "Giáo viên:",
+            "startDateLabel": "Khai giảng:",
+            "progressLabel": "Tiến độ khóa học",
+            "progressValue": "{completed} / {total} buổi"
+        }
     },
     "StudentCourseDetailPage": {
         "breadcrumbs": {
@@ -519,6 +528,7 @@
                 "ACTIVE": "Đang hoạt động",
                 "ENDED": "Kết thúc"
             },
+            "teacherLabel": "Giáo viên",
             "startDateLabel": "Khai giảng",
             "scheduledWeeksLabel": "Số tuần đã lên lịch",
             "progressLabel": "Tiến độ khóa học",

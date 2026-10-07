@@ -26,6 +26,10 @@ export default function StudentCourseHeader({ course }: StudentCourseHeaderProps
 
             <div className="mt-5 flex flex-wrap gap-x-8 gap-y-4 border-t border-border pt-5">
                 <div className="min-w-30">
+                    <p className="text-sm text-muted">{t("teacherLabel")}</p>
+                    <p className="mt-0.5 text-sm font-semibold">{"Nguyễn Ngọc Phương Anh"}</p>
+                </div>
+                <div className="min-w-30">
                     <p className="text-sm text-muted">{t("startDateLabel")}</p>
                     <p className="mt-0.5 text-sm font-semibold">{formatDateDDMMYYYY(course.startDate)}</p>
                 </div>

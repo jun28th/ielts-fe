@@ -11,18 +11,12 @@ import { useAppMessage } from "@/contexts/message-context";
 import { useDebounce } from "@/hooks/useDebounce";
 import { userApi } from "@/lib/api/user-client";
 import { formatInstant } from "@/lib/utils";
-import { CourseStatus } from "@/types/course-types";
+import { STATUS_STYLE } from "@/types/course-types";
 import { CourseSummary, Student } from "@/types/user-types";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Popconfirm, Table, TableColumnsType } from "antd";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-
-const STATUS_STYLE: Record<CourseStatus, string> = {
-    UPCOMING: "bg-accent-bg text-accent-active",
-    ACTIVE: "bg-success-bg text-success",
-    ENDED: "bg-surface text-muted border border-border",
-};
 
 const DEFAULT_PAGE_SIZE = 10;
 

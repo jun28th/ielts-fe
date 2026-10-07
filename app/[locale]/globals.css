@@ -29,6 +29,7 @@
 	--color-highlight: #ffc200;
 	--color-highlight-hover: #ffd500;
 	--color-highlight-bg: #fff8db;
+	--color-highlight-fg: #8a6500; 
 
 	/* Status colors */
 	--color-error: #ff4d4f;

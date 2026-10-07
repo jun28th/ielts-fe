@@ -4,7 +4,7 @@ export type CourseStatus = "UPCOMING" | "ACTIVE" | "ENDED";
 
 export const STATUS_STYLE: Record<CourseStatus, string> = {
     UPCOMING: "bg-accent-bg text-accent-active",
-    ACTIVE: "bg-success-bg text-success",
+	ACTIVE: "bg-highlight-bg text-highlight-fg border border-highlight",
     ENDED: "bg-surface text-muted border border-border",
 };
 

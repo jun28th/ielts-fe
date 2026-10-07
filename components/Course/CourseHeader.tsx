@@ -24,8 +24,6 @@ export default function CourseHeader({ course }: CourseHeaderProps) {
     const router = useRouter(); 
 
     const [isUpdateModalOpen, setIsUpdateModalOpen] = useState<boolean>(false);
-
-    const enrollPercent = Math.min(Math.round((course.enrolledCount / course.maxStudents) * 100), 100);
     
     const progressPercent = Math.min(Math.round((course.completedSessions / course.totalSessions) * 100), 100);
 
@@ -82,8 +80,20 @@ export default function CourseHeader({ course }: CourseHeaderProps) {
 
             <div className="mt-5 flex flex-wrap gap-x-8 gap-y-4 border-t border-border pt-5">
                 <div className="min-w-30">
+                    <p className="text-sm text-muted">{t("teacherLabel")}</p>
+                    <p className="mt-0.5 text-sm font-semibold">{"Nguyễn Ngọc Phương Anh"}</p>
+                </div>
+                <div className="min-w-30">
                     <p className="text-sm text-muted">{t("startDateLabel")}</p>
                     <p className="mt-0.5 text-sm font-semibold">{formatDateDDMMYYYY(course.startDate)}</p>
+                </div>
+                <div className="min-w-30">
+                    <p className="text-muted text-sm">{t("capacityLabel")}</p>
+                    <div className="flex items-center gap-1 text-sm font-semibold">
+                        <p>{course.enrolledCount}</p>
+                        <p> / </p>
+                        <p>{t("capacityValue", { min: course.minStudents, max: course.maxStudents })}</p>
+                    </div>
                 </div>
                 <div className="min-w-30">
                     <p className="text-sm text-muted">{t("scheduledWeeksLabel")}</p>
@@ -91,26 +101,14 @@ export default function CourseHeader({ course }: CourseHeaderProps) {
                 </div>
             </div>
 
-            <div className="mt-5 flex flex-col gap-5 border-t border-border pt-5">
-                <div className="flex min-w-0 flex-col gap-1.5">
-                    <div className="flex items-baseline justify-between gap-3">
-                        <p className="text-sm text-muted">{t("progressLabel")}</p>
-                        <p className="whitespace-nowrap text-sm font-bold">
-                            {t("progressValue", { completed: course.completedSessions, total: course.totalSessions })}
-                        </p>
-                    </div>
-                    <Progress percent={progressPercent} showInfo={false} />
+            <div className="mt-5 flex flex-col gap-1.5 border-t border-border pt-5">
+                <div className="flex items-baseline justify-between gap-3">
+                    <p className="text-sm text-muted">{t("progressLabel")}</p>
+                    <p className="whitespace-nowrap text-sm font-bold">
+                        {t("progressValue", { completed: course.completedSessions, total: course.totalSessions })}
+                    </p>
                 </div>
-                
-                <div className="flex min-w-0 flex-col gap-1.5">
-                    <div className="flex items-baseline justify-between gap-3">
-                        <p className="text-sm text-muted">{t("capacityLabel")}</p>
-                        <p className="whitespace-nowrap text-sm font-bold">
-                            {course.enrolledCount} / {t("capacityValue", { min: course.minStudents, max: course.maxStudents })}
-                        </p>
-                    </div>
-                    <Progress percent={enrollPercent} showInfo={false} />
-                </div>
+                <Progress percent={progressPercent} showInfo={false} />
             </div>
 
             <UpdateCourseModal

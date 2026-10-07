@@ -6,15 +6,16 @@ import { Progress } from "antd";
 import { Link } from "@/lib/navigation";
 import { TeacherCourseDetailRoute } from "@/lib/routes";
 import { formatDateDDMMYYYY } from "@/lib/utils";
+import UserIcon from "../Icons/UserIcon";
 
 type CourseCardProps = { 
     course: Course
 }
 
 export default function CourseCard({ course } : CourseCardProps) {
-    const t = useTranslations("TeacherCoursesPage");
+    const t = useTranslations("TeacherCoursesPage.CourseCard");
 
-    const percentFill = (course.enrolledCount / course.maxStudents) * 100;
+    const progressPercent = Math.min(Math.round((course.completedSessions / course.totalSessions) * 100), 100);
 
     return (
         <Link 
@@ -31,6 +32,16 @@ export default function CourseCard({ course } : CourseCardProps) {
 
             <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-2">
+                    <BookIcon width={14} height={14} className="text-muted"/>
+                    <>
+                        <p className="text-muted text-sm">
+                            {t("teacherLabel")}
+                        </p>
+                        <p className="text-sm">{"Nguyễn Ngọc Phương Anh"}</p>
+                    </>
+                </div>
+
+                <div className="flex items-center gap-2">
                     <CalendarIcon width={14} height={14} className="text-muted"/>
                     <>
                         <p className="text-muted text-sm">
@@ -41,26 +52,26 @@ export default function CourseCard({ course } : CourseCardProps) {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <BookIcon width={14} height={14} className="text-muted"/>
+                    <UserIcon width={14} height={14} className="text-muted"/>
                     <>
-                        <p className="text-muted text-sm">
-                            {t("sessionsLabel")}
-                        </p>
-                        <p className="text-sm">{course.totalSessions}</p>
+                        <p className="text-muted text-sm">{t("capacityLabel")}</p>
+                        <div className="flex items-center gap-1 text-sm">
+                            <p>{course.enrolledCount}</p>
+                            <p> / </p>
+                            <p>{t("capacityValue", { min: course.minStudents, max: course.maxStudents })}</p>
+                        </div>
                     </>
                 </div>
             </div>
 
             <div className="flex flex-col gap-1.5">
-                <div className="flex justify-between">
-                    <p className="text-muted text-sm">{t("capacityLabel")}</p>
-                    <div className="flex items-center gap-1 text-sm font-bold">
-                        <p>{course.enrolledCount}</p>
-                        <p> / </p>
-                        <p>{t("capacityValue", { min: course.minStudents, max: course.maxStudents })}</p>
-                    </div>
+                <div className="flex items-baseline justify-between gap-3">
+                    <p className="text-sm text-muted">{t("progressLabel")}</p>
+                    <p className="whitespace-nowrap text-sm font-bold">
+                        {t("progressValue", { completed: course.completedSessions, total: course.totalSessions })}
+                    </p>
                 </div>
-                <Progress percent={percentFill} showInfo={false}/>
+                <Progress percent={progressPercent} showInfo={false} />
             </div>
         </Link>
     );

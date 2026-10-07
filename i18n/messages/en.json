@@ -85,15 +85,19 @@
         },
         "noMatchTitle": "No courses found",
         "noMatchSubTitle": "There are no courses in this status.",
-        "status": {
-            "UPCOMING": "Upcoming",
-            "ACTIVE": "Active",
-            "ENDED": "Ended"
+        "CourseCard": {
+            "status": {
+                "UPCOMING": "Upcoming",
+                "ACTIVE": "Active",
+                "ENDED": "Ended"
+            },
+            "teacherLabel": "Teacher:",
+            "startDateLabel": "Starts:",
+            "capacityLabel": "Capacity:",
+            "capacityValue": "{min}–{max} students",
+            "progressLabel": "Course progress",
+            "progressValue": "{completed} / {total} sessions"
         },
-        "startDateLabel": "Starts:",
-        "sessionsLabel": "Total sessions:",
-        "capacityLabel": "Capacity:",
-        "capacityValue": "{min}–{max} students",
         "CreateCourseModal": {
             "title": "Create a new course",
             "subtitle": "Fill in the course details below.",
@@ -136,6 +140,7 @@
                 "cancelText": "Cancel"
             },
             "deleteSuccess": "Course deleted successfully",
+            "teacherLabel": "Teacher",
             "startDateLabel": "Start date",
             "scheduledWeeksLabel": "Weeks scheduled",
             "capacityLabel": "Capacity",
@@ -500,13 +505,17 @@
         },
         "noMatchTitle": "No courses found",
         "noMatchSubTitle": "No courses match the status you selected.",
-        "status": {
-            "UPCOMING": "Upcoming",
-            "ACTIVE": "Active",
-            "ENDED": "Ended"
-        },
-        "startDateLabel": "Start date:",
-        "sessionsLabel": "Total sessions:"
+        "StudentCourseCard": {
+            "status": {
+                "UPCOMING": "Upcoming",
+                "ACTIVE": "Active",
+                "ENDED": "Ended"
+            },
+            "teacherLabel": "Teacher:",
+            "startDateLabel": "Starts:",
+            "progressLabel": "Course progress",
+            "progressValue": "{completed} / {total} sessions"
+        }
     },
     "StudentCourseDetailPage": {
         "breadcrumbs": {
@@ -519,6 +528,7 @@
                 "ACTIVE": "Active",
                 "ENDED": "Ended"
             },
+            "teacherLabel": "Teacher",
             "startDateLabel": "Start date",
             "scheduledWeeksLabel": "Weeks scheduled",
             "progressLabel": "Course progress",
