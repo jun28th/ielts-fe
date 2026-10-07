@@ -137,10 +137,11 @@
             },
             "deleteSuccess": "Course deleted successfully",
             "startDateLabel": "Start date",
-            "sessionsLabel": "Sessions",
             "scheduledWeeksLabel": "Weeks scheduled",
             "capacityLabel": "Capacity",
-            "capacityValue": "{min}–{max} students"
+            "capacityValue": "{min}–{max} students",
+            "progressLabel": "Course progress",
+            "progressValue": "{completed} / {total} sessions"
         },
         "WeekSection": {
             "title": "Weeks",
@@ -519,8 +520,9 @@
                 "ENDED": "Ended"
             },
             "startDateLabel": "Start date",
-            "sessionsLabel": "Sessions",
-            "scheduledWeeksLabel": "Weeks scheduled"
+            "scheduledWeeksLabel": "Weeks scheduled",
+            "progressLabel": "Course progress",
+            "progressValue": "{completed} / {total} sessions"
         },
         "WeekSection": {
             "title": "Weeks",

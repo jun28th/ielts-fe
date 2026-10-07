@@ -137,10 +137,11 @@
             },
             "deleteSuccess": "Xoá khoá học thành công",
             "startDateLabel": "Khai giảng",
-            "sessionsLabel": "Tổng số buổi",
             "scheduledWeeksLabel": "Số tuần đã lên lịch",
             "capacityLabel": "Sĩ số",
-            "capacityValue": "{min}–{max} học viên"
+            "capacityValue": "{min}–{max} học viên",
+            "progressLabel": "Tiến độ khóa học",
+            "progressValue": "{completed} / {total} buổi"
         },
         "WeekSection": {
             "title": "Tuần học",
@@ -519,8 +520,9 @@
                 "ENDED": "Kết thúc"
             },
             "startDateLabel": "Khai giảng",
-            "sessionsLabel": "Tổng số buổi",
-            "scheduledWeeksLabel": "Số tuần đã lên lịch"
+            "scheduledWeeksLabel": "Số tuần đã lên lịch",
+            "progressLabel": "Tiến độ khóa học",
+            "progressValue": "{completed} / {total} buổi"
         },
         "WeekSection": {
             "title": "Tuần học",

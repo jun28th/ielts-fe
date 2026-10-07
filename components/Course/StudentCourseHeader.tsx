@@ -1,5 +1,6 @@
 import { formatDateDDMMYYYY } from "@/lib/utils";
 import { STATUS_STYLE, StudentCourse } from "@/types/course-types";
+import { Progress } from "antd";
 import { useTranslations } from "next-intl";
 
 type StudentCourseHeaderProps = {
@@ -8,6 +9,8 @@ type StudentCourseHeaderProps = {
 
 export default function StudentCourseHeader({ course }: StudentCourseHeaderProps) {
     const t = useTranslations("StudentCourseDetailPage.CourseHeader");
+
+    const progressPercent = Math.min(Math.round((course.completedSessions / course.totalSessions) * 100), 100);
 
     return (
         <div className="rounded-2xl border border-border bg-bg p-6">
@@ -27,13 +30,19 @@ export default function StudentCourseHeader({ course }: StudentCourseHeaderProps
                     <p className="mt-0.5 text-sm font-semibold">{formatDateDDMMYYYY(course.startDate)}</p>
                 </div>
                 <div className="min-w-30">
-                    <p className="text-sm text-muted">{t("sessionsLabel")}</p>
-                    <p className="mt-0.5 text-sm font-semibold">{course.totalSessions}</p>
-                </div>
-                <div className="min-w-30">
                     <p className="text-sm text-muted">{t("scheduledWeeksLabel")}</p>
                     <p className="mt-0.5 text-sm font-semibold">{course.weekSections.length}</p>
                 </div>
+            </div>
+
+            <div className="mt-5 flex min-w-0 flex-col gap-1.5 border-t border-border pt-5">
+                <div className="flex items-baseline justify-between gap-3">
+                    <p className="text-sm text-muted">{t("progressLabel")}</p>
+                    <p className="whitespace-nowrap text-sm font-bold">
+                        {t("progressValue", { completed: course.completedSessions, total: course.totalSessions })}
+                    </p>
+                </div>
+                <Progress percent={progressPercent} showInfo={false} />
             </div>
         </div>
     );
