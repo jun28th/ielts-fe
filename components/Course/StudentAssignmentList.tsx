@@ -4,9 +4,9 @@ import { DIFFICULTY_COLORS, TASK_TYPE_COLORS } from "@/types/writing-question-ty
 import { Image, Listy, Tag, Tooltip, Typography } from "antd";
 import { useTranslations } from "next-intl";
 import Button from "../Button";
-import PencilIcon from "../Icons/PencilIcon";
 import { useRouter } from "@/lib/navigation";
 import { StudentWritingAssignmentRoute } from "@/lib/routes";
+import FileEditIcon from "../Icons/FileEditIcon";
 
 const THUMB_SIZE = 64;
 
@@ -106,7 +106,7 @@ export default function StudentAssignmentList({ courseId, writingAssignments } :
                             label=""
                             type="button"
                             variant="secondary"
-                            icon={<PencilIcon width={18} height={18} />}
+                            icon={<FileEditIcon width={18} height={18} />}
                             iconOnly={true}
                             onClick={() => router.push(StudentWritingAssignmentRoute(courseId, assignment.id))}
                         />

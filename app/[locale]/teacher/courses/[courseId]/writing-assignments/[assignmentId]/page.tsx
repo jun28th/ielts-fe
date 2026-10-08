@@ -13,9 +13,9 @@ import { Image, Splitter, Tag } from "antd";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 
-export default function StudentWritingAssignmentPage() {
+export default function TeacherWritingAssignmentPage() {
     const { assignmentId } = useParams<{ assignmentId: string }>();
-    const t = useTranslations("StudentWritingAssignmentPage");
+    const t = useTranslations("TeacherWritingAssignmentPage");
 
     const { data: assignment, isLoading, error } = useQuery({
         queryKey: ["assignment", assignmentId],

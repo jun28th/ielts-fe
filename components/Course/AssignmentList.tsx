@@ -11,6 +11,9 @@ import UpdateWritingAssignmentModal from "../Modal/UpdateWritingAssignmentModal"
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppMessage } from "@/contexts/message-context";
 import { WritingAssignmentsApi } from "@/lib/api/writing-assignments-client";
+import FileEditIcon from "../Icons/FileEditIcon";
+import { TeacherWritingAssignmentRoute } from "@/lib/routes";
+import { useRouter } from "@/lib/navigation";
 
 const THUMB_SIZE = 64;
 
@@ -23,6 +26,8 @@ export default function AssignmentList({ courseId, writingAssignments } : Assign
     const t = useTranslations("TeacherCourseDetailPage.WeekSectionCard.assignments");
     const message = useAppMessage();
     const queryClient = useQueryClient();
+
+    const router = useRouter();
 
     const [isUpdateAssignmentModalOpen, setIsUpdateAssignmentModalOpen] = useState<boolean>(false);
     const [selectedAssignment, setSelectedAssignment] = useState<WritingAssignment | null>(null);
@@ -122,6 +127,15 @@ export default function AssignmentList({ courseId, writingAssignments } : Assign
                             </div>
 
                             <div className="flex flex-none items-center gap-2">
+                                <Button
+                                    label=""
+                                    type="button"
+                                    variant="secondary"
+                                    icon={<FileEditIcon width={18} height={18} />}
+                                    iconOnly={true}
+                                    onClick={() => router.push(TeacherWritingAssignmentRoute(courseId, assignment.id))}
+                                />
+
                                 <Button
                                     label=""
                                     type="button"

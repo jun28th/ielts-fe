@@ -317,6 +317,20 @@
             "updateSuccess": "Assignment updated successfully"
         }
     },
+    "TeacherWritingAssignmentPage": {
+        "dueLabel": "Due",
+        "timeLimitLabel": "Time limit",
+        "taskType": {
+            "TASK_1": "Task 1",
+            "TASK_2": "Task 2"
+        },
+        "difficulty": {
+            "EASY": "Easy",
+            "MEDIUM": "Medium",
+            "HARD": "Hard"
+        },
+        "titleLabel": "Question"
+    },
     "TeacherStudentsPage": {
         "title": "Student List",
         "subtitle": "Manage student accounts in the system.",

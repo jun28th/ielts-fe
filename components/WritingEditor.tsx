@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+import * as Y from "yjs";
 import { Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 
@@ -11,6 +13,38 @@ const FORMATS: { format: Format; label: string; className: string }[] = [
 
 export default function WritingEditor() {
     const t = useTranslations("WritingEditor");
+
+    const editorRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const root = editorRef.current;
+        if (!root) return;
+    
+        const doc = new Y.Doc();
+        const ytext = doc.getText("content");
+    
+        const render = () => {
+            const fragment = document.createDocumentFragment();
+            for (const op of ytext.toDelta()) {
+                const span = document.createElement("span");
+                span.textContent = op.insert;
+                if (op.attributes?.bold) span.style.fontWeight = "700";
+                if (op.attributes?.italic) span.style.fontStyle = "italic";
+                if (op.attributes?.underline) span.style.textDecoration = "underline";
+                fragment.append(span);
+            }
+            root.replaceChildren(fragment);
+        };
+    
+        ytext.observe(render);
+        render();
+    
+        // TẠM: để thấy render chạy, bước sau xoá
+        ytext.insert(0, "Hello world");
+        ytext.format(6, 5, { bold: true });
+    
+        return () => doc.destroy();
+    }, []);
 
     return (
         <div className="flex h-full flex-col border border-border">
@@ -30,6 +64,7 @@ export default function WritingEditor() {
             </div>
 
             <div
+                ref={editorRef}
                 contentEditable
                 suppressContentEditableWarning
                 data-placeholder={t("placeholder")}

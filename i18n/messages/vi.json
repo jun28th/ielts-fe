@@ -317,6 +317,20 @@
             "updateSuccess": "Cập nhật bài tập thành công"
         }
     },
+    "TeacherWritingAssignmentPage": {
+        "dueLabel": "Hạn nộp",
+        "timeLimitLabel": "Thời gian làm",
+        "taskType": {
+            "TASK_1": "Task 1",
+            "TASK_2": "Task 2"
+        },
+        "difficulty": {
+            "EASY": "Dễ",
+            "MEDIUM": "Trung bình",
+            "HARD": "Khó"
+        },
+        "titleLabel": "Đề bài"
+    },
     "TeacherStudentsPage": {
         "title": "Danh sách học viên",
         "subtitle": "Quản lý tài khoản học viên trong hệ thống.",
