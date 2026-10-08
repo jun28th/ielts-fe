@@ -12,7 +12,7 @@ import { useAppMessage } from "@/contexts/message-context";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import CreateWritingAssignmentModal from "../Modal/CreateWritingAssignmentModal";
 import AssignmentList from "./AssignmentList";
-import { coursesApi } from "@/lib/api/courses-client";
+import { weekSectionsApi } from "@/lib/api/week-sections-client";
 
 type WeekSectionCardProps = {
     courseId: string;
@@ -32,7 +32,7 @@ export default function WeekSectionCard({ courseId, weekSection } : WeekSectionC
     const [isCreateWritingAssignmentModalOpen, setIsCreateWritingAssignmentModalOpen] = useState<boolean>(false);
 
     const { mutateAsync } = useMutation({
-        mutationFn: () => coursesApi.deleteWeekSection(courseId, weekSection.id),
+        mutationFn: () => weekSectionsApi.deleteWeekSection(weekSection.id),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["course", courseId] });
             message.success(t("deleteSuccess"));
@@ -133,7 +133,6 @@ export default function WeekSectionCard({ courseId, weekSection } : WeekSectionC
                 {writingAssignments.length > 0 ? (
                     <AssignmentList 
                         courseId={courseId}
-                        weekSectionId={weekSection.id}
                         writingAssignments={writingAssignments} 
                     />
                 ) : (

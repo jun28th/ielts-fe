@@ -17,6 +17,7 @@ export type WeekSection = {
 }
 
 export type CreateWeekSectionRequest = {
+    courseId: string;
     weekName: string;
     sessions: Omit<ClassSession, "id" | "isNew">[];
 }

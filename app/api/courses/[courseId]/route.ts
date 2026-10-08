@@ -1,7 +1,7 @@
 import { backendFetch, errorResponse } from "@/lib/api/server";
 
 // GET /api/courses/{courseId} — get
-export async function GET(request: Request, { params } : { params: Promise<{ courseId: string }> }) {
+export async function GET(_request: Request, { params } : { params: Promise<{ courseId: string }> }) {
     const { courseId } = await params;
 
     let res: Response;

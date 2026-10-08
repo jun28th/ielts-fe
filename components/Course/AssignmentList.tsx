@@ -10,17 +10,16 @@ import { useState } from "react";
 import UpdateWritingAssignmentModal from "../Modal/UpdateWritingAssignmentModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppMessage } from "@/contexts/message-context";
-import { coursesApi } from "@/lib/api/courses-client";
+import { WritingAssignmentsApi } from "@/lib/api/writing-assignments-client";
 
 const THUMB_SIZE = 64;
 
 type AssignmentListProps = {
     courseId: string;
-    weekSectionId: string;
     writingAssignments: WritingAssignment[];
 }
 
-export default function AssignmentList({ courseId, weekSectionId, writingAssignments } : AssignmentListProps) {
+export default function AssignmentList({ courseId, writingAssignments } : AssignmentListProps) {
     const t = useTranslations("TeacherCourseDetailPage.WeekSectionCard.assignments");
     const message = useAppMessage();
     const queryClient = useQueryClient();
@@ -29,7 +28,7 @@ export default function AssignmentList({ courseId, weekSectionId, writingAssignm
     const [selectedAssignment, setSelectedAssignment] = useState<WritingAssignment | null>(null);
 
     const { mutateAsync } = useMutation({
-        mutationFn: (assignmentId: string) => coursesApi.deleteWritingAssignment(courseId, weekSectionId, assignmentId),
+        mutationFn: (assignmentId: string) => WritingAssignmentsApi.deleteWritingAssignment(assignmentId),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["course", courseId] });
             message.success(t("deleteSuccess"));
@@ -161,7 +160,6 @@ export default function AssignmentList({ courseId, weekSectionId, writingAssignm
             {selectedAssignment && (
                 <UpdateWritingAssignmentModal
                     courseId={courseId}
-                    weekSectionId={weekSectionId}
                     assignment={selectedAssignment}
                     isOpen={isUpdateAssignmentModalOpen}
                     onClose={() => {

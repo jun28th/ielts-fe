@@ -1,8 +1,7 @@
 import { backendFetch, errorResponse } from "@/lib/api/server";
 
-// POST /api/courses/{courseId}/week-sections/{weekSectionId}/writing-assignments — create
-export async function POST(request: Request, { params } : { params: Promise<{ courseId: string; weekSectionId: string }> }) {
-    const { courseId, weekSectionId } = await params;
+// POST /api/writing-assignments — create
+export async function POST(request: Request) {
     let body: unknown;
 
     try {
@@ -15,7 +14,7 @@ export async function POST(request: Request, { params } : { params: Promise<{ co
     let raw: string;
 
     try {
-        res = await backendFetch(`/api/courses/${courseId}/week-sections/${weekSectionId}/writing-assignments`, {
+        res = await backendFetch(`/api/writing-assignments`, {
             method: "POST",
             body: JSON.stringify(body),
         });

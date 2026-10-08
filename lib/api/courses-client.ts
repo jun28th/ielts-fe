@@ -41,21 +41,5 @@ export const coursesApi = {
 
     listEnrolled: (params: ListCoursesParams) => http.get<StudentCourseListResponse>(`/api/courses/enrolled?${buildQuery(params)}`),
 
-    getEnrolled: (courseId: string) => http.get<StudentCourse>(`/api/courses/enrolled/${courseId}`),
-
-    // === Week Sections ===
-
-    createWeekSection: (courseId: string, data: CreateWeekSectionRequest) => http.post<WeekSection>(`/api/courses/${courseId}/week-sections`, data),
-
-    updateWeekSection: (courseId: string, weekSectionId: string, data: UpdateWeekSectionRequest) => http.patch<WeekSection>(`/api/courses/${courseId}/week-sections/${weekSectionId}`, data),
-
-    deleteWeekSection: (courseId: string, weekSectionId: string) => http.delete<void>(`/api/courses/${courseId}/week-sections/${weekSectionId}`),
-
-    // === Writing Assignments ===
-
-    createWritingAssignment: (courseId: string, weekSectionId: string, data: CreateWritingAssignmentRequest) => http.post<WritingAssignment>(`/api/courses/${courseId}/week-sections/${weekSectionId}/writing-assignments`, data),
-
-    updateWritingAssignment: (courseId: string, weekSectionId: string, assignmentId: string, data: UpdateWritingAssignmentRequest) => http.patch<WritingAssignment>(`/api/courses/${courseId}/week-sections/${weekSectionId}/writing-assignments/${assignmentId}`, data),
-
-    deleteWritingAssignment: (courseId: string, weekSectionId: string, assignmentId: string) => http.delete<void>(`/api/courses/${courseId}/week-sections/${weekSectionId}/writing-assignments/${assignmentId}`),
+    getEnrolled: (courseId: string) => http.get<StudentCourse>(`/api/courses/enrolled/${courseId}`)
 }

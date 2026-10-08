@@ -11,13 +11,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppMessage } from "@/contexts/message-context";
 import TimeInput from "../FormInput/TimeInput";
 import { formatTime } from "@/lib/utils";
-import { coursesApi } from "@/lib/api/courses-client";
+import { WritingAssignmentsApi } from "@/lib/api/writing-assignments-client";
 
 const THUMB_SIZE = 64;
 
 type UpdateWritingAssignmentModalProps = {
     courseId: string;
-    weekSectionId: string;
     isOpen: boolean;
     onClose: () => void;
     assignment: WritingAssignment;
@@ -28,7 +27,7 @@ type Errors = {
     dueTimeError?: string;
 }
 
-export default function UpdateWritingAssignmentModal({ courseId, weekSectionId, assignment, isOpen, onClose } : UpdateWritingAssignmentModalProps) {
+export default function UpdateWritingAssignmentModal({ courseId, assignment, isOpen, onClose } : UpdateWritingAssignmentModalProps) {
     const t = useTranslations("TeacherCourseDetailPage.UpdateWritingAssignmentModal");
     const message = useAppMessage();
     const queryClient = useQueryClient();
@@ -57,7 +56,7 @@ export default function UpdateWritingAssignmentModal({ courseId, weekSectionId, 
     }
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (data: UpdateWritingAssignmentRequest) => coursesApi.updateWritingAssignment(courseId, weekSectionId, assignment.id, data),
+        mutationFn: (data: UpdateWritingAssignmentRequest) => WritingAssignmentsApi.updateWritingAssignment(assignment.id, data),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["course", courseId] });
             message.success(t("updateSuccess"));

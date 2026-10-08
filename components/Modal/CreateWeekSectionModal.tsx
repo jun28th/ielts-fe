@@ -9,7 +9,7 @@ import { Course } from "@/types/course-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppMessage } from "@/contexts/message-context";
 import { addDays, formatTime } from "@/lib/utils";
-import { coursesApi } from "@/lib/api/courses-client";
+import { weekSectionsApi } from "@/lib/api/week-sections-client";
 
 const MIN_SESSIONS = 1;
 const MAX_SESSIONS = 7;
@@ -98,7 +98,7 @@ export default function CreateWeekSectionModal({ course, isOpen, onClose } : Cre
     }
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (data: CreateWeekSectionRequest) => coursesApi.createWeekSection(course.id, data),
+        mutationFn: (data: CreateWeekSectionRequest) => weekSectionsApi.createWeekSection(data),
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["course", course.id] })
             message.success(t("createSuccess"));
@@ -143,6 +143,7 @@ export default function CreateWeekSectionModal({ course, isOpen, onClose } : Cre
         }
 
         mutate({
+            courseId: course.id,
             weekName: weekName.trim(),
             sessions: sessions.map(({ date, startTime, endTime }) => ({ date, startTime, endTime })),
         });
