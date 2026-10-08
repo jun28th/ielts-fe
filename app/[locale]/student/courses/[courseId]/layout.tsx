@@ -31,7 +31,7 @@ export default function StudentCourseDetailLayout({ children }: { children: Reac
     }
 
     return (
-        <div>
+        <>
             <Breadcrumb
                 items={breadcrumbItems}
                 itemRender={(currentRoute) => {
@@ -58,6 +58,6 @@ export default function StudentCourseDetailLayout({ children }: { children: Reac
             <div className="mt-4">
                 {children}
             </div>
-        </div>
+        </>
     );
 }

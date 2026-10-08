@@ -562,6 +562,31 @@
             }
         }
     },
+    "StudentWritingAssignmentPage": {
+        "dueLabel": "Due",
+        "timeLimitLabel": "Time limit",
+        "taskType": {
+            "TASK_1": "Task 1",
+            "TASK_2": "Task 2"
+        },
+        "difficulty": {
+            "EASY": "Easy",
+            "MEDIUM": "Medium",
+            "HARD": "Hard"
+        },
+        "titleLabel": "Question"
+    },
+    "CountdownTimer": {
+        "remaining": "left"
+    },
+    "WritingEditor": {
+        "placeholder": "Write your answer here...",
+        "formats": {
+            "bold": "Bold (Ctrl+B)",
+            "italic": "Italic (Ctrl+I)",
+            "underline": "Underline (Ctrl+U)"
+        }
+    },
     "AdminAccessControlPage": {
         "title": "Access control",
         "subtitle": "Manage user access permissions.",

@@ -562,6 +562,31 @@
             }
         }
     },
+    "StudentWritingAssignmentPage": {
+        "dueLabel": "Hạn nộp",
+        "timeLimitLabel": "Thời gian làm",
+        "taskType": {
+            "TASK_1": "Task 1",
+            "TASK_2": "Task 2"
+        },
+        "difficulty": {
+            "EASY": "Dễ",
+            "MEDIUM": "Trung bình",
+            "HARD": "Khó"
+        },
+        "titleLabel": "Đề bài"
+    },
+    "CountdownTimer": {
+        "remaining": "còn lại"
+    },
+    "WritingEditor": {
+        "placeholder": "Viết bài của bạn ở đây...",
+        "formats": {
+            "bold": "In đậm (Ctrl+B)",
+            "italic": "In nghiêng (Ctrl+I)",
+            "underline": "Gạch chân (Ctrl+U)"
+        }
+    },
     "AdminAccessControlPage": {
         "title": "Phân quyền",
         "subtitle": "Quản lý quyền truy cập cho người dùng.",

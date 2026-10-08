@@ -24,7 +24,7 @@ export default function TeacherCourseDetailLayout({ children }: { children: Reac
     ];
 
     return (
-        <div>
+        <>
             <Breadcrumb
                 items={breadcrumbItems}
                 itemRender={(currentRoute) => {
@@ -51,6 +51,6 @@ export default function TeacherCourseDetailLayout({ children }: { children: Reac
             <div className="mt-4">
                 {children}
             </div>
-        </div>
+        </>
     );
 }
