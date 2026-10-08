@@ -2,13 +2,13 @@
 
 import ArrowLeftIcon from "@/components/Icons/ArrowLeftIcon";
 import { Link } from "@/lib/navigation";
-import { StudentCourseDetailRoute, StudentCoursesRoute } from "@/lib/routes";
+import { StudentCourseDetailRoute, StudentCoursesRoute, StudentWritingAssignmentRoute } from "@/lib/routes";
 import { Breadcrumb } from "antd";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 
 export default function StudentCourseDetailLayout({ children }: { children: React.ReactNode }) {
-    const { courseId } = useParams<{ courseId: string }>();
+    const { courseId, assignmentId } = useParams<{ courseId: string; assignmentId?: string }>();
 
     const t = useTranslations("StudentCourseDetailPage");
 
@@ -22,6 +22,13 @@ export default function StudentCourseDetailLayout({ children }: { children: Reac
             path: StudentCourseDetailRoute(courseId)
         }
     ];
+
+    if (assignmentId) {
+        breadcrumbItems.push({
+            title: t("breadcrumbs.writingAssignment"),
+            path: StudentWritingAssignmentRoute(courseId, assignmentId),
+        });
+    }
 
     return (
         <div>
@@ -43,7 +50,7 @@ export default function StudentCourseDetailLayout({ children }: { children: Reac
                     return isLast ? (
                         <>{content}</>
                     ) : (
-                        <Link href={currentRoute.path as string}>{content}</Link>
+                        <Link href={currentRoute.path as string} replace>{content}</Link>
                     );
                 }}
             />

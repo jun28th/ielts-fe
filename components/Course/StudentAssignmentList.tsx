@@ -5,17 +5,20 @@ import { Image, Listy, Tag, Tooltip, Typography } from "antd";
 import { useTranslations } from "next-intl";
 import Button from "../Button";
 import PencilIcon from "../Icons/PencilIcon";
+import { useRouter } from "@/lib/navigation";
+import { StudentWritingAssignmentRoute } from "@/lib/routes";
 
 const THUMB_SIZE = 64;
 
 type StudentAssignmentListProps = {
     courseId: string;
-    weekSectionId: string;
     writingAssignments: WritingAssignment[];
 }
 
-export default function StudentAssignmentList({ courseId, weekSectionId, writingAssignments } : StudentAssignmentListProps) {
+export default function StudentAssignmentList({ courseId, writingAssignments } : StudentAssignmentListProps) {
     const t = useTranslations("StudentCourseDetailPage.WeekSectionCard.assignments");
+
+    const router = useRouter();
 
     return (
         <Listy<WritingAssignment>
@@ -105,7 +108,7 @@ export default function StudentAssignmentList({ courseId, weekSectionId, writing
                             variant="secondary"
                             icon={<PencilIcon width={18} height={18} />}
                             iconOnly={true}
-                            onClick={() => {}}
+                            onClick={() => router.push(StudentWritingAssignmentRoute(courseId, assignment.id))}
                         />
                     </div>
                 )

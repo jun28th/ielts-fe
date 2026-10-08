@@ -520,7 +520,8 @@
     "StudentCourseDetailPage": {
         "breadcrumbs": {
             "courses": "Courses",
-            "detail": "Course Detail"
+            "detail": "Course Detail",
+            "writingAssignment": "Writing assignment"
         },
         "CourseHeader": {
             "status": {

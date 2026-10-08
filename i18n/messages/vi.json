@@ -520,7 +520,8 @@
     "StudentCourseDetailPage": {
         "breadcrumbs": {
             "courses": "Khoá học",
-            "detail": "Chi tiết khoá học"
+            "detail": "Chi tiết khoá học",
+            "writingAssignment": "Bài tập viết"
         },
         "CourseHeader": {
             "status": {

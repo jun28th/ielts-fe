@@ -63,9 +63,8 @@ export default function StudentWeekSectionCard({ courseId, weekSection } : Stude
                 </p>
 
                 {writingAssignments.length > 0 ? (
-                    <StudentAssignmentList 
+                    <StudentAssignmentList
                         courseId={courseId}
-                        weekSectionId={weekSection.id}
                         writingAssignments={writingAssignments} 
                     />
                 ) : (
