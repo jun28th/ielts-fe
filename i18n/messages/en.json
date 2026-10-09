@@ -320,19 +320,7 @@
     },
     "TeacherWritingAssignmentPage": {
         "dueLabel": "Due",
-        "timeLimitLabel": "Time limit",
-        "taskType": {
-            "TASK_1": "Task 1",
-            "TASK_2": "Task 2"
-        },
-        "difficulty": {
-            "EASY": "Easy",
-            "MEDIUM": "Medium",
-            "HARD": "Hard"
-        },
-        "titleLabel": "Question",
-        "you": "You",
-        "peopleList": "People"
+        "timeLimitLabel": "Time limit"
     },
     "TeacherStudentsPage": {
         "title": "Student List",
@@ -581,19 +569,7 @@
     },
     "StudentWritingAssignmentPage": {
         "dueLabel": "Due",
-        "timeLimitLabel": "Time limit",
-        "taskType": {
-            "TASK_1": "Task 1",
-            "TASK_2": "Task 2"
-        },
-        "difficulty": {
-            "EASY": "Easy",
-            "MEDIUM": "Medium",
-            "HARD": "Hard"
-        },
-        "titleLabel": "Question",
-        "you": "Bạn",
-        "peopleList": "People"
+        "timeLimitLabel": "Time limit"
     },
     "CountdownTimer": {
         "remaining": "left"
@@ -605,6 +581,18 @@
             "italic": "Italic (Ctrl+I)",
             "underline": "Underline (Ctrl+U)"
         }
+    },
+    "WritingQuestionPanel": {
+        "taskType": {
+            "TASK_1": "Task 1",
+            "TASK_2": "Task 2"
+        },
+        "difficulty": {
+            "EASY": "Easy",
+            "MEDIUM": "Medium",
+            "HARD": "Hard"
+        },
+        "titleLabel": "Question"
     },
     "AdminAccessControlPage": {
         "title": "Access control",

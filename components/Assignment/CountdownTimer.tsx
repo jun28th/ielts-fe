@@ -1,7 +1,7 @@
 import { useState } from "react";
-import ClockIcon from "./Icons/ClockIcon";
 import { Statistic } from "antd";
 import { useTranslations } from "next-intl";
+import ClockIcon from "../Icons/ClockIcon";
 
 type CountdownTimerProps = {
     storageKey: string;

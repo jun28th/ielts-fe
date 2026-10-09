@@ -320,19 +320,7 @@
     },
     "TeacherWritingAssignmentPage": {
         "dueLabel": "Hạn nộp",
-        "timeLimitLabel": "Thời gian làm",
-        "taskType": {
-            "TASK_1": "Task 1",
-            "TASK_2": "Task 2"
-        },
-        "difficulty": {
-            "EASY": "Dễ",
-            "MEDIUM": "Trung bình",
-            "HARD": "Khó"
-        },
-        "titleLabel": "Đề bài",
-        "you": "Bạn",
-        "peopleList": "Danh sách"
+        "timeLimitLabel": "Thời gian làm"
     },
     "TeacherStudentsPage": {
         "title": "Danh sách học viên",
@@ -581,19 +569,7 @@
     },
     "StudentWritingAssignmentPage": {
         "dueLabel": "Hạn nộp",
-        "timeLimitLabel": "Thời gian làm",
-        "taskType": {
-            "TASK_1": "Task 1",
-            "TASK_2": "Task 2"
-        },
-        "difficulty": {
-            "EASY": "Dễ",
-            "MEDIUM": "Trung bình",
-            "HARD": "Khó"
-        },
-        "titleLabel": "Đề bài",
-        "you": "Bạn",
-        "peopleList": "Danh sách"
+        "timeLimitLabel": "Thời gian làm"
     },
     "CountdownTimer": {
         "remaining": "còn lại"
@@ -605,6 +581,18 @@
             "italic": "In nghiêng (Ctrl+I)",
             "underline": "Gạch chân (Ctrl+U)"
         }
+    },
+    "WritingQuestionPanel": {
+        "taskType": {
+            "TASK_1": "Task 1",
+            "TASK_2": "Task 2"
+        },
+        "difficulty": {
+            "EASY": "Dễ",
+            "MEDIUM": "Trung bình",
+            "HARD": "Khó"
+        },
+        "titleLabel": "Đề bài"
     },
     "AdminAccessControlPage": {
         "title": "Phân quyền",

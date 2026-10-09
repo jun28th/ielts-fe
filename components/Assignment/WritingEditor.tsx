@@ -5,39 +5,16 @@ import { useTranslations } from "next-intl";
 
 type Format = "bold" | "italic" | "underline";
 
-export type Person = { id: string; name: string; online: boolean };
-
-type WritingEditorProps = {
-    assignmentId: string;
-    /** Đang mở bài của ai */
-    ownerId: string;
-    /** Người đang dùng máy này: khai với server để được đưa vào danh sách (online do server tính) */
-    me: Pick<Person, "id" | "name">;
-    /** Server báo danh sách người mới nhất của assignment -> đưa lên cho page */
-    onPeopleChange: (people: Person[]) => void;
-}
-
 const FORMATS: { format: Format; label: string; className: string }[] = [
     { format: "bold", label: "B", className: "font-bold" },
     { format: "italic", label: "I", className: "italic" },
     { format: "underline", label: "U", className: "underline" },
 ];
 
-// Phải có tiền tố NEXT_PUBLIC_ thì code chạy trên trình duyệt mới đọc được
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL ?? "http://localhost:8080";
-// http -> ws, https -> wss
-const WS_URL = `${BACKEND_URL.replace(/^http/, "ws")}/ws/writing`;
-
-export default function WritingEditor({ assignmentId, ownerId, me, onPeopleChange } : WritingEditorProps) {
+export default function WritingEditor() {
     const t = useTranslations("WritingEditor");
 
     const editorRef = useRef<HTMLDivElement>(null);
-
-    // Giữ callback mới nhất trong ref, để nó đổi thì effect bên dưới không chạy lại (không mất kết nối)
-    const onPeopleChangeRef = useRef(onPeopleChange);
-    useEffect(() => {
-        onPeopleChangeRef.current = onPeopleChange;
-    });
 
     useEffect(() => {
         const root = editorRef.current;
@@ -62,25 +39,10 @@ export default function WritingEditor({ assignmentId, ownerId, me, onPeopleChang
         ytext.observe(render);
         render();
 
-        // Vào phòng của ownerId, đồng thời khai mình là ai
-        const query = `userId=${encodeURIComponent(me.id)}&name=${encodeURIComponent(me.name)}`;
-        const ws = new WebSocket(`${WS_URL}/${assignmentId}/${ownerId}?${query}`);
-        ws.binaryType = "arraybuffer";
-        ws.onopen = () => console.log("[collab] connected", `${assignmentId}/${ownerId}`);
-        ws.onclose = () => console.log("[collab] closed", `${assignmentId}/${ownerId}`);
-
-        // Frame chữ = JSON danh sách người đã mở assignment này
-        ws.onmessage = (event) => {
-            if (typeof event.data === "string") {
-                onPeopleChangeRef.current(JSON.parse(event.data) as Person[]);
-            }
-        };
-
         return () => {
-            ws.close();
             doc.destroy();
         };
-    }, [assignmentId, ownerId, me.id, me.name]);
+    }, []);
 
     return (
         <div className="flex h-full flex-col border border-border">
