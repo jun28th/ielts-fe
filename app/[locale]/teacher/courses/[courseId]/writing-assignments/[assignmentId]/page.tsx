@@ -15,10 +15,10 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
-export default function TeacherWritingAssignmentPage() {
+export default function StudentWritingAssignmentPage() {
     const { assignmentId } = useParams<{ assignmentId: string }>();
     const { user } = useAuth();
-    const t = useTranslations("TeacherWritingAssignmentPage");
+    const t = useTranslations("StudentWritingAssignmentPage");
 
     const { data: assignment, isLoading, error } = useQuery({
         queryKey: ["assignment", assignmentId],
@@ -47,6 +47,8 @@ export default function TeacherWritingAssignmentPage() {
     const isTask1 = assignment.writingQuestion.taskType === "TASK_1";
     const durationMinutes = isTask1 ? 20 : 40;
     const minWords = isTask1 ? 150 : 250;
+
+    const onlineCount = people.filter((person) => person.online).length;
 
     const currentId = viewingId ?? user?.id;
     const currentIndex = people.findIndex((person) => person.id === currentId);
@@ -87,7 +89,11 @@ export default function TeacherWritingAssignmentPage() {
                             items: people.map((person) => ({
                                 key: person.id,
                                 label: (
-                                    <span>
+                                    <span className="inline-flex items-center">
+                                        {/* Chấm xanh = đang online, xám = đã rời */}
+                                        <span
+                                            className={`mr-2 inline-block size-2 rounded-full ${person.online ? "bg-green-500" : "bg-border"}`}
+                                        />
                                         {person.name}
                                         {person.id === user?.id && (
                                             <span className="ml-1 text-muted">({t("you")})</span>
@@ -104,7 +110,7 @@ export default function TeacherWritingAssignmentPage() {
                             type="button"
                             className="inline-flex h-8 cursor-pointer items-center rounded-lg border border-border bg-bg px-3 text-sm text-fg transition-colors hover:bg-surface"
                         >
-                            {t("peopleList")} ({people.length})
+                            {t("peopleList")} ({onlineCount}/{people.length})
                         </button>
                     </Dropdown>
 
@@ -116,7 +122,7 @@ export default function TeacherWritingAssignmentPage() {
                         iconOnly={true}
                         onClick={() => goTo(-1)}
                     />
- 
+
                     {/* Tên chủ bài đang xem */}
                     <span className="min-w-24 text-center text-sm font-medium text-fg">
                         {currentPerson?.name ?? "..."}
@@ -124,7 +130,7 @@ export default function TeacherWritingAssignmentPage() {
                             <span className="ml-1 font-normal text-muted">({t("you")})</span>
                         )}
                     </span>
- 
+
                     <Button
                         label=""
                         type="button"
@@ -148,17 +154,17 @@ export default function TeacherWritingAssignmentPage() {
                                 {t(`difficulty.${assignment.writingQuestion.difficulty}`)}
                             </Tag>
                         </div>
- 
+
                         <p className="text-lg font-semibold text-fg">{t("titleLabel")}</p>
- 
+
                         <p className="text-sm text-muted">
                             {`You should spend about ${durationMinutes} minutes on this task. Write at least ${minWords} words.`}
                         </p>
- 
+
                         <div className="whitespace-pre-line rounded-xl bg-surface p-4 leading-relaxed text-fg">
                             {assignment.writingQuestion.prompt}
                         </div>
- 
+
                         <p className="text-sm text-muted">
                             {isTask1
                                 ? "Summarise the information by selecting and reporting the main features, and make comparisons where relevant."
@@ -179,8 +185,8 @@ export default function TeacherWritingAssignmentPage() {
                     <div className="h-full overflow-y-auto p-6">
                         {/* Khung viết bài */}
                         {user && currentId && (
-                            <WritingEditor 
-                                assignmentId={assignment.id} 
+                            <WritingEditor
+                                assignmentId={assignment.id}
                                 ownerId={currentId}
                                 me={{ id: user.id, name: user.fullName }}
                                 onPeopleChange={setPeople}

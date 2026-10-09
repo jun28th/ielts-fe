@@ -48,6 +48,8 @@ export default function StudentWritingAssignmentPage() {
     const durationMinutes = isTask1 ? 20 : 40;
     const minWords = isTask1 ? 150 : 250;
 
+    const onlineCount = people.filter((person) => person.online).length;
+
     const currentId = viewingId ?? user?.id;
     const currentIndex = people.findIndex((person) => person.id === currentId);
     const currentPerson = people[currentIndex];
@@ -80,14 +82,18 @@ export default function StudentWritingAssignmentPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
-                <Dropdown
+                    <Dropdown
                         trigger={["click"]}
                         placement="bottomRight"
                         menu={{
                             items: people.map((person) => ({
                                 key: person.id,
                                 label: (
-                                    <span>
+                                    <span className="inline-flex items-center">
+                                        {/* Chấm xanh = đang online, xám = đã rời */}
+                                        <span
+                                            className={`mr-2 inline-block size-2 rounded-full ${person.online ? "bg-green-500" : "bg-border"}`}
+                                        />
                                         {person.name}
                                         {person.id === user?.id && (
                                             <span className="ml-1 text-muted">({t("you")})</span>
@@ -104,7 +110,7 @@ export default function StudentWritingAssignmentPage() {
                             type="button"
                             className="inline-flex h-8 cursor-pointer items-center rounded-lg border border-border bg-bg px-3 text-sm text-fg transition-colors hover:bg-surface"
                         >
-                            {t("peopleList")} ({people.length})
+                            {t("peopleList")} ({onlineCount}/{people.length})
                         </button>
                     </Dropdown>
 
@@ -116,7 +122,7 @@ export default function StudentWritingAssignmentPage() {
                         iconOnly={true}
                         onClick={() => goTo(-1)}
                     />
- 
+
                     {/* Tên chủ bài đang xem */}
                     <span className="min-w-24 text-center text-sm font-medium text-fg">
                         {currentPerson?.name ?? "..."}
@@ -124,7 +130,7 @@ export default function StudentWritingAssignmentPage() {
                             <span className="ml-1 font-normal text-muted">({t("you")})</span>
                         )}
                     </span>
- 
+
                     <Button
                         label=""
                         type="button"
@@ -148,17 +154,17 @@ export default function StudentWritingAssignmentPage() {
                                 {t(`difficulty.${assignment.writingQuestion.difficulty}`)}
                             </Tag>
                         </div>
- 
+
                         <p className="text-lg font-semibold text-fg">{t("titleLabel")}</p>
- 
+
                         <p className="text-sm text-muted">
                             {`You should spend about ${durationMinutes} minutes on this task. Write at least ${minWords} words.`}
                         </p>
- 
+
                         <div className="whitespace-pre-line rounded-xl bg-surface p-4 leading-relaxed text-fg">
                             {assignment.writingQuestion.prompt}
                         </div>
- 
+
                         <p className="text-sm text-muted">
                             {isTask1
                                 ? "Summarise the information by selecting and reporting the main features, and make comparisons where relevant."

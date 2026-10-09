@@ -5,14 +5,14 @@ import { useTranslations } from "next-intl";
 
 type Format = "bold" | "italic" | "underline";
 
-export type Person = { id: string; name: string };
+export type Person = { id: string; name: string; online: boolean };
 
 type WritingEditorProps = {
     assignmentId: string;
     /** Đang mở bài của ai */
     ownerId: string;
-    /** Người đang dùng máy này: khai với server để được đưa vào danh sách */
-    me: Person;
+    /** Người đang dùng máy này: khai với server để được đưa vào danh sách (online do server tính) */
+    me: Pick<Person, "id" | "name">;
     /** Server báo danh sách người mới nhất của assignment -> đưa lên cho page */
     onPeopleChange: (people: Person[]) => void;
 }
@@ -23,7 +23,10 @@ const FORMATS: { format: Format; label: string; className: string }[] = [
     { format: "underline", label: "U", className: "underline" },
 ];
 
-const WS_URL = "ws://localhost:8080/ws/writing";
+// Phải có tiền tố NEXT_PUBLIC_ thì code chạy trên trình duyệt mới đọc được
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL ?? "http://localhost:8080";
+// http -> ws, https -> wss
+const WS_URL = `${BACKEND_URL.replace(/^http/, "ws")}/ws/writing`;
 
 export default function WritingEditor({ assignmentId, ownerId, me, onPeopleChange } : WritingEditorProps) {
     const t = useTranslations("WritingEditor");
@@ -38,11 +41,11 @@ export default function WritingEditor({ assignmentId, ownerId, me, onPeopleChang
 
     useEffect(() => {
         const root = editorRef.current;
-        if (!root) return; 
-    
+        if (!root) return;
+
         const doc = new Y.Doc();
         const ytext = doc.getText("content");
-    
+
         const render = () => {
             const fragment = document.createDocumentFragment();
             for (const op of ytext.toDelta()) {
@@ -55,10 +58,10 @@ export default function WritingEditor({ assignmentId, ownerId, me, onPeopleChang
             }
             root.replaceChildren(fragment);
         };
-    
+
         ytext.observe(render);
         render();
-    
+
         // Vào phòng của ownerId, đồng thời khai mình là ai
         const query = `userId=${encodeURIComponent(me.id)}&name=${encodeURIComponent(me.name)}`;
         const ws = new WebSocket(`${WS_URL}/${assignmentId}/${ownerId}?${query}`);
@@ -72,7 +75,7 @@ export default function WritingEditor({ assignmentId, ownerId, me, onPeopleChang
                 onPeopleChangeRef.current(JSON.parse(event.data) as Person[]);
             }
         };
-    
+
         return () => {
             ws.close();
             doc.destroy();
