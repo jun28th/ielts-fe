@@ -2,14 +2,13 @@
 
 import ArrowLeftIcon from "@/components/Icons/ArrowLeftIcon";
 import { Link } from "@/lib/navigation";
-import { TeacherCourseDetailRoute, TeacherCoursesRoute } from "@/lib/routes";
+import { TeacherCourseDetailRoute, TeacherCoursesRoute, TeacherWritingAssignmentRoute } from "@/lib/routes";
 import { Breadcrumb } from "antd";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 
 export default function TeacherCourseDetailLayout({ children }: { children: React.ReactNode }) {
-    const { courseId } = useParams<{ courseId: string }>();
-
+    const { courseId, assignmentId } = useParams<{ courseId: string; assignmentId?: string }>();
     const t = useTranslations("TeacherCourseDetailPage");
 
     const breadcrumbItems = [
@@ -20,8 +19,15 @@ export default function TeacherCourseDetailLayout({ children }: { children: Reac
         {
             title: t("breadcrumbs.detail"),
             path: TeacherCourseDetailRoute(courseId)
-        }
+        },
     ];
+
+    if (assignmentId) {
+        breadcrumbItems.push({
+            title: t("breadcrumbs.writingAssignment"),
+            path: TeacherWritingAssignmentRoute(courseId, assignmentId),
+        });
+    }
 
     return (
         <>

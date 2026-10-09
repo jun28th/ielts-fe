@@ -5,20 +5,40 @@ import { useTranslations } from "next-intl";
 
 type Format = "bold" | "italic" | "underline";
 
+export type Person = { id: string; name: string };
+
+type WritingEditorProps = {
+    assignmentId: string;
+    /** Đang mở bài của ai */
+    ownerId: string;
+    /** Người đang dùng máy này: khai với server để được đưa vào danh sách */
+    me: Person;
+    /** Server báo danh sách người mới nhất của assignment -> đưa lên cho page */
+    onPeopleChange: (people: Person[]) => void;
+}
+
 const FORMATS: { format: Format; label: string; className: string }[] = [
     { format: "bold", label: "B", className: "font-bold" },
     { format: "italic", label: "I", className: "italic" },
     { format: "underline", label: "U", className: "underline" },
 ];
 
-export default function WritingEditor() {
+const WS_URL = "ws://localhost:8080/ws/writing";
+
+export default function WritingEditor({ assignmentId, ownerId, me, onPeopleChange } : WritingEditorProps) {
     const t = useTranslations("WritingEditor");
 
     const editorRef = useRef<HTMLDivElement>(null);
 
+    // Giữ callback mới nhất trong ref, để nó đổi thì effect bên dưới không chạy lại (không mất kết nối)
+    const onPeopleChangeRef = useRef(onPeopleChange);
+    useEffect(() => {
+        onPeopleChangeRef.current = onPeopleChange;
+    });
+
     useEffect(() => {
         const root = editorRef.current;
-        if (!root) return;
+        if (!root) return; 
     
         const doc = new Y.Doc();
         const ytext = doc.getText("content");
@@ -39,12 +59,25 @@ export default function WritingEditor() {
         ytext.observe(render);
         render();
     
-        // TẠM: để thấy render chạy, bước sau xoá
-        ytext.insert(0, "Hello world");
-        ytext.format(6, 5, { bold: true });
+        // Vào phòng của ownerId, đồng thời khai mình là ai
+        const query = `userId=${encodeURIComponent(me.id)}&name=${encodeURIComponent(me.name)}`;
+        const ws = new WebSocket(`${WS_URL}/${assignmentId}/${ownerId}?${query}`);
+        ws.binaryType = "arraybuffer";
+        ws.onopen = () => console.log("[collab] connected", `${assignmentId}/${ownerId}`);
+        ws.onclose = () => console.log("[collab] closed", `${assignmentId}/${ownerId}`);
+
+        // Frame chữ = JSON danh sách người đã mở assignment này
+        ws.onmessage = (event) => {
+            if (typeof event.data === "string") {
+                onPeopleChangeRef.current(JSON.parse(event.data) as Person[]);
+            }
+        };
     
-        return () => doc.destroy();
-    }, []);
+        return () => {
+            ws.close();
+            doc.destroy();
+        };
+    }, [assignmentId, ownerId, me.id, me.name]);
 
     return (
         <div className="flex h-full flex-col border border-border">

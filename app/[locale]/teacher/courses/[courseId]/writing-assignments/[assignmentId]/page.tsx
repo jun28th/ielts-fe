@@ -4,23 +4,29 @@ import Button from "@/components/Button";
 import CountdownTimer from "@/components/CountdownTimer";
 import ArrowLeftIcon from "@/components/Icons/ArrowLeftIcon";
 import ArrowRightIcon from "@/components/Icons/ArrowRightIcon";
-import WritingEditor from "@/components/WritingEditor";
+import WritingEditor, { Person } from "@/components/WritingEditor";
+import { useAuth } from "@/contexts/auth-context";
 import { WritingAssignmentsApi } from "@/lib/api/writing-assignments-client";
 import { formatDayMonth, formatTime, isOverdue } from "@/lib/utils";
 import { DIFFICULTY_COLORS, TASK_TYPE_COLORS } from "@/types/writing-question-types";
 import { useQuery } from "@tanstack/react-query";
-import { Image, Splitter, Tag } from "antd";
+import { Dropdown, Image, Splitter, Tag } from "antd";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 
 export default function TeacherWritingAssignmentPage() {
     const { assignmentId } = useParams<{ assignmentId: string }>();
+    const { user } = useAuth();
     const t = useTranslations("TeacherWritingAssignmentPage");
 
     const { data: assignment, isLoading, error } = useQuery({
         queryKey: ["assignment", assignmentId],
         queryFn: () => WritingAssignmentsApi.getWritingAssignment(assignmentId),
     });
+
+    const [people, setPeople] = useState<Person[]>([]); // những người đã mở assignment này (server báo về)
+    const [viewingId, setViewingId] = useState<string | null>(null); // đang xem bài của ai; null = bài của mình
 
     if (isLoading) {
         return <div className="h-32 animate-pulse rounded-2xl border border-border bg-surface" />;
@@ -41,6 +47,14 @@ export default function TeacherWritingAssignmentPage() {
     const isTask1 = assignment.writingQuestion.taskType === "TASK_1";
     const durationMinutes = isTask1 ? 20 : 40;
     const minWords = isTask1 ? 150 : 250;
+
+    const currentId = viewingId ?? user?.id;
+    const currentIndex = people.findIndex((person) => person.id === currentId);
+    const currentPerson = people[currentIndex];
+    const goTo = (step: number) => {
+        if (people.length < 2 || currentIndex < 0) return;
+        setViewingId(people[(currentIndex + step + people.length) % people.length].id);
+    };
 
     return (
         <div className="flex flex-col gap-1.5">
@@ -66,22 +80,58 @@ export default function TeacherWritingAssignmentPage() {
                 </div>
 
                 <div className="flex items-center gap-3">
+                    <Dropdown
+                        trigger={["click"]}
+                        placement="bottomRight"
+                        menu={{
+                            items: people.map((person) => ({
+                                key: person.id,
+                                label: (
+                                    <span>
+                                        {person.name}
+                                        {person.id === user?.id && (
+                                            <span className="ml-1 text-muted">({t("you")})</span>
+                                        )}
+                                    </span>
+                                ),
+                            })),
+                            selectable: true,
+                            selectedKeys: currentId ? [currentId] : [],
+                            onClick: ({ key }) => setViewingId(key),
+                        }}
+                    >
+                        <button
+                            type="button"
+                            className="inline-flex h-8 cursor-pointer items-center rounded-lg border border-border bg-bg px-3 text-sm text-fg transition-colors hover:bg-surface"
+                        >
+                            {t("peopleList")} ({people.length})
+                        </button>
+                    </Dropdown>
+
                     <Button
                         label=""
                         type="button"
                         variant="secondary"
                         icon={<ArrowLeftIcon width={18} height={18} />}
                         iconOnly={true}
-                        onClick={() => {}}
+                        onClick={() => goTo(-1)}
                     />
-
+ 
+                    {/* Tên chủ bài đang xem */}
+                    <span className="min-w-24 text-center text-sm font-medium text-fg">
+                        {currentPerson?.name ?? "..."}
+                        {currentId === user?.id && (
+                            <span className="ml-1 font-normal text-muted">({t("you")})</span>
+                        )}
+                    </span>
+ 
                     <Button
                         label=""
                         type="button"
                         variant="secondary"
                         icon={<ArrowRightIcon width={18} height={18} />}
                         iconOnly={true}
-                        onClick={() => {}}
+                        onClick={() => goTo(1)}
                     />
                 </div>
             </div>
@@ -128,7 +178,14 @@ export default function TeacherWritingAssignmentPage() {
                 <Splitter.Panel>
                     <div className="h-full overflow-y-auto p-6">
                         {/* Khung viết bài */}
-                        <WritingEditor/>
+                        {user && currentId && (
+                            <WritingEditor 
+                                assignmentId={assignment.id} 
+                                ownerId={currentId}
+                                me={{ id: user.id, name: user.fullName }}
+                                onPeopleChange={setPeople}
+                            />
+                        )}
                     </div>
                 </Splitter.Panel>
             </Splitter>

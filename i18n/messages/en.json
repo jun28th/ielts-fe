@@ -125,7 +125,8 @@
     "TeacherCourseDetailPage": {
         "breadcrumbs": {
             "courses": "Courses",
-            "detail": "Course Detail"
+            "detail": "Course Detail",
+            "writingAssignment": "Writing assignment"
         },
         "CourseHeader": {
             "status": {
@@ -329,7 +330,9 @@
             "MEDIUM": "Medium",
             "HARD": "Hard"
         },
-        "titleLabel": "Question"
+        "titleLabel": "Question",
+        "you": "You",
+        "peopleList": "People"
     },
     "TeacherStudentsPage": {
         "title": "Student List",
@@ -588,7 +591,9 @@
             "MEDIUM": "Medium",
             "HARD": "Hard"
         },
-        "titleLabel": "Question"
+        "titleLabel": "Question",
+        "you": "Bạn",
+        "peopleList": "People"
     },
     "CountdownTimer": {
         "remaining": "left"

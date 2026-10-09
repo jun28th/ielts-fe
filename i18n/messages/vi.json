@@ -125,7 +125,8 @@
     "TeacherCourseDetailPage": {
         "breadcrumbs": {
             "courses": "Khoá học",
-            "detail": "Chi tiết khoá học"
+            "detail": "Chi tiết khoá học",
+            "writingAssignment": "Bài tập viết"
         },
         "CourseHeader": {
             "status": {
@@ -329,7 +330,9 @@
             "MEDIUM": "Trung bình",
             "HARD": "Khó"
         },
-        "titleLabel": "Đề bài"
+        "titleLabel": "Đề bài",
+        "you": "Bạn",
+        "peopleList": "Danh sách"
     },
     "TeacherStudentsPage": {
         "title": "Danh sách học viên",
@@ -588,7 +591,9 @@
             "MEDIUM": "Trung bình",
             "HARD": "Khó"
         },
-        "titleLabel": "Đề bài"
+        "titleLabel": "Đề bài",
+        "you": "Bạn",
+        "peopleList": "Danh sách"
     },
     "CountdownTimer": {
         "remaining": "còn lại"
