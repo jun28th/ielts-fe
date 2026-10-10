@@ -579,7 +579,8 @@
         "formats": {
             "bold": "Bold (Ctrl+B)",
             "italic": "Italic (Ctrl+I)",
-            "underline": "Underline (Ctrl+U)"
+            "underline": "Underline (Ctrl+U)",
+            "strike": "Strikethrough (Ctrl+Shift+S)"
         }
     },
     "WritingQuestionPanel": {

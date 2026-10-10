@@ -579,7 +579,8 @@
         "formats": {
             "bold": "In đậm (Ctrl+B)",
             "italic": "In nghiêng (Ctrl+I)",
-            "underline": "Gạch chân (Ctrl+U)"
+            "underline": "Gạch chân (Ctrl+U)",
+            "strike": "Gạch ngang (Ctrl+Shift+S)"
         }
     },
     "WritingQuestionPanel": {

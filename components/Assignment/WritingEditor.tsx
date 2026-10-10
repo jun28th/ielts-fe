@@ -7,13 +7,18 @@ import { Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 
-type Format = "bold" | "italic" | "underline";
+type Format = "bold" | "italic" | "underline" | "strike";
 
 const FORMATS: { format: Format; label: string; className: string }[] = [
     { format: "bold", label: "B", className: "font-bold" },
     { format: "italic", label: "I", className: "italic" },
     { format: "underline", label: "U", className: "underline" },
+    { format: "strike", label: "S", className: "line-through" },
 ];
+
+const BUTTON_BASE_CLASS = "flex size-8 items-center justify-center rounded-md text-base transition-colors disabled:cursor-not-allowed disabled:opacity-50";
+const BUTTON_ACTIVE_CLASS = "bg-highlight text-fg hover:bg-highlight-hover";
+const BUTTON_INACTIVE_CLASS = "text-fg hover:bg-highlight-bg hover:text-highlight-fg hover:inset-ring hover:inset-ring-highlight/60 active:bg-highlight/40";
 
 // class cho vùng gõ được. Thẻ này do Tiptap tự tạo nên phải đưa class vào qua editorProps.
 // Viết thành các chuỗi đầy đủ để Tailwind nhận ra.
@@ -50,7 +55,6 @@ export default function WritingEditor() {
                 codeBlock: false,      // khối code
                 code: false,           // chữ kiểu code
                 horizontalRule: false, // đường kẻ ngang
-                strike: false,         // gạch ngang chữ
                 link: false,           // đường link
             }),
             // đánh dấu đoạn đầu tiên khi bài trống (việc hiện chữ do CSS ở EDITOR_CLASS lo)
@@ -82,27 +86,32 @@ export default function WritingEditor() {
             bold: editor?.isActive("bold") ?? false,
             italic: editor?.isActive("italic") ?? false,
             underline: editor?.isActive("underline") ?? false,
+            strike: editor?.isActive("strike") ?? false
         }),
     });
 
     return (
         <div className="flex min-h-180 flex-1 flex-col border border-border">
-            <div className="flex items-center gap-2 border-b border-border bg-surface px-3 py-2">
-                {FORMATS.map(({ format, label, className }) => (
-                    <Tooltip key={format} title={t(`formats.${format}`)} placement="top">
-                        <button
-                            type="button"
-                            aria-pressed={activeFormats?.[format] ?? false}
-                            aria-label={t(`formats.${format}`)}
-                            disabled={!editor}
-                            onMouseDown={(e) => e.preventDefault()}
-                            onClick={() => editor?.chain().focus().toggleMark(format).run()}
-                            className={`flex size-8 items-center justify-center rounded-lg text-base text-fg transition-colors hover:bg-accent-bg active:bg-border ${className} ${activeFormats?.[format] ? "bg-accent-bg" : ""}`}
-                        >
-                            {label}
-                        </button>
-                    </Tooltip>
-                ))}
+            <div className="flex items-center gap-1 border-b border-border bg-surface px-3 py-2">
+                {FORMATS.map(({ format, label, className }) => {
+                    const isActive = activeFormats?.[format] ?? false;
+
+                    return (
+                        <Tooltip key={format} title={t(`formats.${format}`)} placement="top">
+                            <button
+                                type="button"
+                                aria-pressed={isActive}
+                                aria-label={t(`formats.${format}`)}
+                                disabled={!editor}
+                                onMouseDown={(e) => e.preventDefault()}
+                                onClick={() => editor?.chain().focus().toggleMark(format).run()}
+                                className={`${BUTTON_BASE_CLASS} ${className} ${isActive ? BUTTON_ACTIVE_CLASS : BUTTON_INACTIVE_CLASS}`}
+                            >
+                                {label}
+                            </button>
+                        </Tooltip>
+                    );
+                })}
             </div>
 
             {/* Vùng soạn thảo do Tiptap vẽ. className ở đây gắn lên thẻ bọc ngoài: nó chiếm hết chỗ còn lại và tự cuộn khi bài dài */}
