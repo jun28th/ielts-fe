@@ -58,16 +58,14 @@ export default function StudentWritingAssignmentPage() {
                 </div>
             </div>
 
-            <Splitter className="h-[calc(100vh-12rem)] rounded-2xl border border-border bg-bg">
+            <Splitter className="rounded-2xl border border-border bg-bg">
                 <Splitter.Panel defaultSize="50%" min="30%" max="70%">
-                    <div className="h-full overflow-y-auto p-6">
-                        {/* Đề bài */}
+                    <div className="p-6">
                         <WritingQuestionPanel question={assignment.writingQuestion} />
                     </div>
                 </Splitter.Panel>
-                <Splitter.Panel>
-                    <div className="h-full overflow-y-auto p-6">
-                        {/* Khung viết bài */}
+                <Splitter.Panel className="flex flex-col">
+                    <div className="flex flex-1 flex-col p-6">
                         <WritingEditor />
                     </div>
                 </Splitter.Panel>

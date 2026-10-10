@@ -41,12 +41,14 @@ export default function WritingQuestionPanel({ question }: WritingQuestionPanelP
             </p>
 
             {isTask1 && question.imageUrl && (
-                <Image
-                    src={question.imageUrl}
-                    alt={""}
-                    className="rounded-xl border border-border"
-                    style={{ width: "100%", height: "auto" }}
-                />
+                <div className="flex h-80 shrink-0">
+                    <Image
+                        src={question.imageUrl}
+                        alt={""}
+                        rootClassName="h-full w-full"
+                        style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                    />
+                </div>
             )}
         </div>
     );

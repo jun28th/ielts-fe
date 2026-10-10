@@ -592,7 +592,9 @@
             "MEDIUM": "Medium",
             "HARD": "Hard"
         },
-        "titleLabel": "Question"
+        "titleLabel": "Question",
+        "noteLabel": "Note",
+        "noNote": "None"
     },
     "AdminAccessControlPage": {
         "title": "Access control",

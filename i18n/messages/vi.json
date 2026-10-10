@@ -592,7 +592,9 @@
             "MEDIUM": "Trung bình",
             "HARD": "Khó"
         },
-        "titleLabel": "Đề bài"
+        "titleLabel": "Đề bài",
+        "noteLabel": "Ghi chú",
+        "noNote": "Không"
     },
     "AdminAccessControlPage": {
         "title": "Phân quyền",
