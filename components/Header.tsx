@@ -14,6 +14,7 @@ import GlobalIcon from "./Icons/GlobalIcon";
 import ArrowDownIcon from "./Icons/ArrowDownIcon";
 import UsaIcon from "./Icons/flags/UsaIcon";
 import VietnamIcon from "./Icons/flags/VietnamIcon";
+import getRoleDashboardRoute from "@/lib/auth/get-role-dashboard-route";
 
 const LOCALES = [
     { code: "vi", label: "Tiếng Việt", icon: <VietnamIcon /> },
@@ -82,7 +83,7 @@ export default function Header() {
     return (
         <header className="sticky top-0 z-10 bg-bg border-b border-border">
             <div className="flex items-center justify-between min-h-20 px-6">
-                <Link replace href={LandingPageRoute} className="flex items-center gap-2">
+                <Link replace href={getRoleDashboardRoute(user)} className="flex items-center gap-2">
                     <span className="flex h-7.5 w-7.5 flex-none items-center justify-center rounded-lg bg-accent">
                         <GraduationCapIcon className="text-white" width={17} height={17} />
                     </span>

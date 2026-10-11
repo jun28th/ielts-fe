@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 import { decrypt, SessionPayload } from "./lib/session";
-import { SignInRoute, StudentDashboardRoute, TeacherDashboardRoute, AdminDashboardRoute, StudentRoute, TeacherRoute, AdminRoute } from "./lib/routes";
+import { LandingPageRoute, SignInRoute, StudentDashboardRoute, TeacherDashboardRoute, AdminDashboardRoute, StudentRoute, TeacherRoute, AdminRoute } from "./lib/routes";
 import { RoleName } from "./types/role-types";
 
 const handleI18nRouting = createMiddleware(routing);
@@ -70,10 +70,12 @@ export default async function proxy(request: NextRequest) {
     const locale = pathname.match(/^\/(en|vi)/)?.[1] ?? routing.defaultLocale;
 
     const isAuthRoute = pathWithoutLocale.startsWith("/auth");
+    const isLandingRoute = (pathWithoutLocale.replace(/\/+$/, "") || "/") === LandingPageRoute;
+    const isGuestOnlyRoute = isAuthRoute || isLandingRoute;
     const requiredRole = getRequiredRole(pathWithoutLocale);
 
     // --- Bước 1: trang public -> để nguyên response của next-intl ---
-    if (!isAuthRoute && !requiredRole) {
+    if (!isGuestOnlyRoute && !requiredRole) {
         return intlResponse;
     }
 
@@ -102,7 +104,7 @@ export default async function proxy(request: NextRequest) {
     if (!userRole) {
         let response: NextResponse;
 
-        if (isAuthRoute) {
+        if (isGuestOnlyRoute) {
             response = intlResponse;
         } else {
             response = NextResponse.redirect(new URL(`/${locale}${SignInRoute}`, request.url));
@@ -119,7 +121,7 @@ export default async function proxy(request: NextRequest) {
 
     let response: NextResponse;
 
-    if (isAuthRoute) {
+    if (isGuestOnlyRoute) {
         response = NextResponse.redirect(new URL(`/${locale}${home}`, request.url));
     } else if (requiredRole !== userRole) {
         response = NextResponse.redirect(new URL(`/${locale}${home}`, request.url));
