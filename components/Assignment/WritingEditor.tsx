@@ -17,14 +17,13 @@ const FORMATS: { format: Format; label: string; className: string }[] = [
     { format: "strike", label: "S", className: "line-through" },
 ];
 
-type ColorName = "default" | "red" | "blue" | "green" | "orange";
-
-const COLORS: { name: ColorName; value: string | null }[] = [
-    { name: "default", value: null },
-    { name: "red", value: "#ff4d4f" },
-    { name: "blue", value: "#2a4fa8" },
-    { name: "green", value: "#237804" },
-    { name: "orange", value: "#d97706" },
+const COLORS: (string | null)[] = [
+    null,
+    "#ff4d4f",
+    "#2a4fa8",
+    "#237804",
+    "#d97706",
+    "#ffc200"
 ];
 
 const DEFAULT_TEXT_COLOR = "var(--color-fg)";
@@ -107,12 +106,12 @@ export default function WritingEditor() {
 
     const colorPalette = (
         <div className="flex items-center gap-1">
-            {COLORS.map(({ name, value }) => {
+            {COLORS.map((value) => {
                 const isActive = currentColor === value;
 
                 return (
                     <button
-                        key={name}
+                        key={value ?? "default"}
                         type="button"
                         onMouseDown={(e) => e.preventDefault()}
                         onClick={() => applyColor(value)}
