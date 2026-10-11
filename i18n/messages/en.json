@@ -581,7 +581,8 @@
             "italic": "Italic (Ctrl+I)",
             "underline": "Underline (Ctrl+U)",
             "strike": "Strikethrough (Ctrl+Shift+S)"
-        }
+        },
+        "textColor": "Text colour"
     },
     "WritingQuestionPanel": {
         "taskType": {

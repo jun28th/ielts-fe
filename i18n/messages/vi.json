@@ -581,7 +581,8 @@
             "italic": "In nghiêng (Ctrl+I)",
             "underline": "Gạch chân (Ctrl+U)",
             "strike": "Gạch ngang (Ctrl+Shift+S)"
-        }
+        },
+        "textColor": "Màu chữ"
     },
     "WritingQuestionPanel": {
         "taskType": {
