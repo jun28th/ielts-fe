@@ -36,7 +36,7 @@ export default function StudentCourseCard({ course } : StudentCourseCardProps) {
                         <p className="text-muted text-sm">
                             {t("teacherLabel")}
                         </p>
-                        <p className="text-sm">{"Nguyễn Ngọc Phương Anh"}</p>
+                        <p className="text-sm">{course.taughtBy.fullName}</p>
                     </>
                 </div>
 

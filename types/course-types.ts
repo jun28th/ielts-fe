@@ -8,6 +8,11 @@ export const STATUS_STYLE: Record<CourseStatus, string> = {
     ENDED: "bg-surface text-muted border border-border",
 };
 
+export type Teacher = {
+    id: string;
+    fullName: string;
+};
+
 export type Course = {
     id: string;
 	name: string;
@@ -19,12 +24,13 @@ export type Course = {
 	createdAt: string;
 	enrolledCount: number;
 	completedSessions: number;
+	taughtBy: Teacher;
 	weekSections: WeekSection[];
 };
 
-export type CreateCourseRequest = Omit<Course, "id" | "status" | "createdAt" | "enrolledCount" | "completedSessions" | "weekSections">;
+export type CreateCourseRequest = Omit<Course, "id" | "status" | "createdAt" | "enrolledCount" | "completedSessions" | "taughtBy" | "weekSections">;
 
-export type UpdateCourseRequest = Partial<Omit<Course, "id" | "status" | "createdAt" | "enrolledCount" | "completedSessions" | "weekSections">>;
+export type UpdateCourseRequest = Partial<Omit<Course, "id" | "status" | "createdAt" | "enrolledCount" | "completedSessions" | "taughtBy" | "weekSections">>;
 
 export type CourseListResponse = {
 	content: Course[];

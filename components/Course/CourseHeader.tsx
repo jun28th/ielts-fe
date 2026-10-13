@@ -81,7 +81,7 @@ export default function CourseHeader({ course }: CourseHeaderProps) {
             <div className="mt-5 flex flex-wrap gap-x-8 gap-y-4 border-t border-border pt-5">
                 <div className="min-w-30">
                     <p className="text-sm text-muted">{t("teacherLabel")}</p>
-                    <p className="mt-0.5 text-sm font-semibold">{"Nguyễn Ngọc Phương Anh"}</p>
+                    <p className="mt-0.5 text-sm font-semibold">{course.taughtBy.fullName}</p>
                 </div>
                 <div className="min-w-30">
                     <p className="text-sm text-muted">{t("startDateLabel")}</p>
