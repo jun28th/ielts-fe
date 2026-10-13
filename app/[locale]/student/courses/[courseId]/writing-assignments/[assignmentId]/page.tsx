@@ -3,6 +3,10 @@
 import CountdownTimer from "@/components/Assignment/CountdownTimer";
 import WritingEditor from "@/components/Assignment/WritingEditor";
 import WritingQuestionPanel from "@/components/Assignment/WritingQuestionPanel";
+import Button from "@/components/Button";
+import ArrowLeftIcon from "@/components/Icons/ArrowLeftIcon";
+import ArrowRightIcon from "@/components/Icons/ArrowRightIcon";
+import { useAuth } from "@/contexts/auth-context";
 import { WritingAssignmentsApi } from "@/lib/api/writing-assignments-client";
 import { formatDayMonth, formatTime, isOverdue } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
@@ -13,6 +17,7 @@ import { useParams } from "next/navigation";
 export default function StudentWritingAssignmentPage() {
     const { assignmentId } = useParams<{ assignmentId: string }>();
     const t = useTranslations("StudentWritingAssignmentPage");
+    const { user } = useAuth();
 
     const { data: assignment, isLoading, error } = useQuery({
         queryKey: ["assignment", assignmentId],
@@ -38,22 +43,44 @@ export default function StudentWritingAssignmentPage() {
 
     return (
         <div className="flex flex-col gap-1.5">
-            <div className="flex items-center gap-3">
-                <p className="text-sm">
-                    <span className="font-medium text-muted">{t("dueLabel")}: </span>
-                    <span className={overdue ? "text-error" : "text-fg"}>
-                        {formatTime(assignment.dueTime)} - {formatDayMonth(assignment.dueDate)}
-                    </span>
-                    {overdue && (
-                        <span className="ml-2 font-medium text-error">{t("overdue")}</span>
-                    )}
-                </p>
-                <div className="flex items-center gap-2 text-sm">
-                    <span className="font-medium text-muted">{t("timeLimitLabel")}:</span>
-                    <CountdownTimer
-                        storageKey={assignmentId}
-                        durationMinutes={durationMinutes}
-                        onExpire={() => {}}
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                    <p className="text-sm">
+                        <span className="font-medium text-muted">{t("dueLabel")}: </span>
+                        <span className={overdue ? "text-error" : "text-fg"}>
+                            {formatTime(assignment.dueTime)} - {formatDayMonth(assignment.dueDate)}
+                        </span>
+                        {overdue && (
+                            <span className="ml-2 font-medium text-error">{t("overdue")}</span>
+                        )}
+                    </p>
+                    <div className="flex items-center gap-2 text-sm">
+                        <span className="font-medium text-muted">{t("timeLimitLabel")}:</span>
+                        <CountdownTimer
+                            storageKey={assignmentId}
+                            durationMinutes={durationMinutes}
+                            onExpire={() => {}}
+                        />
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                    <Button
+                        label=""
+                        type="button"
+                        variant="secondary"
+                        icon={<ArrowLeftIcon width={16} height={16} />}
+                        iconOnly={true}
+                        onClick={() => {}}
+                    />
+
+                    <Button
+                        label=""
+                        type="button"
+                        variant="secondary"
+                        icon={<ArrowRightIcon width={16} height={16} />}
+                        iconOnly={true}
+                        onClick={() => {}}
                     />
                 </div>
             </div>
@@ -66,7 +93,9 @@ export default function StudentWritingAssignmentPage() {
                 </Splitter.Panel>
                 <Splitter.Panel className="flex flex-col">
                     <div className="flex flex-1 flex-col p-6">
-                        <WritingEditor />
+                        {user && (
+                            <WritingEditor documentName={`writing:${assignmentId}:${user.id}`} />
+                        )}
                     </div>
                 </Splitter.Panel>
             </Splitter>

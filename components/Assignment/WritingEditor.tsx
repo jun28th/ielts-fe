@@ -1,12 +1,15 @@
 "use client";
 
+import { HocuspocusProvider } from "@hocuspocus/provider";
+import Collaboration from "@tiptap/extension-collaboration";
 import { Color, TextStyle } from "@tiptap/extension-text-style";
 import { Placeholder } from "@tiptap/extensions";
 import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Popover, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import * as Y from "yjs";
 
 type Format = "bold" | "italic" | "underline" | "strike";
 
@@ -17,16 +20,19 @@ const FORMATS: { format: Format; label: string; className: string }[] = [
     { format: "strike", label: "S", className: "line-through" },
 ];
 
+// bảng màu chữ: mỗi phần tử là mã màu ghi vào bài; null = bỏ màu, quay về màu chữ thường
 const COLORS: (string | null)[] = [
-    null,
-    "#ff4d4f",
-    "#2a4fa8",
-    "#237804",
-    "#d97706",
-    "#ffc200"
+    null,      // mặc định
+    "#ff4d4f", // đỏ
+    "#2a4fa8", // xanh dương
+    "#237804", // xanh lá
+    "#d97706", // cam
 ];
 
 const DEFAULT_TEXT_COLOR = "var(--color-fg)";
+
+// MỚI: địa chỉ Hocuspocus server. Phải có tiền tố NEXT_PUBLIC_ thì trình duyệt mới đọc được
+const COLLAB_URL = process.env.NEXT_PUBLIC_COLLAB_URL ?? "ws://localhost:1234";
 
 const BUTTON_BASE_CLASS = "flex size-8 items-center justify-center rounded-md text-base transition-colors disabled:cursor-not-allowed disabled:opacity-50";
 const BUTTON_ACTIVE_CLASS = "bg-highlight text-fg hover:bg-highlight-hover";
@@ -46,11 +52,30 @@ const EDITOR_CLASS = [
     "[&_p.is-editor-empty:first-child::before]:h-0",
 ].join(" ");
 
-export default function WritingEditor() {
+type WritingEditorProps = {
+    /** MỚI: tên tài liệu trên Hocuspocus. Ai mở cùng tên thì sửa chung một bài */
+    documentName: string;
+};
+
+export default function WritingEditor({ documentName }: WritingEditorProps) {
     const t = useTranslations("WritingEditor");
     const placeholder = t("placeholder");
 
     const [isColorOpen, setIsColorOpen] = useState<boolean>(false);
+
+    const doc = useMemo(() => new Y.Doc(), []);
+
+    useEffect(() => {
+        const provider = new HocuspocusProvider({
+            url: COLLAB_URL,
+            name: documentName,
+            document: doc,
+        });
+
+        return () => {
+            provider.destroy();
+        };
+    }, [doc, documentName]);
 
     const extensions = useMemo(
         () => [
@@ -65,23 +90,28 @@ export default function WritingEditor() {
                 code: false,
                 horizontalRule: false,
                 link: false,
+                undoRedo: false,
             }),
             Placeholder.configure({ placeholder }),
             TextStyle,
             Color,
+            Collaboration.configure({ document: doc }),
         ],
-        [placeholder]
+        [placeholder, doc]
     );
 
-    const editor = useEditor({
-        extensions,
-        immediatelyRender: false,
-        enableInputRules: false,
-        enablePasteRules: false,
-        editorProps: {
-            attributes: { class: EDITOR_CLASS },
+    const editor = useEditor(
+        {
+            extensions,
+            immediatelyRender: false,
+            enableInputRules: false,
+            enablePasteRules: false,
+            editorProps: {
+                attributes: { class: EDITOR_CLASS },
+            },
         },
-    });
+        [extensions]
+    );
 
     // Hàm selector được gọi sau mỗi thay đổi của editor; component chỉ vẽ lại khi kết quả khác lần trước.
     const editorState = useEditorState({
