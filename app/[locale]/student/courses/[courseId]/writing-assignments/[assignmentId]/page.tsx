@@ -94,7 +94,10 @@ export default function StudentWritingAssignmentPage() {
                 <Splitter.Panel className="flex flex-col">
                     <div className="flex flex-1 flex-col p-6">
                         {user && (
-                            <WritingEditor documentName={`writing:${assignmentId}:${user.id}`} />
+                            <WritingEditor 
+                                key={`writing:${assignmentId}:${user.id}`}
+                                documentName={`writing:${assignmentId}:${user.id}`} 
+                            />
                         )}
                     </div>
                 </Splitter.Panel>

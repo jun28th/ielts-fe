@@ -20,18 +20,17 @@ const FORMATS: { format: Format; label: string; className: string }[] = [
     { format: "strike", label: "S", className: "line-through" },
 ];
 
-// bảng màu chữ: mỗi phần tử là mã màu ghi vào bài; null = bỏ màu, quay về màu chữ thường
 const COLORS: (string | null)[] = [
-    null,      // mặc định
-    "#ff4d4f", // đỏ
-    "#2a4fa8", // xanh dương
-    "#237804", // xanh lá
-    "#d97706", // cam
+    null,
+    "#ff4d4f",
+    "#2a4fa8",
+    "#237804",
+    "#d97706",
+    "#ffc200"
 ];
 
 const DEFAULT_TEXT_COLOR = "var(--color-fg)";
 
-// MỚI: địa chỉ Hocuspocus server. Phải có tiền tố NEXT_PUBLIC_ thì trình duyệt mới đọc được
 const COLLAB_URL = process.env.NEXT_PUBLIC_COLLAB_URL ?? "ws://localhost:1234";
 
 const BUTTON_BASE_CLASS = "flex size-8 items-center justify-center rounded-md text-base transition-colors disabled:cursor-not-allowed disabled:opacity-50";
@@ -53,7 +52,6 @@ const EDITOR_CLASS = [
 ].join(" ");
 
 type WritingEditorProps = {
-    /** MỚI: tên tài liệu trên Hocuspocus. Ai mở cùng tên thì sửa chung một bài */
     documentName: string;
 };
 
