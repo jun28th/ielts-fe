@@ -1,3 +1,4 @@
+import { RoleName } from "./role-types";
 import { WeekSection } from "./week-section-types";
 
 export type CourseStatus = "UPCOMING" | "ACTIVE" | "ENDED";
@@ -51,3 +52,11 @@ export type StudentCourseListResponse = {
 	totalElements: number;
 	totalPages: number;
 }
+
+// === Course Member Types ===
+
+export type CourseMember = {
+    userId: string;
+    fullName: string;
+    role: Omit<RoleName, "ADMIN">;
+};

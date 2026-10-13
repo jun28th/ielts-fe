@@ -598,6 +598,10 @@
         "noteLabel": "Ghi chú",
         "noNote": "Không"
     },
+    "MemberSwitcher": {
+        "teacher": "Giáo viên",
+        "you": "Bạn"
+    },
     "AdminAccessControlPage": {
         "title": "Phân quyền",
         "subtitle": "Quản lý quyền truy cập cho người dùng.",

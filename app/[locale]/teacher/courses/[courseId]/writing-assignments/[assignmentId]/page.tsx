@@ -1,27 +1,35 @@
 "use client";
 
 import CountdownTimer from "@/components/Assignment/CountdownTimer";
+import MemberSwitcher from "@/components/Assignment/MemberSwitcher";
 import WritingEditor from "@/components/Assignment/WritingEditor";
 import WritingQuestionPanel from "@/components/Assignment/WritingQuestionPanel";
-import Button from "@/components/Button";
-import ArrowLeftIcon from "@/components/Icons/ArrowLeftIcon";
-import ArrowRightIcon from "@/components/Icons/ArrowRightIcon";
 import { useAuth } from "@/contexts/auth-context";
+import { coursesApi } from "@/lib/api/courses-client";
 import { WritingAssignmentsApi } from "@/lib/api/writing-assignments-client";
 import { formatDayMonth, formatTime, isOverdue } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Splitter } from "antd";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 
 export default function TeacherWritingAssignmentPage() {
-    const { assignmentId } = useParams<{ assignmentId: string }>();
+    const { courseId, assignmentId } = useParams<{ courseId: string; assignmentId: string }>();
     const t = useTranslations("TeacherWritingAssignmentPage");
     const { user } = useAuth();
+
+    const [selectedOwnerId, setSelectedOwnerId] = useState<string | null>(null);
 
     const { data: assignment, isLoading, error } = useQuery({
         queryKey: ["assignment", assignmentId],
         queryFn: () => WritingAssignmentsApi.getWritingAssignment(assignmentId),
+    });
+
+    const { data: members = [], isLoading: isMembersLoading } = useQuery({
+        queryKey: ["course-members", courseId],
+        queryFn: () => coursesApi.getCourseMembers(courseId),
+        enabled: !!courseId,
     });
 
     if (isLoading) {
@@ -40,6 +48,9 @@ export default function TeacherWritingAssignmentPage() {
 
     const overdue = isOverdue(assignment.dueDate, assignment.dueTime);
     const durationMinutes = assignment.writingQuestion.taskType === "TASK_1" ? 20 : 40;
+
+    const ownerId = selectedOwnerId ?? user?.id ?? null;
+    const documentName = ownerId ? `writing:${assignmentId}:${ownerId}` : null;
 
     return (
         <div className="flex flex-col gap-1.5">
@@ -64,25 +75,14 @@ export default function TeacherWritingAssignmentPage() {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                    <Button
-                        label=""
-                        type="button"
-                        variant="secondary"
-                        icon={<ArrowLeftIcon width={16} height={16} />}
-                        iconOnly={true}
-                        onClick={() => {}}
+                {!isMembersLoading && (
+                    <MemberSwitcher
+                        members={members}
+                        value={ownerId}
+                        currentUserId={user?.id ?? null}
+                        onChange={setSelectedOwnerId}
                     />
-
-                    <Button
-                        label=""
-                        type="button"
-                        variant="secondary"
-                        icon={<ArrowRightIcon width={16} height={16} />}
-                        iconOnly={true}
-                        onClick={() => {}}
-                    />
-                </div>
+                )}
             </div>
 
             <Splitter className="rounded-2xl border border-border bg-bg">
@@ -93,10 +93,10 @@ export default function TeacherWritingAssignmentPage() {
                 </Splitter.Panel>
                 <Splitter.Panel className="flex flex-col">
                     <div className="flex flex-1 flex-col p-6">
-                        {user && (
+                        {user && documentName && (
                             <WritingEditor 
-                                key={`writing:${assignmentId}:${user.id}`}
-                                documentName={`writing:${assignmentId}:${user.id}`} 
+                                key={documentName}
+                                documentName={documentName} 
                             />
                         )}
                     </div>

@@ -53,9 +53,10 @@ const EDITOR_CLASS = [
 
 type WritingEditorProps = {
     documentName: string;
+    readOnly?: boolean;
 };
 
-export default function WritingEditor({ documentName }: WritingEditorProps) {
+export default function WritingEditor({ documentName, readOnly = false }: WritingEditorProps) {
     const t = useTranslations("WritingEditor");
     const placeholder = t("placeholder");
 
@@ -101,6 +102,7 @@ export default function WritingEditor({ documentName }: WritingEditorProps) {
     const editor = useEditor(
         {
             extensions,
+            editable: !readOnly,
             immediatelyRender: false,
             enableInputRules: false,
             enablePasteRules: false,
@@ -108,7 +110,7 @@ export default function WritingEditor({ documentName }: WritingEditorProps) {
                 attributes: { class: EDITOR_CLASS },
             },
         },
-        [extensions]
+        [extensions, readOnly]
     );
 
     // Hàm selector được gọi sau mỗi thay đổi của editor; component chỉ vẽ lại khi kết quả khác lần trước.
@@ -165,7 +167,7 @@ export default function WritingEditor({ documentName }: WritingEditorProps) {
                         <Tooltip key={format} title={t(`formats.${format}`)} placement="top">
                             <button
                                 type="button"
-                                disabled={!editor}
+                                disabled={!editor || readOnly}
                                 onMouseDown={(e) => e.preventDefault()}
                                 onClick={() => editor?.chain().focus().toggleMark(format).run()}
                                 className={`${BUTTON_BASE_CLASS} ${className} ${isActive ? BUTTON_ACTIVE_CLASS : BUTTON_INACTIVE_CLASS}`}
@@ -181,12 +183,12 @@ export default function WritingEditor({ documentName }: WritingEditorProps) {
                         content={colorPalette}
                         trigger="click"
                         placement="bottomLeft"
-                        open={isColorOpen}
+                        open={isColorOpen && !readOnly}
                         onOpenChange={setIsColorOpen}
                     >
                         <button
                             type="button"
-                            disabled={!editor}
+                            disabled={!editor || readOnly}
                             onMouseDown={(e) => e.preventDefault()}
                             className={`${BUTTON_BASE_CLASS} flex-col gap-0.5 ${isColorOpen ? "bg-highlight-bg text-fg inset-ring inset-ring-highlight/60" : BUTTON_INACTIVE_CLASS}`}
                         >

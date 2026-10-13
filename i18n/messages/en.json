@@ -598,6 +598,10 @@
         "noteLabel": "Note",
         "noNote": "None"
     },
+    "MemberSwitcher": {
+        "teacher": "Teacher",
+        "you": "You"
+    },
     "AdminAccessControlPage": {
         "title": "Access control",
         "subtitle": "Manage user access permissions.",

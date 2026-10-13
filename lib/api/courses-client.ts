@@ -1,7 +1,5 @@
-import { Course, CourseListResponse, CourseStatus, CreateCourseRequest, StudentCourse, StudentCourseListResponse, UpdateCourseRequest } from "@/types/course-types";
+import { Course, CourseListResponse, CourseMember, CourseStatus, CreateCourseRequest, StudentCourse, StudentCourseListResponse, UpdateCourseRequest } from "@/types/course-types";
 import { http } from "./http";
-import { CreateWeekSectionRequest, UpdateWeekSectionRequest, WeekSection } from "@/types/week-section-types";
-import { CreateWritingAssignmentRequest, UpdateWritingAssignmentRequest, WritingAssignment } from "@/types/writing-assignment-types";
 
 type CourseStatusFilter = CourseStatus | "NOT_ENDED";
 
@@ -37,9 +35,13 @@ export const coursesApi = {
 
     listEnrollable: (params: Omit<ListCoursesParams, "status">) => coursesApi.listCourses({ ...params, status: "NOT_ENDED" }),
 
+    getCourseMembers: (courseId: string) => http.get<CourseMember[]>(`/api/courses/${courseId}/members`),
+
     // === Student Courses ===
 
     listEnrolled: (params: ListCoursesParams) => http.get<StudentCourseListResponse>(`/api/courses/enrolled?${buildQuery(params)}`),
 
-    getEnrolled: (courseId: string) => http.get<StudentCourse>(`/api/courses/enrolled/${courseId}`)
+    getEnrolled: (courseId: string) => http.get<StudentCourse>(`/api/courses/enrolled/${courseId}`),
+
+    getEnrolledCourseMembers: (courseId: string) => http.get<CourseMember[]>(`/api/courses/enrolled/${courseId}/members`),
 }
