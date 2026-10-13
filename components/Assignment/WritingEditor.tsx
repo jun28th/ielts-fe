@@ -7,12 +7,15 @@ import { Color, TextStyle } from "@tiptap/extension-text-style";
 import { Placeholder } from "@tiptap/extensions";
 import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { Popover, Tooltip } from "antd";
+import { Popover, Spin, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import * as Y from "yjs";
+import CheckCircleIcon from "../Icons/CheckCircleIcon";
 
 type Format = "bold" | "italic" | "underline" | "strike";
+
+type SaveStatus = "idle" | "saving" | "saved";
 
 const FORMATS: { format: Format; label: string; className: string }[] = [
     { format: "bold", label: "B", className: "font-bold" },
@@ -73,8 +76,8 @@ export default function WritingEditor({ documentName, currentUser, readOnly = fa
     const placeholder = t("placeholder");
 
     const [isColorOpen, setIsColorOpen] = useState<boolean>(false);
-    
     const [provider, setProvider] = useState<HocuspocusProvider | null>(null);
+    const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
 
     const doc = useMemo(() => new Y.Doc(), []);
 
@@ -83,12 +86,27 @@ export default function WritingEditor({ documentName, currentUser, readOnly = fa
             url: COLLAB_URL,
             name: documentName,
             document: doc,
-            onSynced: () => setProvider(instance),
+            onSynced: () => {
+                setProvider(instance);
+                setSaveStatus((status) => (status === "idle" ? "saved" : status));
+            },
+            onStateless: ({ payload }) => {
+                try {
+                    const message = JSON.parse(payload);
+                    if (message.type === "saved") setSaveStatus("saved");
+                } catch {}
+            },
         });
 
+        const handleUpdate = (_update: Uint8Array, origin: unknown) => {
+            if (origin !== instance) setSaveStatus("saving");
+        };
+
+        doc.on("update", handleUpdate);
+
         return () => {
+            doc.off("update", handleUpdate);
             instance.destroy();
-            setProvider(null);
         };
     }, [doc, documentName]);
 
@@ -227,6 +245,22 @@ export default function WritingEditor({ documentName, currentUser, readOnly = fa
                         </button>
                     </Popover>
                 </Tooltip>
+
+                {!readOnly && saveStatus !== "idle" && (
+                    <span className={`ml-auto flex items-center gap-1.5 text-sm ${saveStatus === "saving" ? "text-accent" : "text-success"}`}>
+                        {saveStatus === "saving" ? (
+                            <>
+                                <Spin size="small" />
+                                {t("saveStatus.saving")}
+                            </>
+                        ) : (
+                            <>
+                                <CheckCircleIcon width={14} height={14} />
+                                {t("saveStatus.saved")}
+                            </>
+                        )}
+                    </span>
+                )}
             </div>
 
             <EditorContent editor={editor} className="flex flex-1 flex-col" />

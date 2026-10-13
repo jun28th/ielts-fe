@@ -582,7 +582,11 @@
             "underline": "Underline (Ctrl+U)",
             "strike": "Strikethrough (Ctrl+Shift+S)"
         },
-        "textColor": "Text colour"
+        "textColor": "Text colour",
+        "saveStatus": {
+            "saving": "Saving...",
+            "saved": "Saved"
+        }
     },
     "WritingQuestionPanel": {
         "taskType": {

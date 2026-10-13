@@ -132,6 +132,12 @@ export default async function Providers({ children } : { children : React.ReactN
                     },
                     Statistic: {
                         contentFontSize: 14
+                    },
+                    Splitter: {
+                        controlItemBgHover: "var(--color-border)",
+                        colorFill: "var(--color-muted)",
+                        controlItemBgActive: "var(--color-accent)",
+                        controlItemBgActiveHover: "var(--color-accent)",
                     }
                 }
             }}

@@ -582,7 +582,11 @@
             "underline": "Gạch chân (Ctrl+U)",
             "strike": "Gạch ngang (Ctrl+Shift+S)"
         },
-        "textColor": "Màu chữ"
+        "textColor": "Màu chữ",
+        "saveStatus": {
+            "saving": "Đang lưu...",
+            "saved": "Đã lưu"
+        }
     },
     "WritingQuestionPanel": {
         "taskType": {
