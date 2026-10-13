@@ -5,6 +5,7 @@ import MemberSwitcher from "@/components/Assignment/MemberSwitcher";
 import WritingEditor from "@/components/Assignment/WritingEditor";
 import WritingQuestionPanel from "@/components/Assignment/WritingQuestionPanel";
 import { useAuth } from "@/contexts/auth-context";
+import { useOnlineUsers } from "@/hooks/useOnlineUsers";
 import { coursesApi } from "@/lib/api/courses-client";
 import { WritingAssignmentsApi } from "@/lib/api/writing-assignments-client";
 import { formatDayMonth, formatTime, isOverdue } from "@/lib/utils";
@@ -31,6 +32,8 @@ export default function StudentWritingAssignmentPage() {
         queryFn: () => coursesApi.getEnrolledCourseMembers(courseId),
         enabled: !!courseId,
     });
+
+    const onlineIds = useOnlineUsers(assignmentId, user?.id ?? null);
 
     if (isLoading) {
         return <div className="h-32 animate-pulse rounded-2xl border border-border bg-surface" />;
@@ -80,6 +83,7 @@ export default function StudentWritingAssignmentPage() {
                         members={members}
                         value={ownerId}
                         currentUserId={user?.id ?? null}
+                        onlineIds={onlineIds}
                         onChange={setSelectedOwnerId}
                     />
                 )}
@@ -97,6 +101,7 @@ export default function StudentWritingAssignmentPage() {
                             <WritingEditor 
                                 key={documentName}
                                 documentName={documentName} 
+                                currentUser={{ id: user.id, name: user.fullName }}
                                 readOnly={ownerId !== user.id}
                             />
                         )}

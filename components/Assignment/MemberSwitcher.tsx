@@ -1,18 +1,34 @@
+"use client";
+
 import { CourseMember } from "@/types/course-types";
+import { Dropdown } from "antd";
+import { useTranslations } from "next-intl";
 import Button from "../Button";
+import ArrowDownIcon from "../Icons/ArrowDownIcon";
 import ArrowLeftIcon from "../Icons/ArrowLeftIcon";
 import ArrowRightIcon from "../Icons/ArrowRightIcon";
-import { useTranslations } from "next-intl";
-import { Dropdown } from "antd";
 
 type MemberSwitcherProps = {
     members: CourseMember[];
     value: string | null;
     currentUserId: string | null;
+    onlineIds: Set<string>;
     onChange: (userId: string) => void;
 }
 
-export default function MemberSwitcher({ members, value, currentUserId, onChange }: MemberSwitcherProps) {
+// Cùng style với Button secondary dạng iconOnly; ant-dropdown-open là class antd gắn lên trigger khi menu đang mở
+const TRIGGER_CLASS = [
+    "inline-flex h-8 min-w-48 max-w-64 items-center justify-between gap-2 rounded-lg px-3 text-sm transition-colors cursor-pointer",
+    "border border-border bg-bg text-fg",
+    "hover:border-accent hover:bg-accent-bg hover:text-accent",
+    "disabled:cursor-not-allowed disabled:opacity-50",
+].join(" ");
+
+function StatusDot({ online }: { online: boolean }) {
+    return <span className={`size-2 shrink-0 rounded-full ${online ? "bg-[#52c41a]" : "bg-border"}`} />;
+}
+
+export default function MemberSwitcher({ members, value, currentUserId, onlineIds, onChange }: MemberSwitcherProps) {
     const t = useTranslations("MemberSwitcher");
 
     const currentIndex = members.findIndex((m) => m.userId === value);
@@ -25,6 +41,7 @@ export default function MemberSwitcher({ members, value, currentUserId, onChange
         return label;
     };
 
+    // Đi vòng: cuối danh sách bấm tiếp thì quay về đầu
     const goTo = (offset: number) => {
         if (members.length === 0) return;
         const base = currentIndex === -1 ? 0 : currentIndex;
@@ -34,7 +51,12 @@ export default function MemberSwitcher({ members, value, currentUserId, onChange
 
     const items = members.map((m) => ({
         key: m.userId,
-        label: getLabel(m),
+        label: (
+            <span className="flex items-center gap-2">
+                <StatusDot online={onlineIds.has(m.userId)} />
+                <span className="truncate">{getLabel(m)}</span>
+            </span>
+        ),
     }));
 
     return (
@@ -51,11 +73,12 @@ export default function MemberSwitcher({ members, value, currentUserId, onChange
                     style: { maxHeight: 320, overflowY: "auto" },
                 }}
             >
-                <button
-                    type="button"
-                    className="flex h-8 min-w-48 max-w-64 items-center justify-between gap-2 rounded-md border border-border bg-bg px-3 text-sm text-fg transition-colors hover:border-accent hover:bg-accent-bg hover:text-accent disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                    <span className="truncate">{currentMember ? getLabel(currentMember) : t("placeholder")}</span>
+                <button type="button" className={TRIGGER_CLASS}>
+                    <span className="flex min-w-0 items-center gap-2">
+                        {currentMember && <StatusDot online={onlineIds.has(currentMember.userId)} />}
+                        <span className="truncate">{currentMember ? getLabel(currentMember) : t("placeholder")}</span>
+                    </span>
+                    <ArrowDownIcon width={16} height={16} />
                 </button>
             </Dropdown>
 
@@ -77,5 +100,5 @@ export default function MemberSwitcher({ members, value, currentUserId, onChange
                 onClick={() => goTo(1)}
             />
         </div>
-    )
+    );
 }

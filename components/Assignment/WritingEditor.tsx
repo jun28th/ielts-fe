@@ -2,6 +2,7 @@
 
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import Collaboration from "@tiptap/extension-collaboration";
+import CollaborationCaret from "@tiptap/extension-collaboration-caret";
 import { Color, TextStyle } from "@tiptap/extension-text-style";
 import { Placeholder } from "@tiptap/extensions";
 import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
@@ -29,6 +30,8 @@ const COLORS: (string | null)[] = [
     "#ffc200"
 ];
 
+const CARET_COLORS = ["#d4380d", "#1677ff", "#389e0d", "#c41d7f", "#531dab", "#d48806", "#08979c", "#cf1322"];
+
 const DEFAULT_TEXT_COLOR = "var(--color-fg)";
 
 const COLLAB_URL = process.env.NEXT_PUBLIC_COLLAB_URL ?? "ws://localhost:1234";
@@ -51,28 +54,41 @@ const EDITOR_CLASS = [
     "[&_p.is-editor-empty:first-child::before]:h-0",
 ].join(" ");
 
+function pickCaretColor(userId: string): string {
+    let hash = 0;
+    for (let i = 0; i < userId.length; i++) {
+        hash = (hash * 31 + userId.charCodeAt(i)) >>> 0;
+    }
+    return CARET_COLORS[hash % CARET_COLORS.length];
+}
+
 type WritingEditorProps = {
     documentName: string;
+    currentUser: { id: string; name: string };
     readOnly?: boolean;
 };
 
-export default function WritingEditor({ documentName, readOnly = false }: WritingEditorProps) {
+export default function WritingEditor({ documentName, currentUser, readOnly = false }: WritingEditorProps) {
     const t = useTranslations("WritingEditor");
     const placeholder = t("placeholder");
 
     const [isColorOpen, setIsColorOpen] = useState<boolean>(false);
+    
+    const [provider, setProvider] = useState<HocuspocusProvider | null>(null);
 
     const doc = useMemo(() => new Y.Doc(), []);
 
     useEffect(() => {
-        const provider = new HocuspocusProvider({
+        const instance = new HocuspocusProvider({
             url: COLLAB_URL,
             name: documentName,
             document: doc,
+            onSynced: () => setProvider(instance),
         });
 
         return () => {
-            provider.destroy();
+            instance.destroy();
+            setProvider(null);
         };
     }, [doc, documentName]);
 
@@ -95,8 +111,19 @@ export default function WritingEditor({ documentName, readOnly = false }: Writin
             TextStyle,
             Color,
             Collaboration.configure({ document: doc }),
+            ...(provider
+                ? [
+                    CollaborationCaret.configure({
+                        provider,
+                        user: {
+                            name: currentUser.name,
+                            color: pickCaretColor(currentUser.id),
+                        },
+                    }),
+                ]
+                : []),
         ],
-        [placeholder, doc]
+        [placeholder, doc, provider, currentUser.id, currentUser.name]
     );
 
     const editor = useEditor(
