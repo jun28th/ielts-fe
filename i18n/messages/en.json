@@ -320,7 +320,11 @@
     },
     "TeacherWritingAssignmentPage": {
         "dueLabel": "Due",
-        "timeLimitLabel": "Time limit"
+        "timeLimitLabel": "Time limit",
+        "correctionMode": "Correction mode",
+        "correctionOn": "On",
+        "correctionOff": "Off",
+        "correctionPanel": "Corrections panel"
     },
     "TeacherStudentsPage": {
         "title": "Student List",
@@ -569,7 +573,10 @@
     },
     "StudentWritingAssignmentPage": {
         "dueLabel": "Due",
-        "timeLimitLabel": "Time limit"
+        "timeLimitLabel": "Time limit",
+        "correctionOn": "On",
+        "correctionOff": "Off",
+        "correctionPanel": "Corrections panel"
     },
     "CountdownTimer": {
         "remaining": "left"
@@ -605,6 +612,10 @@
     "MemberSwitcher": {
         "teacher": "Teacher",
         "you": "You"
+    },
+    "CorrectionPanel": {
+        "title": "Corrections",
+        "all": "All"
     },
     "AdminAccessControlPage": {
         "title": "Access control",

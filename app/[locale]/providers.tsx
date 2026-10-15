@@ -138,6 +138,10 @@ export default async function Providers({ children } : { children : React.ReactN
                         colorFill: "var(--color-muted)",
                         controlItemBgActive: "var(--color-accent)",
                         controlItemBgActiveHover: "var(--color-accent)",
+                    },
+                    Switch: {
+                        colorPrimary: "var(--color-accent)",
+                        colorPrimaryHover: "var(--color-accent)"
                     }
                 }
             }}

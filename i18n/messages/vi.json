@@ -320,7 +320,11 @@
     },
     "TeacherWritingAssignmentPage": {
         "dueLabel": "Hạn nộp",
-        "timeLimitLabel": "Thời gian làm"
+        "timeLimitLabel": "Thời gian làm",
+        "correctionMode": "Chế độ chấm bài",
+        "correctionOn": "Bật",
+        "correctionOff": "Tắt",
+        "correctionPanel": "Bảng chỗ sửa"
     },
     "TeacherStudentsPage": {
         "title": "Danh sách học viên",
@@ -569,7 +573,10 @@
     },
     "StudentWritingAssignmentPage": {
         "dueLabel": "Hạn nộp",
-        "timeLimitLabel": "Thời gian làm"
+        "timeLimitLabel": "Thời gian làm",
+        "correctionOn": "Bật",
+        "correctionOff": "Tắt",
+        "correctionPanel": "Bảng chỗ sửa"
     },
     "CountdownTimer": {
         "remaining": "còn lại"
@@ -605,6 +612,10 @@
     "MemberSwitcher": {
         "teacher": "Giáo viên",
         "you": "Bạn"
+    },
+    "CorrectionPanel": {
+        "title": "Chỗ sửa",
+        "all": "Tất cả"
     },
     "AdminAccessControlPage": {
         "title": "Phân quyền",

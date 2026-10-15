@@ -1,5 +1,6 @@
 "use client";
 
+import CorrectionPanel from "@/components/Assignment/CorrectionPanel";
 import CountdownTimer from "@/components/Assignment/CountdownTimer";
 import MemberSwitcher from "@/components/Assignment/MemberSwitcher";
 import WritingEditor from "@/components/Assignment/WritingEditor";
@@ -10,10 +11,15 @@ import { coursesApi } from "@/lib/api/courses-client";
 import { WritingAssignmentsApi } from "@/lib/api/writing-assignments-client";
 import { formatDayMonth, formatTime, isOverdue } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { Splitter } from "antd";
+import { Splitter, Switch } from "antd";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+
+type PanelSize = number | string;
+
+const SIZES_TWO_PANELS: PanelSize[] = ["50%", "50%"];
+const SIZES_THREE_PANELS: PanelSize[] = ["30%", "45%", "25%"];
 
 export default function StudentWritingAssignmentPage() {
     const { courseId, assignmentId } = useParams<{ courseId: string; assignmentId: string }>();
@@ -21,6 +27,8 @@ export default function StudentWritingAssignmentPage() {
     const { user } = useAuth();
 
     const [selectedOwnerId, setSelectedOwnerId] = useState<string | null>(null);
+    const [showCorrectionPanel, setShowCorrectionPanel] = useState<boolean>(false);
+    const [sizes, setSizes] = useState<PanelSize[]>(SIZES_TWO_PANELS);
 
     const { data: assignment, isLoading, error } = useQuery({
         queryKey: ["assignment", assignmentId],
@@ -34,6 +42,11 @@ export default function StudentWritingAssignmentPage() {
     });
 
     const onlineIds = useOnlineUsers(assignmentId, user?.id ?? null);
+
+    const handleToggleCorrectionPanel = (checked: boolean) => {
+        setShowCorrectionPanel(checked);
+        setSizes(checked ? SIZES_THREE_PANELS : SIZES_TWO_PANELS);
+    };
 
     if (isLoading) {
         return <div className="h-32 animate-pulse rounded-2xl border border-border bg-surface" />;
@@ -89,24 +102,43 @@ export default function StudentWritingAssignmentPage() {
                 )}
             </div>
 
-            <Splitter className="rounded-2xl border border-border bg-bg">
-                <Splitter.Panel defaultSize="50%" min="30%" max="70%">
+            <Splitter className="rounded-2xl border border-border bg-bg" onResize={setSizes}>
+                <Splitter.Panel size={sizes[0]} min="20%" max={showCorrectionPanel ? "50%" : "70%"}>
                     <div className="p-6">
                         <WritingQuestionPanel question={assignment.writingQuestion} />
                     </div>
                 </Splitter.Panel>
-                <Splitter.Panel className="flex flex-col">
-                    <div className="flex flex-1 flex-col p-6">
+
+                <Splitter.Panel size={sizes[1]} className="flex flex-col" min="30%">
+                    <div className="flex flex-1 flex-col gap-3 p-6">
+                        <div className="flex items-center gap-2">
+                            <p className="text-muted">{t("correctionPanel")}</p>
+                            <Switch
+                                checked={showCorrectionPanel}
+                                onChange={handleToggleCorrectionPanel}
+                                checkedChildren={t("correctionOn")}
+                                unCheckedChildren={t("correctionOff")}
+                            />
+                        </div>
+
                         {user && documentName && (
-                            <WritingEditor 
+                            <WritingEditor
                                 key={documentName}
-                                documentName={documentName} 
+                                documentName={documentName}
                                 currentUser={{ id: user.id, name: user.fullName }}
                                 readOnly={ownerId !== user.id}
                             />
                         )}
                     </div>
                 </Splitter.Panel>
+
+                {showCorrectionPanel && (
+                    <Splitter.Panel size={sizes[2]} min="20%" max="40%">
+                        <div className="p-6">
+                            <CorrectionPanel />
+                        </div>
+                    </Splitter.Panel>
+                )}
             </Splitter>
         </div>
     );
