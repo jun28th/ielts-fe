@@ -318,14 +318,6 @@
             "updateSuccess": "Cập nhật bài tập thành công"
         }
     },
-    "TeacherWritingAssignmentPage": {
-        "dueLabel": "Hạn nộp",
-        "timeLimitLabel": "Thời gian làm",
-        "correctionMode": "Chế độ chấm bài",
-        "correctionOn": "Bật",
-        "correctionOff": "Tắt",
-        "correctionPanel": "Bảng chỗ sửa"
-    },
     "TeacherStudentsPage": {
         "title": "Danh sách học viên",
         "subtitle": "Quản lý tài khoản học viên trong hệ thống.",
@@ -571,70 +563,74 @@
             }
         }
     },
-    "StudentWritingAssignmentPage": {
+    "WritingWorkspace": {
         "dueLabel": "Hạn nộp",
+        "overdue": "Quá hạn",
         "timeLimitLabel": "Thời gian làm",
+        "correctionMode": "Chế độ chấm bài",
         "correctionOn": "Bật",
         "correctionOff": "Tắt",
-        "correctionPanel": "Bảng chỗ sửa"
+        "correctionPanel": "Bảng chỗ sửa",
+        "WritingEditor": {
+            "placeholder": "Viết bài của bạn ở đây...",
+            "formats": {
+                "bold": "In đậm (Ctrl+B)",
+                "italic": "In nghiêng (Ctrl+I)",
+                "underline": "Gạch chân (Ctrl+U)",
+                "strike": "Gạch ngang (Ctrl+Shift+S)"
+            },
+            "textColor": "Màu chữ",
+            "saveStatus": {
+                "saving": "Đang lưu...",
+                "saved": "Đã lưu"
+            }
+        },
+        "WritingQuestionPanel": {
+            "taskType": {
+                "TASK_1": "Task 1",
+                "TASK_2": "Task 2"
+            },
+            "difficulty": {
+                "EASY": "Dễ",
+                "MEDIUM": "Trung bình",
+                "HARD": "Khó"
+            },
+            "titleLabel": "Đề bài",
+            "noteLabel": "Ghi chú",
+            "noNote": "Không"
+        },
+        "MemberSwitcher": {
+            "teacher": "Giáo viên",
+            "you": "Bạn"
+        },
+        "CorrectionPanel": {
+            "title": "Chỗ sửa",
+            "all": "Tất cả",
+            "empty": "Chưa có chỗ sửa nào",
+            "delete": "Xoá"
+        },
+        "CorrectionMenu": {
+            "types": {
+                "replace": "Thay thế",
+                "delete": "Xoá",
+                "insert": "Chèn",
+                "comment": "Nhận xét"
+            },
+            "selected": "Đoạn chọn",
+            "replaceWith": "Sửa thành",
+            "replacePlaceholder": "Nhập từ/cụm từ đúng",
+            "insertText": "Chèn thêm",
+            "insertPlaceholder": "Nhập nội dung cần chèn",
+            "criterion": "Tiêu chí",
+            "comment": "Nhận xét",
+            "commentPlaceholder": "Nhập nhận xét cho đoạn này",
+            "description": "Giải thích (không bắt buộc)",
+            "descriptionPlaceholder": "Giải thích lỗi cho học viên",
+            "submit": "Tạo"
+        }
     },
     "CountdownTimer": {
         "remaining": "còn lại"
-    },
-    "WritingEditor": {
-        "placeholder": "Viết bài của bạn ở đây...",
-        "formats": {
-            "bold": "In đậm (Ctrl+B)",
-            "italic": "In nghiêng (Ctrl+I)",
-            "underline": "Gạch chân (Ctrl+U)",
-            "strike": "Gạch ngang (Ctrl+Shift+S)"
-        },
-        "textColor": "Màu chữ",
-        "saveStatus": {
-            "saving": "Đang lưu...",
-            "saved": "Đã lưu"
-        }
-    },
-    "WritingQuestionPanel": {
-        "taskType": {
-            "TASK_1": "Task 1",
-            "TASK_2": "Task 2"
-        },
-        "difficulty": {
-            "EASY": "Dễ",
-            "MEDIUM": "Trung bình",
-            "HARD": "Khó"
-        },
-        "titleLabel": "Đề bài",
-        "noteLabel": "Ghi chú",
-        "noNote": "Không"
-    },
-    "MemberSwitcher": {
-        "teacher": "Giáo viên",
-        "you": "Bạn"
-    },
-    "CorrectionPanel": {
-        "title": "Chỗ sửa",
-        "all": "Tất cả"
-    },
-    "CorrectionMenu": {
-        "types": {
-            "replace": "Thay thế",
-            "delete": "Xoá",
-            "insert": "Chèn",
-            "comment": "Nhận xét"
-        },
-        "selected": "Đoạn chọn",
-        "replaceWith": "Sửa thành",
-        "replacePlaceholder": "Nhập từ/cụm từ đúng",
-        "insertText": "Chèn thêm",
-        "insertPlaceholder": "Nhập nội dung cần chèn",
-        "criterion": "Tiêu chí",
-        "comment": "Nhận xét",
-        "commentPlaceholder": "Nhập nhận xét cho đoạn này",
-        "description": "Giải thích (không bắt buộc)",
-        "descriptionPlaceholder": "Giải thích lỗi cho học viên",
-        "submit": "Tạo"
     },
     "AdminAccessControlPage": {
         "title": "Phân quyền",

@@ -17,7 +17,7 @@ type CorrectionMenuProps = {
 };
 
 export default function CorrectionMenu({ editor }: CorrectionMenuProps) {
-    const t = useTranslations("CorrectionMenu");
+    const t = useTranslations("WritingWorkspace.CorrectionMenu");
 
     const [type, setType] = useState<CorrectionType>("replace");
     const [criterion, setCriterion] = useState<Criterion>("GRA");

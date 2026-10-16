@@ -318,14 +318,6 @@
             "updateSuccess": "Assignment updated successfully"
         }
     },
-    "TeacherWritingAssignmentPage": {
-        "dueLabel": "Due",
-        "timeLimitLabel": "Time limit",
-        "correctionMode": "Correction mode",
-        "correctionOn": "On",
-        "correctionOff": "Off",
-        "correctionPanel": "Corrections panel"
-    },
     "TeacherStudentsPage": {
         "title": "Student List",
         "subtitle": "Manage student accounts in the system.",
@@ -571,70 +563,74 @@
             }
         }
     },
-    "StudentWritingAssignmentPage": {
+    "WritingWorkspace": {
         "dueLabel": "Due",
+        "overdue": "Overdue",
         "timeLimitLabel": "Time limit",
+        "correctionMode": "Correction mode",
         "correctionOn": "On",
         "correctionOff": "Off",
-        "correctionPanel": "Corrections panel"
+        "correctionPanel": "Corrections panel",
+        "WritingEditor": {
+            "placeholder": "Write your answer here...",
+            "formats": {
+                "bold": "Bold (Ctrl+B)",
+                "italic": "Italic (Ctrl+I)",
+                "underline": "Underline (Ctrl+U)",
+                "strike": "Strikethrough (Ctrl+Shift+S)"
+            },
+            "textColor": "Text colour",
+            "saveStatus": {
+                "saving": "Saving...",
+                "saved": "Saved"
+            }
+        },
+        "WritingQuestionPanel": {
+            "taskType": {
+                "TASK_1": "Task 1",
+                "TASK_2": "Task 2"
+            },
+            "difficulty": {
+                "EASY": "Easy",
+                "MEDIUM": "Medium",
+                "HARD": "Hard"
+            },
+            "titleLabel": "Question",
+            "noteLabel": "Note",
+            "noNote": "None"
+        },
+        "MemberSwitcher": {
+            "teacher": "Teacher",
+            "you": "You"
+        },
+        "CorrectionPanel": {
+            "title": "Corrections",
+            "all": "All",
+            "empty": "No corrections yet",
+            "delete": "Delete"
+        },
+        "CorrectionMenu": {
+            "types": {
+                "replace": "Replace",
+                "delete": "Delete",
+                "insert": "Insert",
+                "comment": "Comment"
+            },
+            "selected": "Selected",
+            "replaceWith": "Replace with",
+            "replacePlaceholder": "Enter the correct word/phrase",
+            "insertText": "Insert text",
+            "insertPlaceholder": "Enter the text to insert",
+            "criterion": "Criterion",
+            "comment": "Comment",
+            "commentPlaceholder": "Enter a comment for this passage",
+            "description": "Explanation (optional)",
+            "descriptionPlaceholder": "Explain the mistake to the student",
+            "submit": "Create"
+        }
     },
     "CountdownTimer": {
         "remaining": "left"
-    },
-    "WritingEditor": {
-        "placeholder": "Write your answer here...",
-        "formats": {
-            "bold": "Bold (Ctrl+B)",
-            "italic": "Italic (Ctrl+I)",
-            "underline": "Underline (Ctrl+U)",
-            "strike": "Strikethrough (Ctrl+Shift+S)"
-        },
-        "textColor": "Text colour",
-        "saveStatus": {
-            "saving": "Saving...",
-            "saved": "Saved"
-        }
-    },
-    "WritingQuestionPanel": {
-        "taskType": {
-            "TASK_1": "Task 1",
-            "TASK_2": "Task 2"
-        },
-        "difficulty": {
-            "EASY": "Easy",
-            "MEDIUM": "Medium",
-            "HARD": "Hard"
-        },
-        "titleLabel": "Question",
-        "noteLabel": "Note",
-        "noNote": "None"
-    },
-    "MemberSwitcher": {
-        "teacher": "Teacher",
-        "you": "You"
-    },
-    "CorrectionPanel": {
-        "title": "Corrections",
-        "all": "All"
-    },
-    "CorrectionMenu": {
-        "types": {
-            "replace": "Replace",
-            "delete": "Delete",
-            "insert": "Insert",
-            "comment": "Comment"
-        },
-        "selected": "Selected",
-        "replaceWith": "Replace with",
-        "replacePlaceholder": "Enter the correct word/phrase",
-        "insertText": "Insert text",
-        "insertPlaceholder": "Enter the text to insert",
-        "criterion": "Criterion",
-        "comment": "Comment",
-        "commentPlaceholder": "Enter a comment for this passage",
-        "description": "Explanation (optional)",
-        "descriptionPlaceholder": "Explain the mistake to the student",
-        "submit": "Create"
     },
     "AdminAccessControlPage": {
         "title": "Access control",

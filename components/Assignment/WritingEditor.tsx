@@ -5,7 +5,7 @@ import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCaret from "@tiptap/extension-collaboration-caret";
 import { Color, TextStyle } from "@tiptap/extension-text-style";
 import { Placeholder, Selection as BlurSelection } from "@tiptap/extensions";
-import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
+import { EditorContent, useEditor, useEditorState, type Editor } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react/menus";
 import StarterKit from "@tiptap/starter-kit";
 import { Popover, Spin, Tooltip } from "antd";
@@ -76,10 +76,17 @@ type WritingEditorProps = {
     currentUser: { id: string; name: string };
     readOnly?: boolean;
     isCorrection?: boolean;
+    onEditorChange?: (editor: Editor | null) => void;
 };
 
-export default function WritingEditor({ documentName, currentUser, readOnly = false, isCorrection = false }: WritingEditorProps) {
-    const t = useTranslations("WritingEditor");
+export default function WritingEditor({
+    documentName,
+    currentUser,
+    readOnly = false,
+    isCorrection = false,
+    onEditorChange,
+}: WritingEditorProps) {
+    const t = useTranslations("WritingWorkspace.WritingEditor");
     const placeholder = t("placeholder");
 
     const [isColorOpen, setIsColorOpen] = useState<boolean>(false);
@@ -175,6 +182,12 @@ export default function WritingEditor({ documentName, currentUser, readOnly = fa
         },
         [extensions, readOnly]
     );
+
+    useEffect(() => {
+        if (!onEditorChange) return;
+        onEditorChange(editor);
+        return () => onEditorChange(null);
+    }, [editor, onEditorChange]);
 
     useEffect(() => {
         if (!editor || isSelecting || !isCorrection) return;

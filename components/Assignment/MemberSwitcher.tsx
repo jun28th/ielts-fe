@@ -29,7 +29,7 @@ function StatusDot({ online }: { online: boolean }) {
 }
 
 export default function MemberSwitcher({ members, value, currentUserId, onlineIds, onChange }: MemberSwitcherProps) {
-    const t = useTranslations("MemberSwitcher");
+    const t = useTranslations("WritingWorkspace.MemberSwitcher");
 
     const currentIndex = members.findIndex((m) => m.userId === value);
     const currentMember = currentIndex === -1 ? null : members[currentIndex];

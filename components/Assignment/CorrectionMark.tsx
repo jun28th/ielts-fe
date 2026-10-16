@@ -1,19 +1,14 @@
-import { CorrectionAttrs, CRITERION_STYLES, type CorrectionType } from "@/types/writing-assignment-types";
+import { CorrectionAttrs, CorrectionRange, CRITERION_STYLES, type CorrectionType } from "@/types/writing-assignment-types";
 import { Mark, mergeAttributes } from "@tiptap/core";
 import type { Node as ProseMirrorNode } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
 
-type CorrectionRange = {
-    from: number;
-    to: number;
-    attrs: CorrectionAttrs;
-};
-
 declare module "@tiptap/core" {
     interface Commands<ReturnType> {
         correction: {
             addCorrection: (range: { from: number; to: number }, attrs: CorrectionAttrs) => ReturnType;
+            removeCorrection: (id: string) => ReturnType;
         };
     }
 }
@@ -22,7 +17,7 @@ const MARK_CLASS: Record<CorrectionType, string> = {
     replace: "text-error line-through decoration-error",
     delete: "text-error line-through decoration-error",
     insert: "",
-    comment: "rounded-sm bg-yellow-300/40",
+    comment: "rounded-sm bg-yellow-300/40 underline decoration-2 decoration-highlight underline-offset-4",
 };
 
 const BADGE_BASE_CLASS = "relative -top-2 ml-0.5 inline-flex size-4 select-none items-center justify-center rounded-full text-[10px] font-semibold leading-none";
@@ -38,7 +33,7 @@ const dataAttribute = (name: keyof CorrectionAttrs, fallback: string | null = ""
     renderHTML: (attributes: Record<string, unknown>) => ({ [`data-${name}`]: attributes[name] }),
 });
 
-function collectCorrections(doc: ProseMirrorNode, markName: string): CorrectionRange[] {
+export function collectCorrections(doc: ProseMirrorNode, markName: string): CorrectionRange[] {
     const ranges = new Map<string, CorrectionRange>();
 
     doc.descendants((node, pos) => {
@@ -136,6 +131,15 @@ export const CorrectionMark = Mark.create({
                 ({ tr, dispatch }) => {
                     if (range.from >= range.to) return false;
                     if (dispatch) tr.addMark(range.from, range.to, this.type.create(attrs));
+                    return true;
+                },
+
+            removeCorrection:
+                (id) =>
+                ({ tr, dispatch }) => {
+                    const range = collectCorrections(tr.doc, this.name).find((item) => item.attrs.id === id);
+                    if (!range) return false;
+                    if (dispatch) tr.removeMark(range.from, range.to, this.type.create(range.attrs));
                     return true;
                 },
         };

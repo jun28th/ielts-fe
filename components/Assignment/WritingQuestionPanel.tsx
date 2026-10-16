@@ -7,7 +7,7 @@ type WritingQuestionPanelProps = {
 };
 
 export default function WritingQuestionPanel({ question }: WritingQuestionPanelProps) {
-    const t = useTranslations("WritingQuestionPanel");
+    const t = useTranslations("WritingWorkspace.WritingQuestionPanel");
 
     const isTask1 = question.taskType === "TASK_1";
     const durationMinutes = isTask1 ? 20 : 40;
