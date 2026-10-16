@@ -1,0 +1,160 @@
+import { CorrectionAttrs, CRITERION_STYLES, type CorrectionType } from "@/types/writing-assignment-types";
+import { Mark, mergeAttributes } from "@tiptap/core";
+import type { Node as ProseMirrorNode } from "@tiptap/pm/model";
+import { Plugin, PluginKey } from "@tiptap/pm/state";
+import { Decoration, DecorationSet } from "@tiptap/pm/view";
+
+type CorrectionRange = {
+    from: number;
+    to: number;
+    attrs: CorrectionAttrs;
+};
+
+declare module "@tiptap/core" {
+    interface Commands<ReturnType> {
+        correction: {
+            addCorrection: (range: { from: number; to: number }, attrs: CorrectionAttrs) => ReturnType;
+        };
+    }
+}
+
+const MARK_CLASS: Record<CorrectionType, string> = {
+    replace: "text-error line-through decoration-error",
+    delete: "text-error line-through decoration-error",
+    insert: "",
+    comment: "rounded-sm bg-yellow-300/40",
+};
+
+const BADGE_BASE_CLASS = "relative -top-2 ml-0.5 inline-flex size-4 select-none items-center justify-center rounded-full text-[10px] font-semibold leading-none";
+const BADGE_FALLBACK_CLASS = "bg-fg text-bg";
+const REPLACE_TEXT_CLASS = "ml-1 rounded-sm bg-success-bg px-1 text-success";
+const INSERT_TEXT_CLASS = "mx-0.5 rounded-r-sm border-l-2 border-success bg-success-bg px-1 text-success";
+
+const correctionWidgetsKey = new PluginKey<DecorationSet>("correctionWidgets");
+
+const dataAttribute = (name: keyof CorrectionAttrs, fallback: string | null = "") => ({
+    default: fallback,
+    parseHTML: (element: HTMLElement) => element.getAttribute(`data-${name}`) ?? fallback,
+    renderHTML: (attributes: Record<string, unknown>) => ({ [`data-${name}`]: attributes[name] }),
+});
+
+function collectCorrections(doc: ProseMirrorNode, markName: string): CorrectionRange[] {
+    const ranges = new Map<string, CorrectionRange>();
+
+    doc.descendants((node, pos) => {
+        if (!node.isText) return;
+
+        for (const mark of node.marks) {
+            if (mark.type.name !== markName) continue;
+
+            const attrs = mark.attrs as CorrectionAttrs;
+            const end = pos + node.nodeSize;
+            const existing = ranges.get(attrs.id);
+
+            if (existing) {
+                existing.from = Math.min(existing.from, pos);
+                existing.to = Math.max(existing.to, end);
+            } else {
+                ranges.set(attrs.id, { from: pos, to: end, attrs });
+            }
+        }
+    });
+
+    return [...ranges.values()].sort((a, b) => a.from - b.from || a.to - b.to);
+}
+
+function createWidget({ attrs }: CorrectionRange, index: number): HTMLElement {
+    const wrapper = document.createElement("span");
+    wrapper.contentEditable = "false";
+    wrapper.dataset.correctionWidget = attrs.id;
+
+    if ((attrs.type === "replace" || attrs.type === "insert") && attrs.text) {
+        const newText = document.createElement("span");
+        newText.className = attrs.type === "insert" ? INSERT_TEXT_CLASS : REPLACE_TEXT_CLASS;
+        newText.textContent = attrs.text;
+        wrapper.appendChild(newText);
+    }
+
+    const badge = document.createElement("span");
+    const colorClass = CRITERION_STYLES[attrs.criterion]?.badge ?? BADGE_FALLBACK_CLASS;
+    badge.className = `${BADGE_BASE_CLASS} ${colorClass}`;
+    badge.title = attrs.criterion;
+    badge.textContent = String(index + 1);
+    wrapper.appendChild(badge);
+
+    return wrapper;
+}
+
+function buildDecorations(doc: ProseMirrorNode, markName: string): DecorationSet {
+    const decorations = collectCorrections(doc, markName).map((range, index) =>
+        Decoration.widget(range.to, () => createWidget(range, index), {
+            side: 1,
+            ignoreSelection: true,
+            key: `${range.attrs.id}:${index}:${range.attrs.criterion}:${range.attrs.text}`,
+        })
+    );
+
+    return DecorationSet.create(doc, decorations);
+}
+
+export const CorrectionMark = Mark.create({
+    name: "correction",
+
+    inclusive: false,
+
+    excludes: "",
+
+    addAttributes() {
+        return {
+            id: dataAttribute("id", null),
+            type: dataAttribute("type", "comment"),
+            criterion: dataAttribute("criterion", "GRA"),
+            text: dataAttribute("text"),
+            description: dataAttribute("description"),
+        };
+    },
+
+    parseHTML() {
+        return [{ tag: "span[data-correction]" }];
+    },
+
+    renderHTML({ mark, HTMLAttributes }) {
+        return [
+            "span",
+            mergeAttributes(HTMLAttributes, {
+                "data-correction": "",
+                class: MARK_CLASS[mark.attrs.type as CorrectionType] ?? "",
+            }),
+            0,
+        ];
+    },
+
+    addCommands() {
+        return {
+            addCorrection:
+                (range, attrs) =>
+                ({ tr, dispatch }) => {
+                    if (range.from >= range.to) return false;
+                    if (dispatch) tr.addMark(range.from, range.to, this.type.create(attrs));
+                    return true;
+                },
+        };
+    },
+
+    addProseMirrorPlugins() {
+        const markName = this.name;
+
+        return [
+            new Plugin<DecorationSet>({
+                key: correctionWidgetsKey,
+                state: {
+                    init: (_, state) => buildDecorations(state.doc, markName),
+                    apply: (tr, old) => (tr.docChanged ? buildDecorations(tr.doc, markName) : old),
+                },
+                props: {
+                    decorations: (state) => correctionWidgetsKey.getState(state),
+                },
+            }),
+        ];
+    },
+});

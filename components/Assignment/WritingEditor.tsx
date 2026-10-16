@@ -14,6 +14,7 @@ import { useEffect, useMemo, useState } from "react";
 import * as Y from "yjs";
 import CheckCircleIcon from "../Icons/CheckCircleIcon";
 import CorrectionMenu from "./CorrectionMenu";
+import { CorrectionMark } from "./CorrectionMark";
 
 type Format = "bold" | "italic" | "underline" | "strike";
 
@@ -136,6 +137,7 @@ export default function WritingEditor({ documentName, currentUser, readOnly = fa
             BlurSelection.configure({ className: "bg-highlight/40" }),
             TextStyle,
             Color,
+            CorrectionMark,
             Collaboration.configure({ document: doc }),
             ...(provider
                 ? [

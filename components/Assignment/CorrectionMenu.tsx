@@ -35,11 +35,37 @@ export default function CorrectionMenu({ editor }: CorrectionMenuProps) {
     const needsText = type === "replace" || type === "insert";
     const isComment = type === "comment";
 
-    const canSubmit = (!needsText || text.trim() !== "") && (!isComment || description.trim() !== "");
+    const canSubmit =
+        selection.from !== selection.to &&
+        (!needsText || text.trim() !== "") &&
+        (!isComment || description.trim() !== "");
 
     const handleTypeChange = (value: CorrectionType) => {
         setType(value);
         setText("");
+    };
+
+    const handleSubmit = () => {
+        if (!canSubmit) return;
+
+        editor
+            .chain()
+            .focus()
+            .addCorrection(
+                { from: selection.from, to: selection.to },
+                {
+                    id: crypto.randomUUID(),
+                    type,
+                    criterion,
+                    text: needsText ? text.trim() : "",
+                    description: description.trim(),
+                }
+            )
+            .setTextSelection(selection.to)
+            .run();
+
+        setText("");
+        setDescription("");
     };
 
     return (
@@ -109,7 +135,9 @@ export default function CorrectionMenu({ editor }: CorrectionMenuProps) {
                 <Button
                     label={t("submit")}
                     size="sm"
-                    type="submit"
+                    type="button"
+                    disabled={!canSubmit}
+                    onClick={handleSubmit}
                 />
             </div>
         </div>
