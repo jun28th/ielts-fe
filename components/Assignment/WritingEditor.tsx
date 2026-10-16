@@ -4,14 +4,16 @@ import { HocuspocusProvider } from "@hocuspocus/provider";
 import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCaret from "@tiptap/extension-collaboration-caret";
 import { Color, TextStyle } from "@tiptap/extension-text-style";
-import { Placeholder } from "@tiptap/extensions";
+import { Placeholder, Selection as BlurSelection } from "@tiptap/extensions";
 import { EditorContent, useEditor, useEditorState } from "@tiptap/react";
+import { BubbleMenu } from "@tiptap/react/menus";
 import StarterKit from "@tiptap/starter-kit";
 import { Popover, Spin, Tooltip } from "antd";
 import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import * as Y from "yjs";
 import CheckCircleIcon from "../Icons/CheckCircleIcon";
+import CorrectionMenu from "./CorrectionMenu";
 
 type Format = "bold" | "italic" | "underline" | "strike";
 
@@ -39,6 +41,8 @@ const DEFAULT_TEXT_COLOR = "var(--color-fg)";
 
 const COLLAB_URL = process.env.NEXT_PUBLIC_COLLAB_URL ?? "ws://localhost:1234";
 
+const BUBBLE_MENU_KEY = "bubbleMenu";
+
 const BUTTON_BASE_CLASS = "flex size-8 items-center justify-center rounded-md text-base transition-colors disabled:cursor-not-allowed disabled:opacity-50";
 const BUTTON_ACTIVE_CLASS = "bg-highlight text-fg hover:bg-highlight-hover";
 const BUTTON_INACTIVE_CLASS = "text-fg hover:bg-highlight-bg hover:text-highlight-fg hover:inset-ring hover:inset-ring-highlight/60 active:bg-highlight/40";
@@ -49,6 +53,7 @@ const SWATCH_INACTIVE_CLASS = "hover:bg-highlight-bg";
 
 const EDITOR_CLASS = [
     "flex-1 p-5 leading-relaxed text-fg outline-none",
+    "selection:bg-highlight/40",
     "[&_p+p]:mt-2",
     "[&_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)]",
     "[&_p.is-editor-empty:first-child::before]:text-muted/70",
@@ -69,15 +74,17 @@ type WritingEditorProps = {
     documentName: string;
     currentUser: { id: string; name: string };
     readOnly?: boolean;
+    isCorrection?: boolean;
 };
 
-export default function WritingEditor({ documentName, currentUser, readOnly = false }: WritingEditorProps) {
+export default function WritingEditor({ documentName, currentUser, readOnly = false, isCorrection = false }: WritingEditorProps) {
     const t = useTranslations("WritingEditor");
     const placeholder = t("placeholder");
 
     const [isColorOpen, setIsColorOpen] = useState<boolean>(false);
     const [provider, setProvider] = useState<HocuspocusProvider | null>(null);
     const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+    const [isSelecting, setIsSelecting] = useState<boolean>(false);
 
     const doc = useMemo(() => new Y.Doc(), []);
 
@@ -126,6 +133,7 @@ export default function WritingEditor({ documentName, currentUser, readOnly = fa
                 undoRedo: false,
             }),
             Placeholder.configure({ placeholder }),
+            BlurSelection.configure({ className: "bg-highlight/40" }),
             TextStyle,
             Color,
             Collaboration.configure({ document: doc }),
@@ -153,10 +161,23 @@ export default function WritingEditor({ documentName, currentUser, readOnly = fa
             enablePasteRules: false,
             editorProps: {
                 attributes: { class: EDITOR_CLASS },
+                handleDOMEvents: {
+                    mousedown: (_view, event) => {
+                        if (event.button !== 0) return false;
+                        setIsSelecting(true);
+                        document.addEventListener("mouseup", () => setIsSelecting(false), { once: true });
+                        return false;
+                    },
+                },
             },
         },
         [extensions, readOnly]
     );
+
+    useEffect(() => {
+        if (!editor || isSelecting || !isCorrection) return;
+        editor.commands.setMeta(BUBBLE_MENU_KEY, "updatePosition");
+    }, [editor, isSelecting, isCorrection]);
 
     // Hàm selector được gọi sau mỗi thay đổi của editor; component chỉ vẽ lại khi kết quả khác lần trước.
     const editorState = useEditorState({
@@ -262,6 +283,21 @@ export default function WritingEditor({ documentName, currentUser, readOnly = fa
                     </span>
                 )}
             </div>
+
+            {editor && isCorrection && (
+                <BubbleMenu
+                    editor={editor}
+                    pluginKey={BUBBLE_MENU_KEY}
+                    options={{ placement: "bottom", offset: 8 }}
+                    className="z-50"
+                >
+                    {!isSelecting && (
+                        <div className="rounded-lg border border-border bg-bg shadow-lg">
+                            <CorrectionMenu editor={editor} />
+                        </div>
+                    )}
+                </BubbleMenu>
+            )}
 
             <EditorContent editor={editor} className="flex flex-1 flex-col" />
         </div>

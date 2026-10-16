@@ -1,5 +1,7 @@
 import { Spin } from "antd";
 
+type ButtonSize = "sm" | "md";
+
 type ButtonProps = {
     label: string;
     icon?: React.ReactNode;
@@ -8,6 +10,7 @@ type ButtonProps = {
     loading?: boolean;
     type?: "button" | "submit" | "reset";
     variant?: "primary" | "secondary" | "tertiary" | "danger";
+    size?: ButtonSize;
     fullWidth?: boolean;
     iconOnly?: boolean;
 }
@@ -34,7 +37,17 @@ const ICON_ONLY_VARIANT_STYLES: Record<NonNullable<ButtonProps["variant"]>, stri
         "border border-border bg-bg text-muted hover:border-error hover:bg-error-bg hover:text-error",
 };
 
-export default function Button({ label, icon, onClick, disabled = false, loading = false, type = "button", variant = "primary", fullWidth = false, iconOnly = false }: ButtonProps) {
+const SIZE_STYLES: Record<ButtonSize, string> = {
+    md: "h-11 gap-2.5 rounded-lg px-5 text-sm font-bold",
+    sm: "h-8 gap-1.5 rounded-md px-6 text-sm",
+};
+
+const ICON_ONLY_SIZE_STYLES: Record<ButtonSize, string> = {
+    md: "h-8 w-8 rounded-lg",
+    sm: "h-7 w-7 rounded-md",
+};
+
+export default function Button({ label, icon, onClick, disabled = false, loading = false, type = "button", variant = "primary", size = "md", fullWidth = false, iconOnly = false }: ButtonProps) {
     const isDisabled = disabled || loading;
 
     if (iconOnly) {
@@ -43,7 +56,7 @@ export default function Button({ label, icon, onClick, disabled = false, loading
                 type={type}
                 onClick={onClick}
                 disabled={isDisabled}
-                className={`inline-flex h-8 w-8 flex-none items-center justify-center rounded-lg transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${ICON_ONLY_VARIANT_STYLES[variant]}`}
+                className={`inline-flex flex-none items-center justify-center transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${ICON_ONLY_SIZE_STYLES[size]} ${ICON_ONLY_VARIANT_STYLES[variant]}`}
             >
                 {loading ? <Spin size="small" /> : icon}
             </button>
@@ -55,9 +68,9 @@ export default function Button({ label, icon, onClick, disabled = false, loading
             type={type}
             onClick={onClick}
             disabled={isDisabled}
-            className={`inline-flex h-11 items-center justify-center gap-2.5 rounded-lg px-5 text-sm font-bold transition-colors cursor-pointer disabled:cursor-not-allowed ${fullWidth ? "w-full" : "w-fit"} ${VARIANT_STYLES[variant]}`}
+            className={`inline-flex items-center justify-center transition-colors cursor-pointer disabled:cursor-not-allowed ${SIZE_STYLES[size]} ${fullWidth ? "w-full" : "w-fit"} ${VARIANT_STYLES[variant]}`}
         >
-            {loading ? <Spin size="small"/> : icon}
+            {loading ? <Spin size="small" /> : icon}
             {label}
         </button>
     );

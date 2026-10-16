@@ -1,10 +1,8 @@
 "use client";
 
+import { Criterion, CriterionFilter } from "@/types/writing-assignment-types";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-
-type Criterion = "TR" | "CC" | "LR" | "GRA";
-type CriterionFilter = "ALL" | Criterion;
 
 const CRITERIA: Criterion[] = ["TR", "CC", "LR", "GRA"];
 const FILTERS: CriterionFilter[] = ["ALL", ...CRITERIA];

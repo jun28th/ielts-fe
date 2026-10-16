@@ -109,7 +109,7 @@ export default function TeacherWritingAssignmentPage() {
                         <WritingQuestionPanel question={assignment.writingQuestion} />
                     </div>
                 </Splitter.Panel>
-                
+
                 <Splitter.Panel size={sizes[1]} className="flex flex-col" min="30%">
                     <div className="flex flex-1 flex-col gap-3 p-6">
                         <div className="flex items-center gap-6">
@@ -139,6 +139,7 @@ export default function TeacherWritingAssignmentPage() {
                                 key={documentName}
                                 documentName={documentName} 
                                 currentUser={{ id: user.id, name: user.fullName }}
+                                isCorrection={isCorrection}
                             />
                         )}
                     </div>

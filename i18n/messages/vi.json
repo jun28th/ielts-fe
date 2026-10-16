@@ -617,6 +617,25 @@
         "title": "Chỗ sửa",
         "all": "Tất cả"
     },
+    "CorrectionMenu": {
+        "types": {
+            "replace": "Thay thế",
+            "delete": "Xoá",
+            "insert": "Chèn",
+            "comment": "Nhận xét"
+        },
+        "selected": "Đoạn chọn",
+        "replaceWith": "Sửa thành",
+        "replacePlaceholder": "Nhập từ/cụm từ đúng",
+        "insertText": "Chèn thêm",
+        "insertPlaceholder": "Nhập nội dung cần chèn",
+        "criterion": "Tiêu chí",
+        "comment": "Nhận xét",
+        "commentPlaceholder": "Nhập nhận xét cho đoạn này",
+        "description": "Giải thích (không bắt buộc)",
+        "descriptionPlaceholder": "Giải thích lỗi cho học viên",
+        "submit": "Tạo"
+    },
     "AdminAccessControlPage": {
         "title": "Phân quyền",
         "subtitle": "Quản lý quyền truy cập cho người dùng.",

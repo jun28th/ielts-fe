@@ -617,6 +617,25 @@
         "title": "Corrections",
         "all": "All"
     },
+    "CorrectionMenu": {
+        "types": {
+            "replace": "Replace",
+            "delete": "Delete",
+            "insert": "Insert",
+            "comment": "Comment"
+        },
+        "selected": "Selected",
+        "replaceWith": "Replace with",
+        "replacePlaceholder": "Enter the correct word/phrase",
+        "insertText": "Insert text",
+        "insertPlaceholder": "Enter the text to insert",
+        "criterion": "Criterion",
+        "comment": "Comment",
+        "commentPlaceholder": "Enter a comment for this passage",
+        "description": "Explanation (optional)",
+        "descriptionPlaceholder": "Explain the mistake to the student",
+        "submit": "Create"
+    },
     "AdminAccessControlPage": {
         "title": "Access control",
         "subtitle": "Manage user access permissions.",

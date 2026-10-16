@@ -38,6 +38,16 @@
 	--color-warning-bg: #fff4e5;
 	--color-success: #237804;
 	--color-success-bg: #f6ffed;
+
+	/* Writing Criterion */
+	--color-tr: #5b3fc4;
+    --color-tr-bg: #ede8fb;
+    --color-cc: #1f6f5c;
+    --color-cc-bg: #dcf1ec;
+    --color-lr: #a14d12;
+    --color-lr-bg: #fbe9d6;
+    --color-gra: #2f45a8;
+    --color-gra-bg: #e2e8f8;
 }
 
 .collaboration-carets__caret {
