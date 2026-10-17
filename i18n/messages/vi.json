@@ -583,7 +583,8 @@
             "saveStatus": {
                 "saving": "Đang lưu...",
                 "saved": "Đã lưu"
-            }
+            },
+            "wordCount": "{count} từ"
         },
         "WritingQuestionPanel": {
             "taskType": {
@@ -601,7 +602,8 @@
         },
         "MemberSwitcher": {
             "teacher": "Giáo viên",
-            "you": "Bạn"
+            "you": "Bạn",
+            "placeholder": "Chọn thành viên"
         },
         "CorrectionPanel": {
             "title": "Chỗ sửa",

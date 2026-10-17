@@ -71,6 +71,12 @@ function pickCaretColor(userId: string): string {
     return CARET_COLORS[hash % CARET_COLORS.length];
 }
 
+function countWords(editor: Editor): number {
+    const { doc } = editor.state;
+    const text = doc.textBetween(0, doc.content.size, " ", " ");
+    return text.match(/\S+/g)?.length ?? 0;
+}
+
 type WritingEditorProps = {
     documentName: string;
     currentUser: { id: string; name: string };
@@ -203,10 +209,12 @@ export default function WritingEditor({
             underline: editor?.isActive("underline") ?? false,
             strike: editor?.isActive("strike") ?? false,
             color: (editor?.getAttributes("textStyle").color as string | undefined) ?? null,
+            words: editor ? countWords(editor) : 0,
         }),
     });
 
     const currentColor = editorState?.color ?? null;
+    const wordCount = editorState?.words ?? 0;
 
     const applyColor = (value: string | null) => {
         if (!editor) return;
@@ -282,21 +290,27 @@ export default function WritingEditor({
                     </Popover>
                 </Tooltip>
 
-                {!readOnly && saveStatus !== "idle" && (
-                    <span className={`ml-auto flex items-center gap-1.5 text-sm ${saveStatus === "saving" ? "text-accent" : "text-success"}`}>
-                        {saveStatus === "saving" ? (
-                            <>
-                                <Spin size="small" />
-                                {t("saveStatus.saving")}
-                            </>
-                        ) : (
-                            <>
-                                <CheckCircleIcon width={14} height={14} />
-                                {t("saveStatus.saved")}
-                            </>
-                        )}
+                <div className="ml-auto flex items-center gap-4 text-sm">
+                    <span className="tabular-nums text-muted">
+                        {t("wordCount", { count: wordCount })}
                     </span>
-                )}
+
+                    {!readOnly && saveStatus !== "idle" && (
+                        <span className={`flex items-center gap-1.5 ${saveStatus === "saving" ? "text-accent" : "text-success"}`}>
+                            {saveStatus === "saving" ? (
+                                <>
+                                    <Spin size="small" />
+                                    {t("saveStatus.saving")}
+                                </>
+                            ) : (
+                                <>
+                                    <CheckCircleIcon width={14} height={14} />
+                                    {t("saveStatus.saved")}
+                                </>
+                            )}
+                        </span>
+                    )}
+                </div>
             </div>
 
             {editor && isCorrection && (

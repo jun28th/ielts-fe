@@ -583,7 +583,8 @@
             "saveStatus": {
                 "saving": "Saving...",
                 "saved": "Saved"
-            }
+            },
+            "wordCount": "{count} words"
         },
         "WritingQuestionPanel": {
             "taskType": {
@@ -601,7 +602,8 @@
         },
         "MemberSwitcher": {
             "teacher": "Teacher",
-            "you": "You"
+            "you": "You",
+            "placeholder": "Select a member"
         },
         "CorrectionPanel": {
             "title": "Corrections",
