@@ -39,7 +39,7 @@ const ICON_ONLY_VARIANT_STYLES: Record<NonNullable<ButtonProps["variant"]>, stri
 
 const SIZE_STYLES: Record<ButtonSize, string> = {
     md: "h-11 gap-2.5 rounded-lg px-5 text-sm font-bold",
-    sm: "h-8 gap-1.5 rounded-md px-6 text-sm",
+    sm: "h-8 gap-1.5 rounded-md px-3 text-sm",
 };
 
 const ICON_ONLY_SIZE_STYLES: Record<ButtonSize, string> = {

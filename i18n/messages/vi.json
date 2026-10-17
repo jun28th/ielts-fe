@@ -643,6 +643,12 @@
             "submit": "Tạo",
             "save": "Lưu",
             "cancel": "Huỷ"
+        },
+        "AiAssistMenu": {
+            "fix": "AI sửa lỗi",
+            "improve": "AI cải thiện",
+            "targetBand": "Band mục tiêu",
+            "start": "Bắt đầu"
         }
     },
     "CountdownTimer": {

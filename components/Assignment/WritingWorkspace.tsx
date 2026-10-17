@@ -12,13 +12,14 @@ import MemberSwitcher from "./MemberSwitcher";
 import CountdownTimer from "./CountdownTimer";
 import WritingEditor from "./WritingEditor";
 import CorrectionPanel from "./CorrectionPanel";
+import AiAssistMenu from "./AiAssistMenu";
 
 type WorkspaceMode = "teacher" | "student";
 
 type PanelSize = number | string;
 
 const SIZES_TWO_PANELS: PanelSize[] = ["50%", "50%"];
-const SIZES_THREE_PANELS: PanelSize[] = ["30%", "45%", "25%"];
+const SIZES_THREE_PANELS: PanelSize[] = ["25%", "50%", "25%"];
 
 type WritingWorkspaceProps = {
     mode: WorkspaceMode;
@@ -28,13 +29,13 @@ type WritingWorkspaceProps = {
     isMembersLoading?: boolean;
 };
 
-export default function WritingWorkspace({ 
-    mode, 
-    assignmentId, 
-    assignment, 
-    members, 
-    isMembersLoading = false 
-} : WritingWorkspaceProps) {
+export default function WritingWorkspace({
+    mode,
+    assignmentId,
+    assignment,
+    members,
+    isMembersLoading = false,
+}: WritingWorkspaceProps) {
     const t = useTranslations("WritingWorkspace");
     const { user } = useAuth();
 
@@ -104,10 +105,10 @@ export default function WritingWorkspace({
 
                 <Splitter.Panel size={sizes[1]} className="flex flex-col" min="30%">
                     <div className="flex flex-1 flex-col gap-3 p-6">
-                        <div className="flex items-center gap-6">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                             {isTeacher && (
-                                <div className="flex items-center gap-2">
-                                    <p className="text-muted">{t("correctionMode")}</p>
+                                <div className="flex items-center gap-1.5">
+                                    <p className="whitespace-nowrap text-muted">{t("correctionMode")}</p>
                                     <Switch
                                         checked={isCorrection}
                                         onChange={setIsCorrection}
@@ -117,8 +118,8 @@ export default function WritingWorkspace({
                                 </div>
                             )}
 
-                            <div className="flex items-center gap-2">
-                                <p className="text-muted">{t("correctionPanel")}</p>
+                            <div className="flex items-center gap-1.5">
+                                <p className="whitespace-nowrap text-muted">{t("correctionPanel")}</p>
                                 <Switch
                                     checked={showCorrectionPanel}
                                     onChange={handleToggleCorrectionPanel}
@@ -126,6 +127,12 @@ export default function WritingWorkspace({
                                     unCheckedChildren={t("correctionOff")}
                                 />
                             </div>
+
+                            {!isEditorReadOnly && (
+                                <div className="ml-auto">
+                                    <AiAssistMenu canImprove={isTeacher} />
+                                </div>
+                            )}
                         </div>
 
                         {user && documentName && (
@@ -145,9 +152,9 @@ export default function WritingWorkspace({
                     <Splitter.Panel size={sizes[2]} min="20%" max="40%">
                         <div className="relative h-full">
                             <div className="absolute inset-0 flex flex-col p-6">
-                                <CorrectionPanel 
-                                    editor={editor} 
-                                    readOnly={isEditorReadOnly} 
+                                <CorrectionPanel
+                                    editor={editor}
+                                    readOnly={isEditorReadOnly}
                                     canEdit={isTeacher}
                                 />
                             </div>

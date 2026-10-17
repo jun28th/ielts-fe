@@ -643,6 +643,12 @@
             "submit": "Create",
             "save": "Save",
             "cancel": "Cancel"
+        },
+        "AiAssistMenu": {
+            "fix": "AI fix",
+            "improve": "AI improve",
+            "targetBand": "Target band",
+            "start": "Start"
         }
     },
     "CountdownTimer": {
