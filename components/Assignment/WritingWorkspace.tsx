@@ -145,7 +145,11 @@ export default function WritingWorkspace({
                     <Splitter.Panel size={sizes[2]} min="20%" max="40%">
                         <div className="relative h-full">
                             <div className="absolute inset-0 flex flex-col p-6">
-                                <CorrectionPanel editor={editor} readOnly={isEditorReadOnly} />
+                                <CorrectionPanel 
+                                    editor={editor} 
+                                    readOnly={isEditorReadOnly} 
+                                    canEdit={isTeacher}
+                                />
                             </div>
                         </div>
                     </Splitter.Panel>

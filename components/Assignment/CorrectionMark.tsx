@@ -9,6 +9,7 @@ declare module "@tiptap/core" {
         correction: {
             addCorrection: (range: { from: number; to: number }, attrs: CorrectionAttrs) => ReturnType;
             removeCorrection: (id: string) => ReturnType;
+            applyCorrection: (id: string) => ReturnType;
         };
     }
 }
@@ -24,6 +25,8 @@ const BADGE_BASE_CLASS = "relative -top-2 ml-0.5 inline-flex size-4 select-none 
 const BADGE_FALLBACK_CLASS = "bg-fg text-bg";
 const REPLACE_TEXT_CLASS = "ml-1 rounded-sm bg-success-bg px-1 text-success";
 const INSERT_TEXT_CLASS = "mx-0.5 rounded-r-sm border-l-2 border-success bg-success-bg px-1 text-success";
+
+const LEADING_PUNCTUATION = /^[,.;:!?)\]]/;
 
 const correctionWidgetsKey = new PluginKey<DecorationSet>("correctionWidgets");
 
@@ -140,6 +143,54 @@ export const CorrectionMark = Mark.create({
                     const range = collectCorrections(tr.doc, this.name).find((item) => item.attrs.id === id);
                     if (!range) return false;
                     if (dispatch) tr.removeMark(range.from, range.to, this.type.create(range.attrs));
+                    return true;
+                },
+            
+            applyCorrection:
+                (id) =>
+                ({ tr, dispatch }) => {
+                    const range = collectCorrections(tr.doc, this.name).find((item) => item.attrs.id === id);
+                    if (!range) return false;
+
+                    const { from, to, attrs } = range;
+                    const mark = this.type.create(attrs);
+
+                    if ((attrs.type === "replace" || attrs.type === "insert") && !attrs.text) return false;
+                    if (!dispatch) return true;
+
+                    switch (attrs.type) {
+                        case "comment": {
+                            tr.removeMark(from, to, mark);
+                            break;
+                        }
+
+                        case "replace": {
+                            tr.insertText(attrs.text, from, to);
+                            tr.removeMark(from, from + attrs.text.length, mark);
+                            break;
+                        }
+
+                        case "delete": {
+                            const before = tr.doc.textBetween(Math.max(0, from - 1), from);
+                            const after = tr.doc.textBetween(to, Math.min(tr.doc.content.size, to + 1));
+                            const end = after === " " && (before === " " || before === "") ? to + 1 : to;
+                            tr.delete(from, end);
+                            break;
+                        }
+
+                        case "insert": {
+                            tr.removeMark(from, to, mark);
+
+                            const previous = tr.doc.textBetween(to - 1, to);
+                            const needsSpace = previous !== " " && !LEADING_PUNCTUATION.test(attrs.text);
+                            const text = needsSpace ? ` ${attrs.text}` : attrs.text;
+
+                            tr.insertText(text, to);
+                            tr.removeMark(to, to + text.length, mark);
+                            break;
+                        }
+                    }
+
                     return true;
                 },
         };

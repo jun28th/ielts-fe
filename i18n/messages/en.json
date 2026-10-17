@@ -607,7 +607,18 @@
             "title": "Corrections",
             "all": "All",
             "empty": "No corrections yet",
-            "delete": "Delete"
+            "types": {
+                "replace": "Replace",
+                "delete": "Delete",
+                "insert": "Insert",
+                "comment": "Comment"
+            },
+            "deletePopconfirm": {
+                "title": "Delete correction",
+                "subtitle": "Are you sure you want to delete this correction?",
+                "okText": "Delete",
+                "cancelText": "Cancel"
+            }
         },
         "CorrectionMenu": {
             "types": {

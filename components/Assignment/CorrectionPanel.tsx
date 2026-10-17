@@ -2,10 +2,14 @@
 
 import { useEditorState, type Editor } from "@tiptap/react";
 import { CorrectionRange, Criterion, CRITERION_STYLES, CriterionFilter } from "@/types/writing-assignment-types";
-import { List } from "antd";
+import { Listy, Popconfirm } from "antd";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { collectCorrections, CorrectionMark } from "./CorrectionMark";
+import Button from "../Button";
+import CheckCircleIcon from "../Icons/CheckCircleIcon";
+import PencilIcon from "../Icons/PencilIcon";
+import TrashIcon from "../Icons/TrashIcon";
 
 const CRITERIA: Criterion[] = ["TR", "CC", "LR", "GRA"];
 const FILTERS: CriterionFilter[] = ["ALL", ...CRITERIA];
@@ -25,6 +29,14 @@ const ORIGINAL_CLASS = "font-serif text-error line-through decoration-error";
 const NEW_TEXT_CLASS = "rounded-md bg-success-bg px-1.5 py-0.5 font-serif text-success";
 const QUOTE_CLASS = "font-serif italic text-fg";
 
+const ICON_BUTTON_BASE_CLASS = "inline-flex h-8 w-8 flex-none items-center justify-center rounded-lg border border-border bg-bg text-muted transition-colors cursor-pointer";
+const APPLY_BUTTON_CLASS = `${ICON_BUTTON_BASE_CLASS} hover:border-success hover:bg-success-bg hover:text-success`;
+const DELETE_BUTTON_CLASS = `${ICON_BUTTON_BASE_CLASS} hover:border-error hover:bg-error-bg hover:text-error`;
+
+const LISTY_STYLES = {
+    item: { padding: "0 0 8px", border: "none", background: "transparent" },
+};
+
 type CorrectionItem = CorrectionRange & {
     index: number;
     original: string;
@@ -33,11 +45,11 @@ type CorrectionItem = CorrectionRange & {
 type CorrectionPanelProps = {
     editor: Editor | null;
     readOnly?: boolean;
+    canEdit?: boolean;
 };
 
-export default function CorrectionPanel({ editor, readOnly = false }: CorrectionPanelProps) {
+export default function CorrectionPanel({ editor, readOnly = false, canEdit = false }: CorrectionPanelProps) {
     const t = useTranslations("WritingWorkspace.CorrectionPanel");
-    const tMenu = useTranslations("WritingWorkspace.CorrectionMenu");
 
     const [filter, setFilter] = useState<CriterionFilter>("ALL");
 
@@ -60,6 +72,19 @@ export default function CorrectionPanel({ editor, readOnly = false }: Correction
         item === "ALL" ? corrections.length : corrections.filter((c) => c.attrs.criterion === item).length;
 
     const visible = filter === "ALL" ? corrections : corrections.filter((c) => c.attrs.criterion === filter);
+
+    const canModify = !readOnly;
+    const showActions = canEdit || canModify;
+
+    const handleApply = (id: string) => {
+        if (!editor || !canModify) return;
+        editor.commands.applyCorrection(id);
+    };
+
+    const handleRemove = (id: string) => {
+        if (!editor || !canModify) return;
+        editor.commands.removeCorrection(id);
+    };
 
     const renderContent = ({ attrs, original }: CorrectionItem) => {
         switch (attrs.type) {
@@ -86,6 +111,72 @@ export default function CorrectionPanel({ editor, readOnly = false }: Correction
             case "comment":
                 return <p className={QUOTE_CLASS}>“{original}”</p>;
         }
+    };
+
+    const renderCard = (item: CorrectionItem) => {
+        const style = CRITERION_STYLES[item.attrs.criterion];
+
+        return (
+            <div className={CARD_CLASS}>
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <span className={`${NUMBER_BADGE_CLASS} ${style?.badge ?? BADGE_FALLBACK_CLASS}`}>
+                            {item.index + 1}
+                        </span>
+                        <span className={`${CRITERION_TAG_CLASS} ${style?.active ?? ""}`}>
+                            {item.attrs.criterion}
+                        </span>
+                        <span className="text-sm text-muted">{t(`types.${item.attrs.type}`)}</span>
+                    </div>
+
+                    {showActions && (
+                        <div className="flex items-center gap-3">
+                            <button
+                                type="button"
+                                className={APPLY_BUTTON_CLASS}
+                                onClick={() => handleApply(item.attrs.id)}
+                            >
+                                <CheckCircleIcon width={16} height={16} />
+                            </button>
+
+                            {canEdit && (
+                                <Button
+                                    label=""
+                                    type="button"
+                                    variant="secondary"
+                                    icon={<PencilIcon width={16} height={16} />}
+                                    iconOnly={true}
+                                    onClick={() => {}}
+                                />
+                            )}
+
+                            {canModify && (
+                                <Popconfirm
+                                    title={t("deletePopconfirm.title")}
+                                    description={t("deletePopconfirm.subtitle")}
+                                    placement="bottomRight"
+                                    okText={t("deletePopconfirm.okText")}
+                                    cancelText={t("deletePopconfirm.cancelText")}
+                                    okButtonProps={{ danger: true, style: { cursor: "pointer" } }}
+                                    cancelButtonProps={{ style: { cursor: "pointer" } }}
+                                    onConfirm={() => handleRemove(item.attrs.id)}
+                                >
+                                    <button type="button" className={DELETE_BUTTON_CLASS}>
+                                        <TrashIcon width={16} height={16} />
+                                    </button>
+                                </Popconfirm>
+                            )}
+                        </div>
+                    )}
+                </div>
+
+                <div className="text-sm">{renderContent(item)}</div>
+
+                {item.attrs.description && (
+                    <p className="text-sm text-fg/80">{item.attrs.description}</p>
+                )}
+            </div>
+        );
     };
 
     return (
@@ -117,37 +208,16 @@ export default function CorrectionPanel({ editor, readOnly = false }: Correction
             </div>
 
             <div className="min-h-0 flex-1 overflow-y-auto pr-1">
-                <List<CorrectionItem>
-                    dataSource={visible}
-                    rowKey={(item) => item.attrs.id}
-                    split={false}
-                    locale={{ emptyText: t("empty") }}
-                    renderItem={(item) => {
-                        const style = CRITERION_STYLES[item.attrs.criterion];
-
-                        return (
-                            <List.Item style={{ padding: 0, marginBottom: 8 }}>
-                                <div className={CARD_CLASS}>
-                                    <div className="flex items-center gap-2">
-                                        <span className={`${NUMBER_BADGE_CLASS} ${style?.badge ?? BADGE_FALLBACK_CLASS}`}>
-                                            {item.index + 1}
-                                        </span>
-                                        <span className={`${CRITERION_TAG_CLASS} ${style?.active ?? ""}`}>
-                                            {item.attrs.criterion}
-                                        </span>
-                                        <span className="text-sm text-muted">{tMenu(`types.${item.attrs.type}`)}</span>
-                                    </div>
-
-                                    <div className="text-sm">{renderContent(item)}</div>
-
-                                    {item.attrs.description && (
-                                        <p className="text-sm text-fg/80">{item.attrs.description}</p>
-                                    )}
-                                </div>
-                            </List.Item>
-                        );
-                    }}
-                />
+                {visible.length === 0 ? (
+                    <p className="py-6 text-center text-sm text-muted">{t("empty")}</p>
+                ) : (
+                    <Listy<CorrectionItem>
+                        items={visible}
+                        rowKey={(item) => item.attrs.id}
+                        styles={LISTY_STYLES}
+                        itemRender={renderCard}
+                    />
+                )}
             </div>
         </div>
     );
