@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { collectCorrections, CorrectionMark } from "./CorrectionMark";
 import Button from "../Button";
-import CheckCircleIcon from "../Icons/CheckCircleIcon";
 import PencilIcon from "../Icons/PencilIcon";
 import TrashIcon from "../Icons/TrashIcon";
 
@@ -22,16 +21,15 @@ const COUNT_CLASS = "min-w-5 rounded-full bg-current/15 px-1.5 py-px text-center
 
 const CARD_CLASS = "flex w-full flex-col gap-2 rounded-xl border border-border bg-bg p-3";
 const NUMBER_BADGE_CLASS = "flex size-5 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold";
-const CRITERION_TAG_CLASS = "rounded-md px-1.5 py-0.5 text-xs font-semibold";
+const CRITERION_TAG_CLASS = "shrink-0 rounded-md px-1.5 py-0.5 text-xs font-semibold";
 const BADGE_FALLBACK_CLASS = "bg-fg text-bg";
 
 const ORIGINAL_CLASS = "font-serif text-error line-through decoration-error";
 const NEW_TEXT_CLASS = "rounded-md bg-success-bg px-1.5 py-0.5 font-serif text-success";
 const QUOTE_CLASS = "font-serif italic text-fg";
 
-const ICON_BUTTON_BASE_CLASS = "inline-flex h-8 w-8 flex-none items-center justify-center rounded-lg border border-border bg-bg text-muted transition-colors cursor-pointer";
-const APPLY_BUTTON_CLASS = `${ICON_BUTTON_BASE_CLASS} hover:border-success hover:bg-success-bg hover:text-success`;
-const DELETE_BUTTON_CLASS = `${ICON_BUTTON_BASE_CLASS} hover:border-error hover:bg-error-bg hover:text-error`;
+// Cùng style với Button iconOnly size "sm" variant "danger"; dùng <button> thường vì Popconfirm cần ref vào phần tử con.
+const DELETE_BUTTON_CLASS = "inline-flex h-7 w-7 flex-none items-center justify-center rounded-md border border-border bg-bg text-muted transition-colors cursor-pointer hover:border-error hover:bg-error-bg hover:text-error";
 
 const LISTY_STYLES = {
     item: { padding: "0 0 8px", border: "none", background: "transparent" },
@@ -74,7 +72,7 @@ export default function CorrectionPanel({ editor, readOnly = false, canEdit = fa
     const visible = filter === "ALL" ? corrections : corrections.filter((c) => c.attrs.criterion === filter);
 
     const canModify = !readOnly;
-    const showActions = canEdit || canModify;
+    const showHeaderActions = canEdit || canModify;
 
     const handleApply = (id: string) => {
         if (!editor || !canModify) return;
@@ -118,33 +116,26 @@ export default function CorrectionPanel({ editor, readOnly = false, canEdit = fa
 
         return (
             <div className={CARD_CLASS}>
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between gap-2">
+                    <div className="flex min-w-0 items-center gap-2">
                         <span className={`${NUMBER_BADGE_CLASS} ${style?.badge ?? BADGE_FALLBACK_CLASS}`}>
                             {item.index + 1}
                         </span>
                         <span className={`${CRITERION_TAG_CLASS} ${style?.active ?? ""}`}>
                             {item.attrs.criterion}
                         </span>
-                        <span className="text-sm text-muted">{t(`types.${item.attrs.type}`)}</span>
+                        <span className="truncate text-sm text-muted">{t(`types.${item.attrs.type}`)}</span>
                     </div>
 
-                    {showActions && (
-                        <div className="flex items-center gap-3">
-                            <button
-                                type="button"
-                                className={APPLY_BUTTON_CLASS}
-                                onClick={() => handleApply(item.attrs.id)}
-                            >
-                                <CheckCircleIcon width={16} height={16} />
-                            </button>
-
+                    {showHeaderActions && (
+                        <div className="flex shrink-0 items-center gap-1.5">
                             {canEdit && (
                                 <Button
                                     label=""
                                     type="button"
                                     variant="secondary"
-                                    icon={<PencilIcon width={16} height={16} />}
+                                    size="sm"
+                                    icon={<PencilIcon width={14} height={14} />}
                                     iconOnly={true}
                                     onClick={() => {}}
                                 />
@@ -157,12 +148,11 @@ export default function CorrectionPanel({ editor, readOnly = false, canEdit = fa
                                     placement="bottomRight"
                                     okText={t("deletePopconfirm.okText")}
                                     cancelText={t("deletePopconfirm.cancelText")}
-                                    okButtonProps={{ danger: true, style: { cursor: "pointer" } }}
                                     cancelButtonProps={{ style: { cursor: "pointer" } }}
                                     onConfirm={() => handleRemove(item.attrs.id)}
                                 >
                                     <button type="button" className={DELETE_BUTTON_CLASS}>
-                                        <TrashIcon width={16} height={16} />
+                                        <TrashIcon width={14} height={14} />
                                     </button>
                                 </Popconfirm>
                             )}
@@ -174,6 +164,18 @@ export default function CorrectionPanel({ editor, readOnly = false, canEdit = fa
 
                 {item.attrs.description && (
                     <p className="text-sm text-fg/80">{item.attrs.description}</p>
+                )}
+
+                {canModify && (
+                    <div className="mt-1 flex justify-end">
+                        <Button
+                            label={t("apply")}
+                            type="button"
+                            variant="tertiary"
+                            size="sm"
+                            onClick={() => handleApply(item.attrs.id)}
+                        />
+                    </div>
                 )}
             </div>
         );

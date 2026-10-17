@@ -618,7 +618,8 @@
                 "subtitle": "Bạn có chắc chắn muốn xoá chỗ sửa này?",
                 "okText": "Xoá",
                 "cancelText": "Huỷ"
-            }
+            },
+            "apply": "Áp dụng"
         },
         "CorrectionMenu": {
             "types": {
