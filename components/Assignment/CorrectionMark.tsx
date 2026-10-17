@@ -10,6 +10,10 @@ declare module "@tiptap/core" {
             addCorrection: (range: { from: number; to: number }, attrs: CorrectionAttrs) => ReturnType;
             removeCorrection: (id: string) => ReturnType;
             applyCorrection: (id: string) => ReturnType;
+            updateCorrection: (
+                id: string,
+                patch: Pick<CorrectionAttrs, "criterion" | "text" | "description">
+            ) => ReturnType;
         };
     }
 }
@@ -143,6 +147,27 @@ export const CorrectionMark = Mark.create({
                     const range = collectCorrections(tr.doc, this.name).find((item) => item.attrs.id === id);
                     if (!range) return false;
                     if (dispatch) tr.removeMark(range.from, range.to, this.type.create(range.attrs));
+                    return true;
+                },
+
+            updateCorrection:
+                (id, patch) =>
+                ({ tr, dispatch }) => {
+                    const range = collectCorrections(tr.doc, this.name).find((item) => item.attrs.id === id);
+                    if (!range) return false;
+
+                    if (dispatch) {
+                        const next: CorrectionAttrs = {
+                            ...range.attrs,
+                            ...patch,
+                            id: range.attrs.id,
+                            type: range.attrs.type,
+                        };
+
+                        tr.removeMark(range.from, range.to, this.type.create(range.attrs));
+                        tr.addMark(range.from, range.to, this.type.create(next));
+                    }
+
                     return true;
                 },
             

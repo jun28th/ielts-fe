@@ -83,6 +83,7 @@ export default function CorrectionMenu({ editor }: CorrectionMenuProps) {
 
             {type === "replace" && (
                 <TextInput
+                    size="sm"
                     label={t("replaceWith")}
                     placeholder={t("replacePlaceholder")}
                     value={text}
@@ -92,6 +93,7 @@ export default function CorrectionMenu({ editor }: CorrectionMenuProps) {
 
             {type === "insert" && (
                 <TextInput
+                    size="sm"
                     label={t("insertText")}
                     placeholder={t("insertPlaceholder")}
                     value={text}
@@ -123,6 +125,7 @@ export default function CorrectionMenu({ editor }: CorrectionMenuProps) {
             </div>
 
             <TextInput
+                size="sm"
                 type="textarea"
                 rows={3}
                 label={isComment ? t("comment") : t("description")}

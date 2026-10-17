@@ -6,6 +6,7 @@ import { Listy, Popconfirm } from "antd";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { collectCorrections, CorrectionMark } from "./CorrectionMark";
+import CorrectionEditForm, { type CorrectionPatch } from "./CorrectionEditForm";
 import Button from "../Button";
 import PencilIcon from "../Icons/PencilIcon";
 import TrashIcon from "../Icons/TrashIcon";
@@ -28,7 +29,6 @@ const ORIGINAL_CLASS = "font-serif text-error line-through decoration-error";
 const NEW_TEXT_CLASS = "rounded-md bg-success-bg px-1.5 py-0.5 font-serif text-success";
 const QUOTE_CLASS = "font-serif italic text-fg";
 
-// Cùng style với Button iconOnly size "sm" variant "danger"; dùng <button> thường vì Popconfirm cần ref vào phần tử con.
 const DELETE_BUTTON_CLASS = "inline-flex h-7 w-7 flex-none items-center justify-center rounded-md border border-border bg-bg text-muted transition-colors cursor-pointer hover:border-error hover:bg-error-bg hover:text-error";
 
 const LISTY_STYLES = {
@@ -50,6 +50,7 @@ export default function CorrectionPanel({ editor, readOnly = false, canEdit = fa
     const t = useTranslations("WritingWorkspace.CorrectionPanel");
 
     const [filter, setFilter] = useState<CriterionFilter>("ALL");
+    const [editingId, setEditingId] = useState<string | null>(null);
 
     const corrections: CorrectionItem[] =
         useEditorState({
@@ -84,6 +85,12 @@ export default function CorrectionPanel({ editor, readOnly = false, canEdit = fa
         editor.commands.removeCorrection(id);
     };
 
+    const handleUpdate = (id: string, patch: CorrectionPatch) => {
+        if (!editor || !canEdit) return;
+        editor.commands.updateCorrection(id, patch);
+        setEditingId(null);
+    };
+
     const renderContent = ({ attrs, original }: CorrectionItem) => {
         switch (attrs.type) {
             case "replace":
@@ -113,6 +120,7 @@ export default function CorrectionPanel({ editor, readOnly = false, canEdit = fa
 
     const renderCard = (item: CorrectionItem) => {
         const style = CRITERION_STYLES[item.attrs.criterion];
+        const isEditing = editingId === item.attrs.id;
 
         return (
             <div className={CARD_CLASS}>
@@ -127,7 +135,7 @@ export default function CorrectionPanel({ editor, readOnly = false, canEdit = fa
                         <span className="truncate text-sm text-muted">{t(`types.${item.attrs.type}`)}</span>
                     </div>
 
-                    {showHeaderActions && (
+                    {showHeaderActions && !isEditing && (
                         <div className="flex shrink-0 items-center gap-1.5">
                             {canEdit && (
                                 <Button
@@ -135,9 +143,9 @@ export default function CorrectionPanel({ editor, readOnly = false, canEdit = fa
                                     type="button"
                                     variant="secondary"
                                     size="sm"
-                                    icon={<PencilIcon width={14} height={14} />}
+                                    icon={<PencilIcon width={16} height={16} />}
                                     iconOnly={true}
-                                    onClick={() => {}}
+                                    onClick={() => setEditingId(item.attrs.id)}
                                 />
                             )}
 
@@ -152,7 +160,7 @@ export default function CorrectionPanel({ editor, readOnly = false, canEdit = fa
                                     onConfirm={() => handleRemove(item.attrs.id)}
                                 >
                                     <button type="button" className={DELETE_BUTTON_CLASS}>
-                                        <TrashIcon width={14} height={14} />
+                                        <TrashIcon width={16} height={16} />
                                     </button>
                                 </Popconfirm>
                             )}
@@ -160,22 +168,34 @@ export default function CorrectionPanel({ editor, readOnly = false, canEdit = fa
                     )}
                 </div>
 
-                <div className="text-sm">{renderContent(item)}</div>
+                {isEditing ? (
+                    <CorrectionEditForm
+                        key={item.attrs.id}
+                        attrs={item.attrs}
+                        original={item.original}
+                        onSave={(patch) => handleUpdate(item.attrs.id, patch)}
+                        onCancel={() => setEditingId(null)}
+                    />
+                ) : (
+                    <>
+                        <div className="text-sm">{renderContent(item)}</div>
 
-                {item.attrs.description && (
-                    <p className="text-sm text-fg/80">{item.attrs.description}</p>
-                )}
+                        {item.attrs.description && (
+                            <p className="text-sm text-fg/80">{item.attrs.description}</p>
+                        )}
 
-                {canModify && (
-                    <div className="mt-1 flex justify-end">
-                        <Button
-                            label={t("apply")}
-                            type="button"
-                            variant="tertiary"
-                            size="sm"
-                            onClick={() => handleApply(item.attrs.id)}
-                        />
-                    </div>
+                        {canModify && (
+                            <div className="mt-1 flex justify-end">
+                                <Button
+                                    label={t("apply")}
+                                    type="button"
+                                    variant="tertiary"
+                                    size="sm"
+                                    onClick={() => handleApply(item.attrs.id)}
+                                />
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         );

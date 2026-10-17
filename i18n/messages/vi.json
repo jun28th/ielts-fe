@@ -638,7 +638,9 @@
             "commentPlaceholder": "Nhập nhận xét cho đoạn này",
             "description": "Giải thích (không bắt buộc)",
             "descriptionPlaceholder": "Giải thích lỗi cho học viên",
-            "submit": "Tạo"
+            "submit": "Tạo",
+            "save": "Lưu",
+            "cancel": "Huỷ"
         }
     },
     "CountdownTimer": {

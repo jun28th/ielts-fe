@@ -638,7 +638,9 @@
             "commentPlaceholder": "Enter a comment for this passage",
             "description": "Explanation (optional)",
             "descriptionPlaceholder": "Explain the mistake to the student",
-            "submit": "Create"
+            "submit": "Create",
+            "save": "Save",
+            "cancel": "Cancel"
         }
     },
     "CountdownTimer": {
