@@ -1,7 +1,7 @@
 import { useAuth } from "@/contexts/auth-context";
 import { useOnlineUsers } from "@/hooks/useOnlineUsers";
 import { CourseMember } from "@/types/course-types";
-import { WritingAssignment } from "@/types/writing-assignment-types";
+import { AiMode, AiModel, ResponseLanguage, WritingAssignment } from "@/types/writing-assignment-types";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import type { Editor } from "@tiptap/react";
@@ -13,6 +13,10 @@ import CountdownTimer from "./CountdownTimer";
 import WritingEditor from "./WritingEditor";
 import CorrectionPanel from "./CorrectionPanel";
 import AiAssistMenu from "./AiAssistMenu";
+import { useMutation } from "@tanstack/react-query";
+import { WritingAssignmentsApi } from "@/lib/api/writing-assignments-client";
+import { useAppMessage } from "@/contexts/message-context";
+import { applyAiCorrections, buildTextIndex } from "@/lib/ai-corrections";
 
 type WorkspaceMode = "teacher" | "student";
 
@@ -20,6 +24,15 @@ type PanelSize = number | string;
 
 const SIZES_TWO_PANELS: PanelSize[] = ["50%", "50%"];
 const SIZES_THREE_PANELS: PanelSize[] = ["25%", "50%", "25%"];
+
+type RunAiVariables = {
+    editor: Editor;
+    essay: string;
+    mode: AiMode;
+    targetBand?: number;
+    language: ResponseLanguage;
+    model: AiModel;
+};
 
 type WritingWorkspaceProps = {
     mode: WorkspaceMode;
@@ -38,6 +51,7 @@ export default function WritingWorkspace({
 }: WritingWorkspaceProps) {
     const t = useTranslations("WritingWorkspace");
     const { user } = useAuth();
+    const message = useAppMessage();
 
     const isTeacher = mode === "teacher";
 
@@ -54,6 +68,56 @@ export default function WritingWorkspace({
         setSizes(checked ? SIZES_THREE_PANELS : SIZES_TWO_PANELS);
     };
 
+    const { mutate, isPending, variables } = useMutation({
+        mutationFn: ({ essay, mode, targetBand, language, model }: RunAiVariables) =>
+            WritingAssignmentsApi.generateAiCorrections(assignmentId, { essay, mode, targetBand, language, model }),
+        onSuccess: (data, { editor: targetEditor }) => {
+            if (targetEditor.isDestroyed) return;
+
+            if (data.corrections.length === 0) {
+                message.info(t("aiNoCorrections"));
+                return;
+            }
+
+            try {
+                const { applied, skipped } = applyAiCorrections(targetEditor, data.corrections);
+                message.success(t("aiApplied", { applied, skipped }));
+                if (applied > 0 && !showCorrectionPanel) handleToggleCorrectionPanel(true);
+            } catch (error) {
+                console.error(error);
+                message.error(t("errors.aiFailed"));
+            }
+        },
+        onError: (error) => {
+            message.error(error.message);
+        },
+    });
+
+    // Teacher: FIX → Sonnet, IMPROVE → Opus. Student: luôn Haiku
+    const selectAiModel = (aiMode: AiMode): AiModel => {
+        if (!isTeacher) return "HAIKU";
+        return aiMode === "IMPROVE" ? "OPUS" : "SONNET";
+    };
+
+    const handleRunAi = (aiMode: AiMode, language: ResponseLanguage, targetBand?: number) => {
+        if (!editor || editor.isDestroyed || isPending) return;
+
+        const essay = buildTextIndex(editor.state.doc).text;
+        if (!essay.trim()) {
+            message.warning(t("errors.aiEmptyEssay"));
+            return;
+        }
+
+        mutate({
+            editor,
+            essay,
+            mode: aiMode,
+            targetBand,
+            language,
+            model: selectAiModel(aiMode),
+        });
+    };
+
     const overdue = isOverdue(assignment.dueDate, assignment.dueTime);
     const durationMinutes = assignment.writingQuestion.taskType === "TASK_1" ? 20 : 40;
 
@@ -61,6 +125,8 @@ export default function WritingWorkspace({
     const documentName = ownerId ? `writing:${assignmentId}:${ownerId}` : null;
 
     const isEditorReadOnly = !isTeacher && ownerId !== user?.id;
+
+    const runningMode = isPending ? variables?.mode ?? null : null;
 
     return (
         <div className="flex flex-col gap-1.5">
@@ -130,7 +196,12 @@ export default function WritingWorkspace({
 
                             {!isEditorReadOnly && (
                                 <div className="ml-auto">
-                                    <AiAssistMenu canImprove={isTeacher} />
+                                    <AiAssistMenu
+                                        canImprove={isTeacher}
+                                        runningMode={runningMode}
+                                        onFix={(language) => handleRunAi("FIX", language)}
+                                        onImprove={(band, language) => handleRunAi("IMPROVE", language, band)}
+                                    />
                                 </div>
                             )}
                         </div>

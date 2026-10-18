@@ -571,6 +571,12 @@
         "correctionOn": "Bật",
         "correctionOff": "Tắt",
         "correctionPanel": "Bảng chỗ sửa",
+        "aiNoCorrections": "AI không tìm thấy lỗi nào",
+        "aiApplied": "Đã thêm {applied} sửa lỗi ({skipped} bị bỏ qua)",
+        "errors": {
+            "aiEmptyEssay": "Bài viết đang trống",
+            "aiFailed": "Không thể áp dụng sửa lỗi từ AI"
+        },
         "WritingEditor": {
             "placeholder": "Viết bài của bạn ở đây...",
             "formats": {
@@ -648,6 +654,7 @@
             "fix": "AI sửa lỗi",
             "improve": "AI cải thiện",
             "targetBand": "Band mục tiêu",
+            "language": "Ngôn ngữ nhận xét",
             "start": "Bắt đầu"
         }
     },

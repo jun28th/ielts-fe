@@ -69,3 +69,32 @@ export type WritingAssignment = {
     description?: string;
     createdAt: string;
 }
+
+// --- AI corrections ---
+
+export type AiMode = "FIX" | "IMPROVE";
+
+export type ResponseLanguage = "en" | "vi";
+
+export type AiModel = "HAIKU" | "SONNET" | "OPUS";
+
+export type GenerateAiCorrectionsRequest = {
+    essay: string;
+    mode: AiMode;
+    targetBand?: number;
+    language: ResponseLanguage;
+    model: AiModel;
+};
+
+export type AiCorrection = {
+    context: string;
+    quote: string;
+    type: CorrectionType;
+    criterion: Criterion;
+    text: string;
+    description: string;
+};
+
+export type GenerateAiCorrectionsResponse = {
+    corrections: AiCorrection[];
+};

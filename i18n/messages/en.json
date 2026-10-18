@@ -571,6 +571,12 @@
         "correctionOn": "On",
         "correctionOff": "Off",
         "correctionPanel": "Corrections panel",
+        "aiNoCorrections": "AI found nothing to correct",
+        "aiApplied": "Added {applied} corrections ({skipped} skipped)",
+        "errors": {
+            "aiEmptyEssay": "The essay is empty",
+            "aiFailed": "Failed to apply AI corrections"
+        },
         "WritingEditor": {
             "placeholder": "Write your answer here...",
             "formats": {
@@ -648,6 +654,7 @@
             "fix": "AI fix",
             "improve": "AI improve",
             "targetBand": "Target band",
+            "language": "Feedback language",
             "start": "Start"
         }
     },
