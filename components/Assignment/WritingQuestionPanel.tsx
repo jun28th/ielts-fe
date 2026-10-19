@@ -4,14 +4,17 @@ import { useTranslations } from "next-intl";
 
 type WritingQuestionPanelProps = {
     question: WritingQuestion;
+    note?: string | null;
 };
 
-export default function WritingQuestionPanel({ question }: WritingQuestionPanelProps) {
+export default function WritingQuestionPanel({ question, note }: WritingQuestionPanelProps) {
     const t = useTranslations("WritingWorkspace.WritingQuestionPanel");
 
     const isTask1 = question.taskType === "TASK_1";
     const durationMinutes = isTask1 ? 20 : 40;
     const minWords = isTask1 ? 150 : 250;
+
+    const trimmedNote = note?.trim();
 
     return (
         <div className="flex flex-col gap-4">
@@ -50,6 +53,11 @@ export default function WritingQuestionPanel({ question }: WritingQuestionPanelP
                     />
                 </div>
             )}
+
+            <p className="whitespace-pre-line wrap-break-word text-sm">
+                <span className="text-fg">{t("noteLabel")}: </span>
+                <span className="text-muted">{trimmedNote || t("noNote")}</span>
+            </p>
         </div>
     );
 }

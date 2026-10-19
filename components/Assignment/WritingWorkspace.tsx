@@ -165,7 +165,7 @@ export default function WritingWorkspace({
             <Splitter className="rounded-2xl border border-border bg-bg" onResize={setSizes}>
                 <Splitter.Panel size={sizes[0]} min="20%" max={showCorrectionPanel ? "50%" : "70%"}>
                     <div className="p-6">
-                        <WritingQuestionPanel question={assignment.writingQuestion} />
+                        <WritingQuestionPanel question={assignment.writingQuestion} note={assignment.description}/>
                     </div>
                 </Splitter.Panel>
 

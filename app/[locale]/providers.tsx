@@ -129,6 +129,7 @@ export default async function Providers({ children } : { children : React.ReactN
                         colorLink: "var(--color-accent)",
                         colorLinkActive: "var(--color-accent)",
                         colorLinkHover: "var(--color-accent)",
+                        colorText: "var(--color-muted)"
                     },
                     Statistic: {
                         contentFontSize: 14

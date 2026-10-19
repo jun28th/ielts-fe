@@ -105,12 +105,12 @@ export default function AssignmentList({ courseId, writingAssignments } : Assign
                                             symbol: (expanded) => expanded ? t("showLess") : t("showMore")
                                         }}
                                     >
-                                        <span className="font-medium text-muted">{t("noteLabel")}: </span>
+                                        <span className="text-fg">{t("noteLabel")}: </span>
                                         {assignment.description}
                                     </Typography.Paragraph>
                                 ) : (
-                                    <p className="mt-1 text-sm text-muted">
-                                        <span className="font-medium">{t("noteLabel")}: </span>
+                                    <p className="mt-1 text-sm">
+                                        <span className="text-fg">{t("noteLabel")}: </span>
                                         {t("noNote")}
                                     </p>
                                 )}
