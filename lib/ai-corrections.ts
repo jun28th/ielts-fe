@@ -100,3 +100,15 @@ export function applyAiCorrections(editor: Editor, corrections: AiCorrection[]) 
 
     return { applied, skipped: corrections.length - applied };
 }
+
+export function countPendingCorrections(doc: ProseMirrorNode): number {
+    const ids = new Set<string>();
+    doc.descendants((node) => {
+        for (const mark of node.marks) {
+            if (mark.type.name === CORRECTION_MARK_NAME && mark.attrs.id) {
+                ids.add(mark.attrs.id);
+            }
+        }
+    });
+    return ids.size;
+}

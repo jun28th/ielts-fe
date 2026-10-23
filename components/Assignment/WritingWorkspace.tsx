@@ -16,7 +16,9 @@ import AiAssistMenu from "./AiAssistMenu";
 import { useMutation } from "@tanstack/react-query";
 import { WritingAssignmentsApi } from "@/lib/api/writing-assignments-client";
 import { useAppMessage } from "@/contexts/message-context";
-import { applyAiCorrections, buildTextIndex } from "@/lib/ai-corrections";
+import { applyAiCorrections, buildTextIndex, countPendingCorrections } from "@/lib/ai-corrections";
+import Button from "../Button";
+import FileEditIcon from "../Icons/FileEditIcon";
 
 type WorkspaceMode = "teacher" | "student";
 
@@ -93,14 +95,24 @@ export default function WritingWorkspace({
         },
     });
 
-    // Teacher: FIX → Sonnet, IMPROVE → Opus. Student: luôn Haiku
     const selectAiModel = (aiMode: AiMode): AiModel => {
         if (!isTeacher) return "HAIKU";
         return aiMode === "IMPROVE" ? "OPUS" : "SONNET";
     };
 
+    const handleShowCorrections = () => {
+        if (!showCorrectionPanel) handleToggleCorrectionPanel(true);
+    };
+
     const handleRunAi = (aiMode: AiMode, language: ResponseLanguage, targetBand?: number) => {
         if (!editor || editor.isDestroyed || isPending) return;
+
+        const pending = countPendingCorrections(editor.state.doc);
+        if (pending > 0) {
+            message.warning(t("errors.aiPendingCorrections", { count: pending }));
+            handleShowCorrections();
+            return;
+        }
 
         const essay = buildTextIndex(editor.state.doc).text;
         if (!essay.trim()) {
@@ -151,15 +163,25 @@ export default function WritingWorkspace({
                     </div>
                 </div>
 
-                {!isMembersLoading && (
-                    <MemberSwitcher
-                        members={members}
-                        value={ownerId}
-                        currentUserId={user?.id ?? null}
-                        onlineIds={onlineIds}
-                        onChange={setSelectedOwnerId}
+                <div className="flex items-center gap-3">
+                    {!isMembersLoading && (
+                        <MemberSwitcher
+                            members={members}
+                            value={ownerId}
+                            currentUserId={user?.id ?? null}
+                            onlineIds={onlineIds}
+                            onChange={setSelectedOwnerId}
+                        />
+                    )}
+
+                    <Button
+                        size="sm"
+                        type="button"
+                        label={t("submit")}
+                        icon={<FileEditIcon className="text-white" width={16} height={16}/>}
+                        onClick={() => {}}
                     />
-                )}
+                </div>
             </div>
 
             <Splitter className="rounded-2xl border border-border bg-bg" onResize={setSizes}>

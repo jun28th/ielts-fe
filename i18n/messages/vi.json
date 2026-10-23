@@ -575,8 +575,10 @@
         "aiApplied": "Đã thêm {applied} sửa lỗi ({skipped} bị bỏ qua)",
         "errors": {
             "aiEmptyEssay": "Bài viết đang trống",
-            "aiFailed": "Không thể áp dụng sửa lỗi từ AI"
+            "aiFailed": "Không thể áp dụng sửa lỗi từ AI",
+            "aiPendingCorrections": "Còn {count} lỗi chưa xử lý. Hãy chấp nhận hoặc bỏ qua hết trước khi gọi AI tiếp."
         },
+        "submit": "Nộp bài",
         "WritingEditor": {
             "placeholder": "Viết bài của bạn ở đây...",
             "formats": {
